@@ -9,7 +9,22 @@ body { line-height: 1.5; min-height: 100vh }
 img { width: 100%; height: auto; display: block }
 input, button, textarea, select { font: inherit }
 
+/* ====== PADDING AROUND WEB PAGE BODY CONTENT ======  */
+/* Desktops */
+@media (min-width: 768px) {
+    body { padding: 4% 20% }
+ }
+ 
+ /* Mobiles */
+ @media (max-width: 767px) {
+    body { padding: 8% 5% }
+ }
+body { 
+    background-color:antiquewhite;
+    padding: 4% 20% }
+
 h1 {
+    color: brown;
     text-align: center;
     font-weight: normal;
     letter-spacing: -2px;
@@ -17,17 +32,21 @@ h1 {
 }
 
 h2 {
+    color: brown;
     font-size: 36px;
     margin-bottom: 4px;
 }
 
 h3 {
+    color: brown;
     font-size: 24px;
     margin-bottom: 4px;
 }
 
 p {
+    color: #31304d;
     font-family: sans-serif;
     line-height: 1.6;
     margin-bottom: 20px;
 }
+a { color: brown; }
