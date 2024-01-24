@@ -7,8 +7,8 @@
     <title>Hero Block with Video</title>
     <meta name="description" content="A hero block with a background video that plays in a continuous loop and includes a tinted overlay.">     
 
-    <link rel="stylesheet" href="assets/css/hero-image.css">
-    <link rel="preload" href="assets/img/business.jpg" as="image">
+    <link rel="stylesheet" href="assets/css/hero-video.css">
+    <link rel="preload" href="assets/videos/hero-still.jpg" as="image">
 
 
 </head>
@@ -20,12 +20,14 @@
     <header class="hero-block text-center">
 
         <div class="hero-text-container">
-            <h1 class="slide-in-top">Albert Camus</h1>
-            <h2 class="slide-in-left">Front-end and Javascript Developer</h2>
+            <h1 class="slide-in-top">Education for Life</h1>
+            <h2 class="slide-in-left">A brighter career and future</h2>
         </div>
 
         <div class="hero-bg-media">
-            <img src="assets/img/business.jpg" alt="sample background image">   
+            <video loop muted autoplay poster="assets/videos/hero-still.jpg" class="background-video">  
+            <source src="assets/videos/hero-video.mp4" type="video/mp4">
+            </video>
         </div>
 
         <div class="bg-overlay"></div>
