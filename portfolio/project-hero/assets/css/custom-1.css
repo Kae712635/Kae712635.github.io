@@ -3,3 +3,8 @@
 .col-3 h3 { margin-bottom: 16px }
 
 /* Add your custom CSS below */
+
+header h1, header h2 { 
+    font-family: 'Abril Fatface', serif; 
+    letter-spacing: 1px;
+}
