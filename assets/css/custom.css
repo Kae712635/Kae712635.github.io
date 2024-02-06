@@ -11,6 +11,7 @@ footer.theme-dark   { background-color: #161A30 }
 
 .klervi {width: 50%; height: auto; display: block; float: right; }
 
+.logo {width: 40%; height: auto; display: block}
 
 header .col-text h2, .col-1 > h3 { line-height: 1.8 }
 
