@@ -1,0 +1,104 @@
+[
+  {
+    "id": "sys-1",
+    "title": "Réimplémentation de malloc",
+    "category": "Systèmes",
+    "tech": ["C", "Gestion de la Mémoire", "Kernel Calls"],
+    "description": "Développement d'une librairie d'allocation de mémoire complète. Démontre une expertise en C et une compréhension fine du fonctionnement système.",
+    "school": "2ème année de prépa - EPITA (2023)",
+    "date": "2023-12-01"
+  },
+  {
+    "id": "sys-2",
+    "title": "Client/Serveur BitTorrent",
+    "category": "Réseau",
+    "tech": ["Python / Go", "Protocole P2P", "Concurrence"],
+    "description": "Implémentation complète du protocole BitTorrent, couvrant le réseau, les torrents et la gestion de pairs.",
+    "school": "2ème année de prépa - EPITA (2023)",
+    "date": "2023-12-01"
+  },
+  {
+    "id": "back-1",
+    "title": "API Microservices Bancaires",
+    "category": "Backend",
+    "tech": ["Node.js / Spring", "PostgreSQL", "Architecture Microservices", "Sécurité"],
+    "description": "Conception et déploiement d'une API pour des calculatrices financières sécurisées (montrez les calculatrices ici).",
+    "school": "2ème année de prépa - EPITA (2023)",
+    "date": "2024-01-01"
+  },
+  {
+    "id": "front-1",
+    "title": "Crypto Wallet (React)",
+    "category": "Frontend",
+    "tech": ["React", "UI/UX", "Tailwind CSS"],
+    "description": "Migration vers React du projet Crypto Wallet avec focus sur l'état dynamique des graphiques boursiers.",
+    "image": "crypto-wallet-hero-image.jpg",
+    "project_url": "/portfolio/crypto-wallet/index.html",
+    "course": "Frontend Course - Dorset College (2024)",
+    "date": "2024-06-01"
+  },
+  {
+    "id": "mobile-1",
+    "title": "Application E-commerce Mobile",
+    "category": "Mobile",
+    "tech": ["React Native / Flutter", "Redux/Context", "Navigation Native"],
+    "description": "Développement d'une application de e-commerce responsive, compatible iOS et Android (décrivez votre projet mobile).",
+    "school": "1ère année de cycle ingénieur - EPITA (2024)",
+    "date": "2024-10-01"
+  },
+  {
+    "id": "front-2",
+    "title": "Howea — Puzzles pour la maladie à corps de Lewy",
+    "category": ["Frontend", "Backend"],
+    "tech": ["React", "Accessibilité", "Vercel", "API"],
+    "description": "Site de puzzles conçu pour les personnes atteintes de la maladie à corps de Lewy, pour stimuler la cognition et l'attention de façon adaptée.",
+    "project_url": "https://howea.vercel.app",
+    "details": "Application web full-stack (React + API) dédiée aux personnes atteintes de la maladie à corps de Lewy. Les puzzles sont conçus pour stimuler la cognition et l'attention de façon adaptée. Déployée sur Vercel, avec une attention particulière à l'accessibilité.",
+    "personal_project": "Projet personnel (2026)",
+    "date": "2026-02-01"
+  },
+  {
+    "id": "front-3",
+    "title": "Snazzy Fashion",
+    "category": "Frontend",
+    "tech": ["HTML", "CSS", "Responsive Design", "E-commerce"],
+    "description": "Site e-commerce de mode présentant une collection de vêtements et accessoires. Design élégant avec navigation fluide et galerie produits optimisée.",
+    "image": "fashion-img.jpg",
+    "project_url": "/portfolio/fashion/index.html",
+    "course": "Frontend Course - Dorset College (2024)",
+    "date": "2024-08-01"
+  },
+  {
+    "id": "front-4",
+    "title": "Smooth Smoothies",
+    "category": "Frontend",
+    "tech": ["HTML", "CSS", "Responsive Design", "Animations"],
+    "description": "Site pour une chaîne de smoothies à Dublin. Présente le menu, les valeurs nutritionnelles et l'expérience client avec des animations fluides.",
+    "image": "smoothies-hero-image.jpg",
+    "project_url": "/portfolio/smoothies/index.html",
+    "course": "Frontend Course - Dorset College (2024)",
+    "date": "2024-07-01"
+  },
+  {
+    "id": "front-5",
+    "title": "Hero Block Layouts Gallery",
+    "category": "Frontend",
+    "tech": ["HTML", "CSS", "Responsive Design", "Layouts"],
+    "description": "Galerie complète de layouts hero block pour différents domaines. Démontre diverses approches de design de sections d'en-tête avec animations et typographie variée.",
+    "image": "project-hero-img.jpg",
+    "project_url": "/portfolio/project-hero/index-1.html",
+    "course": "Frontend Course - Dorset College (2024)",
+    "date": "2024-05-01"
+  },
+  {
+    "id": "front-6",
+    "title": "Multi-column Layout Gallery",
+    "category": "Frontend",
+    "tech": ["HTML", "CSS", "Responsive Design", "Grid CSS"],
+    "description": "Galerie de layouts multi-colonnes responsifs. Présente diverses approches de mise en page utilisant CSS Grid et Flexbox pour différents types de contenu.",
+    "image": "project-multi-column-img.png",
+    "project_url": "/portfolio/project-multi-column/index.html",
+    "course": "Frontend Course - Dorset College (2024)",
+    "date": "2024-04-01"
+  }
+]
