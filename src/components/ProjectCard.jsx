@@ -32,16 +32,15 @@ const ProjectCard = ({ project }) => {
   return (
     <>
       <div
-        className={`project-card group ${
-          isSystemCategory
-            ? "hover:border-dark/50 hover:shadow-lg hover:shadow-dark/15"
-            : "hover:border-rose/50"
-        }`}
+        className={`project-card group ${isSystemCategory
+          ? "hover:border-dark/50 hover:shadow-lg hover:shadow-dark/15"
+          : "hover:border-rose/50"
+          }`}
       >
         {imagePath && (
-          <div className="mb-4 overflow-hidden rounded-xl">
+          <div className="mb-6 overflow-hidden border-b border-bronze/10">
             <img
-              className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
               src={imagePath}
               alt={`${t.card.projectPreview} ${title}`}
               loading="lazy"
@@ -50,20 +49,19 @@ const ProjectCard = ({ project }) => {
         )}
 
         <span
-          className={`inline-block mb-3 px-3 py-1 text-xs font-bold rounded-lg uppercase tracking-wide ${
-            isSystemCategory
-              ? "bg-dark/10 text-dark border border-dark/25"
-              : "bg-rose/15 text-rose border border-rose/30"
-          }`}
+          className={`inline-block mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] border-y border-bronze/30 ${isSystemCategory
+            ? "text-ink/80 bg-paper"
+            : "text-gold-dark bg-paper"
+            }`}
         >
           {categoryLabel}
         </span>
 
-        <h3 className="text-xl font-bold tracking-tight text-dark group-hover:text-rose transition-colors duration-300">
+        <h3 className="text-2xl font-display font-normal text-ink group-hover:text-gold transition-colors duration-500 uppercase tracking-widest border-b border-transparent group-hover:border-gold/30 pb-2 inline-block">
           {title}
         </h3>
 
-        <p className="font-normal text-text-muted-light mt-2 min-h-[3rem] leading-relaxed">
+        <p className="font-serif text-ink/70 mt-4 min-h-[3rem] leading-relaxed italic text-sm">
           {description}
         </p>
 
@@ -179,22 +177,25 @@ const ProjectCard = ({ project }) => {
           onClick={() => setModalOpen(false)}
         >
           <div
-            className="bg-cream rounded-2xl shadow-xl max-w-lg w-full max-h-[80vh] overflow-hidden border border-rose/20"
+            className="bg-paper shadow-2xl max-w-lg w-full max-h-[80vh] overflow-hidden border-2 border-gold relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 overflow-y-auto max-h-[70vh]">
-              <h3 id="modal-title" className="text-xl font-bold text-dark mb-4">
+            {/* Inner Border Effect for Modal */}
+            <div className="absolute inset-1 border border-bronze/20 pointer-events-none"></div>
+
+            <div className="p-8 overflow-y-auto max-h-[70vh]">
+              <h3 id="modal-title" className="text-3xl font-display text-ink mb-6 border-b border-bronze/20 pb-4">
                 {title}
               </h3>
-              <div className="text-text-muted-light leading-relaxed whitespace-pre-line">
+              <div className="text-ink/80 leading-relaxed whitespace-pre-line font-serif text-lg">
                 {details}
               </div>
             </div>
-            <div className="p-4 border-t border-rose/20 flex justify-end">
+            <div className="p-6 border-t border-bronze/20 flex justify-end bg-paper">
               <button
                 type="button"
                 onClick={() => setModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-rose hover:bg-rose-dark text-cream font-semibold transition-colors"
+                className="px-6 py-2 bg-gold hover:bg-bronze text-white font-bold uppercase tracking-widest transition-colors duration-300"
               >
                 {t.card.close}
               </button>

@@ -18,9 +18,8 @@ export default function HomePage() {
 
   return (
     <>
-      <header className="section-dark relative overflow-hidden min-h-[70vh] flex items-center justify-center px-6 py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_20%,rgba(175,122,109,0.12),transparent)]" />
-        <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16 animate-fade-in">
+      <header className="relative overflow-hidden min-h-[70vh] flex items-center justify-center px-6 py-20">
+        <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-16 animate-fade-in z-10">
           <div className="flex-shrink-0 relative w-48 h-48 md:w-64 md:h-64">
             <img
               src="/media/photo_identité.png"
@@ -57,7 +56,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="bg-cream py-16 md:py-24 px-6">
+      <section className="py-16 md:py-24 px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-dark tracking-tight">

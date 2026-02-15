@@ -1,57 +1,24 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import {
-  translations,
-  categoryToTranslationKey,
-  STORAGE_KEY,
-  LANGUAGE_OPTIONS,
-} from "../translations";
+import React, { createContext, useContext, useState } from 'react';
+import translations from '../data/translations';
 
-const LanguageContext = createContext(null);
+const LanguageContext = createContext();
 
-export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved && translations[saved]) return saved;
-    } catch (_) {}
-    return "fr";
-  });
+export const LanguageProvider = ({ children }) => {
+  const [language, setLanguage] = useState('fr'); // Default to French
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, lang);
-      if (document.documentElement) document.documentElement.lang = lang;
-    } catch (_) {}
-  }, [lang]);
-
-  const setLang = (code) => {
-    if (translations[code]) setLangState(code);
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === 'fr' ? 'en' : 'fr'));
   };
 
-  const t = translations[lang] || translations.fr;
-
-  const tCategory = (categoryKey) => {
-    const key = categoryToTranslationKey[categoryKey];
-    return (t.filters && key && t.filters[key]) || categoryKey;
-  };
-
-  const value = {
-    lang,
-    setLang,
-    t,
-    tCategory,
-    languageOptions: LANGUAGE_OPTIONS,
+  const t = (key) => {
+    return translations[language][key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={value}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
-}
+};
 
-export function useLanguage() {
-  const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
-  return ctx;
-}
+export const useLanguage = () => useContext(LanguageContext);

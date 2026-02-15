@@ -1,115 +1,176 @@
 @import "tailwindcss";
 
-/* Palette portfolio - Tailwind v4 @theme */
+@font-face {
+  font-family: 'Cinzel';
+  src: url('/fonts/Cinzel-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/PlayfairDisplay-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --color-dark: #241623;
-  --color-cream: #FBF5F3;
-  --color-rose: #AF7A6D;
-  --color-rose-dark: #9a6a5f;
-  --color-light-bg: #FBF5F3;
-  --color-light-secondary: #F5EFED;
-  --color-primary-accent: #AF7A6D;
-  --color-secondary-accent: #241623;
-  --color-text-dark: #241623;
-  --color-text-muted-light: #6B5B56;
-  --font-sans: "Outfit", system-ui, sans-serif;
-  --font-display: "Outfit", system-ui, sans-serif;
-  --shadow-card: 0 4px 20px rgba(36, 22, 35, 0.08);
-  --shadow-card-hover: 0 12px 32px rgba(36, 22, 35, 0.12), 0 0 0 1px rgba(175, 122, 109, 0.2);
-  --shadow-glow-rose: 0 0 30px rgba(175, 122, 109, 0.35);
-  --animate-fade-in: fade-in 0.6s ease-out forwards;
-  --animate-slide-up: slide-up 0.5s ease-out forwards;
-  @keyframes fade-in {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  @keyframes slide-up {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
+  --color-paper: #F9F5EA;
+  /* Light Cream Parchment */
+  --color-ink: #2b2b2b;
+  /* Dark Grey Text */
+  --color-gold: #D4AF37;
+  /* Brushed Gold */
+  --color-gold-light: #F1E5AC;
+  --color-bronze: #8C7853;
+  /* Antique Bronze */
+
+  /* Compatibility Mappings */
+  --color-dark: var(--color-ink);
+  /* Map dark to ink */
+  --color-cream: var(--color-paper);
+  /* Map cream to paper */
+  --color-rose: var(--color-gold);
+  /* Map rose to gold */
+  --color-rose-dark: #B8860B;
+  /* Darker Gold */
+  --color-text-dark: var(--color-ink);
+  --color-text-muted-light: #666666;
+
+  --font-serif-title: "Cinzel", serif;
+  --font-serif-body: "Playfair Display", serif;
+  --font-display: "Cinzel", serif;
+  --font-sans: "Playfair Display", serif;
+
+  --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.05);
+  /* Soft, diffuse */
+  --shadow-card-hover: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--color-gold);
 }
 
 @layer base {
   body {
-    background-color: var(--color-cream);
-    color: var(--color-text-dark);
-    font-family: var(--font-sans);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-serif-body);
     -webkit-font-smoothing: antialiased;
+    background-image: linear-gradient(to bottom, #F9F5EA 0%, #F1EFE0 100%);
+    /* Subtle gradient */
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif-title);
+    color: var(--color-ink);
+  }
+
   a {
-    color: inherit;
+    color: var(--color-ink);
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: var(--color-gold);
   }
 }
 
 @layer components {
+
+  /* ... keeping glass/section-dark if needed elsewhere, but updating colors */
   .section-dark {
-    background: linear-gradient(160deg, #241623 0%, #2d1f2e 50%, #241623 100%);
+    background: rgba(20, 20, 20, 0.05);
+    border-top: 1px solid var(--color-gold);
+    color: var(--color-ink);
   }
 
   .project-card {
-    @apply p-6 rounded-2xl border transition-all duration-300 ease-out;
-    background-color: var(--color-cream);
-    border-color: rgb(175 122 109 / 0.2);
+    @apply p-8 border transition-all duration-500 ease-out;
+    background-color: #fff;
+    border: 1px solid var(--color-bronze);
+    border-radius: 2px;
+    /* Slight rounding but mostly sharp */
     box-shadow: var(--shadow-card);
+    position: relative;
+    /* Paper Texture effect */
+    background-image: linear-gradient(to bottom right, #fffcf5, #f5f0e1);
   }
+
+  .project-card::before {
+    /* Inner Bronze Border */
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(140, 120, 83, 0.2);
+    /* Bronze low opacity */
+    pointer-events: none;
+  }
+
   .project-card:hover {
-    border-color: rgb(175 122 109 / 0.5);
+    border-color: var(--color-gold);
     box-shadow: var(--shadow-card-hover);
-    transform: scale(1.02);
-  }
-  .project-card:focus-within {
-    outline: 2px solid rgb(175 122 109 / 0.3);
-    outline-offset: 2px;
+    transform: translateY(-5px);
   }
 
   .btn-action {
-    @apply inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 mr-3;
-    color: var(--color-cream);
-    background-color: var(--color-rose);
-    border: 1px solid var(--color-rose);
+    @apply inline-flex items-center justify-center px-6 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 mr-3;
+    color: var(--color-ink);
+    background-color: transparent;
+    border: 1px solid var(--color-gold);
+    border-radius: 0;
   }
+
   .btn-action:hover {
-    background-color: var(--color-rose-dark);
-    border-color: var(--color-rose-dark);
-    box-shadow: var(--shadow-glow-rose);
-  }
-  .btn-action:active {
-    transform: scale(0.98);
+    background-color: var(--color-gold);
+    color: #fff;
+    border-color: var(--color-gold);
   }
 
   .tech-tag {
-    @apply inline-block text-xs font-semibold px-2.5 py-1 mr-1.5 mb-1.5 rounded-lg;
-    background-color: rgb(175 122 109 / 0.12);
-    color: var(--color-rose);
-    border: 1px solid rgb(175 122 109 / 0.3);
+    @apply inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 mr-2 mb-2;
+    background-color: transparent;
+    color: var(--color-bronze);
+    border: 1px solid rgba(140, 120, 83, 0.3);
+    border-radius: 0;
+    /* Sharp edges */
   }
+
   .tech-tag.tech-dark {
-    background-color: rgb(36 22 35 / 0.1);
-    color: var(--color-dark);
-    border-color: rgb(36 22 35 / 0.25);
+    /* Mapping system/dark tags to same style for consistency, or slightly darker */
+    color: var(--color-ink);
+    border-color: rgba(43, 43, 43, 0.3);
   }
 
   .filter-btn {
-    @apply px-4 py-2.5 m-1 text-sm font-medium rounded-xl border-2 transition-all duration-300 cursor-pointer;
-    border-color: rgb(36 22 35 / 0.15);
-    color: var(--color-text-dark);
-    background-color: var(--color-cream);
-  }
-  .filter-btn:hover {
-    border-color: var(--color-rose);
-    color: var(--color-rose);
-  }
-  .filter-btn.active {
-    border-color: var(--color-rose);
-    color: var(--color-cream);
-    background-color: var(--color-rose);
-    font-weight: 600;
-    box-shadow: var(--shadow-glow-rose);
+    @apply px-8 py-3 m-2 text-xs font-normal uppercase tracking-[0.2em] border transition-all duration-500 cursor-pointer;
+    border-color: rgba(140, 120, 83, 0.3);
+    color: var(--color-ink);
+    background-color: transparent;
+    border-radius: 0;
+    font-family: var(--font-serif-title);
   }
 
-  .glow-text {
-    @apply font-semibold;
-    color: var(--color-rose);
-    text-shadow: 0 0 40px rgba(175, 122, 109, 0.4);
+  .filter-btn:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    letter-spacing: 0.25em;
+    /* Subtle expansion on hover */
+  }
+
+  .filter-btn.active {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    background-color: rgba(212, 175, 55, 0.05);
+    /* Very subtle gold tint */
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px var(--color-gold);
+    /* Double border visual */
   }
 }

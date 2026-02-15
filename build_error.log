@@ -1,0 +1,32 @@
+
+> mon-portfolio-react@0.0.0 build
+> vite build
+
+vite v7.2.7 building client environment for production...
+transforming...
+Error: Cannot apply unknown utility class `p-6`
+    at onInvalidCandidate (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:21:1511)
+    at Te (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:16:36652)
+    at /home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:21:355
+    at Rr (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:3:1718)
+    at _ (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:3:1377)
+    at $e (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:21:172)
+    at un (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:38:294)
+    at async cn (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/tailwindcss/dist/lib.js:38:631)
+    at async Xr (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/@tailwindcss/node/dist/index.js:10:3417)
+    at async I (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/@tailwindcss/postcss/dist/index.js:10:3977)
+✓ 6 modules transformed.
+✗ Build failed in 176ms
+error during build:
+[vite:css] [postcss] tailwindcss: /home/klervichoblet/Portfolio/Kae712635.github.io/src/index.css:1:1: Cannot apply unknown utility class `p-6`
+file: /home/klervichoblet/Portfolio/Kae712635.github.io/src/index.css:1:0
+    at Input.error (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/postcss/lib/input.js:135:16)
+    at Root.error (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/postcss/lib/node.js:146:32)
+    at Object.Once (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/@tailwindcss/postcss/dist/index.js:10:6911)
+    at async LazyResult.runAsync (/home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/postcss/lib/lazy-result.js:293:11)
+    at async runPostCSS (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/vite/dist/node/chunks/config.js:30144:19)
+    at async compilePostCSS (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/vite/dist/node/chunks/config.js:30128:6)
+    at async compileCSS (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/vite/dist/node/chunks/config.js:30058:26)
+    at async Object.handler (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/vite/dist/node/chunks/config.js:29591:54)
+    at async transform (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/rollup/dist/es/shared/node-entry.js:21163:16)
+    at async ModuleLoader.addModuleSource (file:///home/klervichoblet/Portfolio/Kae712635.github.io/node_modules/rollup/dist/es/shared/node-entry.js:21377:36)
