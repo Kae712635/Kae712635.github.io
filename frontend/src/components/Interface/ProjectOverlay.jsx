@@ -81,17 +81,17 @@ const ProjectOverlay = ({ project, onClose }) => {
                 */}
                 <div style={{
                     position: 'absolute', right: 0, width: '450px', height: '600px',
-                    background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                    background: 'linear-gradient(135deg, #2B2019 0%, #15100C 100%)',
                     borderRadius: '0 10px 10px 0',
                     boxShadow: '20px 20px 50px rgba(0,0,0,0.15)',
-                    border: '1px solid #dee2e6',
+                    border: '1px solid #3B2A1E',
                     zIndex: 0
                 }}></div>
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
-                    background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+                    background: 'linear-gradient(135deg, #2B2019 0%, #15100C 100%)',
                     borderRadius: '10px 0 0 10px',
-                    border: '1px solid #dee2e6',
+                    border: '1px solid #3B2A1E',
                     zIndex: 0
                 }}></div>
 
@@ -104,10 +104,10 @@ const ProjectOverlay = ({ project, onClose }) => {
                 {/* LEFT PAGE - IMAGE (LAVENDER STYLE) */}
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
-                    background: '#f8f4ff',
+                    background: '#FDF5E6',
                     borderRadius: '5px 0 0 5px',
                     zIndex: 1, padding: '40px', boxSizing: 'border-box',
-                    borderRight: '1px solid #e0d4f7',
+                    borderRight: '1px solid #D4B886',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
                 }}>
                     {/* IMAGE CONTENT */}
@@ -115,7 +115,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         <div style={{
                             width: '100%', height: '70%',
                             background: `url(${project.image.startsWith('/') ? project.image : '/img/' + project.image}) center/contain no-repeat`,
-                            border: '1px solid #e0d4f7',
+                            border: '1px solid #D4B886',
                             boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
                             marginBottom: '20px',
                             borderRadius: '4px',
@@ -124,16 +124,16 @@ const ProjectOverlay = ({ project, onClose }) => {
                     ) : (
                         <div style={{
                             width: '80%', height: '60%',
-                            border: '2px dashed #d4c5f9',
+                            border: '2px dashed #D4B886',
                             display: 'flex', justifyContent: 'center', alignItems: 'center',
-                            color: '#8b7ab8', fontStyle: 'italic',
+                            color: '#7A614A', fontStyle: 'italic',
                             borderRadius: '4px'
                         }}>
                             No Visual Available
                         </div>
                     )}
 
-                    <div style={{ textAlign: 'center', color: '#8b7ab8', fontStyle: 'italic', fontSize: '0.85rem', letterSpacing: '1px', marginTop: '10px' }}>
+                    <div style={{ textAlign: 'center', color: '#7A614A', fontStyle: 'italic', fontSize: '0.85rem', letterSpacing: '1px', marginTop: '10px' }}>
                         Ex Libris • Klervi Choblet
                     </div>
                 </div>
@@ -141,17 +141,17 @@ const ProjectOverlay = ({ project, onClose }) => {
                 {/* RIGHT BASE - PAGE 3 (TECH DETAILS) - Visible after page turn */}
                 <div style={{
                     position: 'absolute', right: 0, width: '450px', height: '600px',
-                    background: '#f8f4ff',
+                    background: '#FDF5E6',
                     borderRadius: '0 5px 5px 0',
                     zIndex: 1, padding: '40px', boxSizing: 'border-box',
-                    borderLeft: '1px solid #e0d4f7',
+                    borderLeft: '1px solid #D4B886',
                     display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
                 }}>
                     <h2 style={{
-                        fontFamily: 'serif',
-                        color: '#4a3b5c',
+                        fontFamily: 'Cinzel, serif',
+                        color: '#2B2019',
                         marginBottom: '25px',
-                        borderBottom: '2px solid #7c5cdb',
+                        borderBottom: '2px solid #8C2E16',
                         paddingBottom: '10px',
                         fontSize: '2rem',
                         width: '100%'
@@ -172,28 +172,28 @@ const ProjectOverlay = ({ project, onClose }) => {
                     ) : (
                         <div style={{
                             width: '80%', height: '60%',
-                            border: '2px dashed #d4c5f9',
+                            border: '2px dashed #D4B886',
                             display: 'flex', justifyContent: 'center', alignItems: 'center',
-                            color: '#8b7ab8', fontStyle: 'italic',
+                            color: '#7A614A', fontStyle: 'italic',
                             borderRadius: '4px'
                         }}>
                             No Visual Available
                         </div>
                     )}
 
-                    <div style={{ textAlign: 'center', color: '#6c5b7b', fontStyle: 'italic', fontSize: '0.9rem', letterSpacing: '1px' }}>
+                    <div style={{ textAlign: 'center', color: '#5A4638', fontStyle: 'italic', fontSize: '0.9rem', letterSpacing: '1px' }}>
                         {t('visualReference') || "Project Screenshot"}
                     </div>
 
                     <button onClick={handlePrev} style={{
                         position: 'absolute', bottom: '30px', left: '40px',
                         background: '#fff',
-                        border: '2px solid #7c5cdb',
+                        border: '2px solid #8C2E16',
                         cursor: 'pointer',
-                        fontSize: '1rem', color: '#7c5cdb', fontWeight: '600',
+                        fontSize: '1rem', color: '#8C2E16', fontWeight: '600',
                         padding: '8px 16px',
                         borderRadius: '20px',
-                        boxShadow: '0 2px 10px rgba(124, 92, 219, 0.2)',
+                        boxShadow: '0 2px 10px rgba(140, 46, 22, 0.2)',
                         transition: 'all 0.2s'
                     }}>
                         ☜ Back
@@ -216,11 +216,11 @@ const ProjectOverlay = ({ project, onClose }) => {
                     {/* PAGE 1 (Front) - LIGHT ELEGANT STYLE */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#f8f4ff',
+                        background: '#FDF5E6',
                         borderRadius: '0 5px 5px 0',
                         backfaceVisibility: 'hidden',
                         padding: '50px 40px', boxSizing: 'border-box',
-                        borderLeft: '1px solid #e0d4f7',
+                        borderLeft: '1px solid #D4B886',
                         boxShadow: 'inset 10px 0 20px rgba(0,0,0,0.02)'
                     }}>
                         {/* Category Label */}
@@ -228,10 +228,10 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <span style={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
-                                color: '#7c5cdb',
+                                color: '#8C2E16',
                                 letterSpacing: '3px',
                                 fontWeight: '700',
-                                borderBottom: '2px solid #7c5cdb',
+                                borderBottom: '2px solid #8C2E16',
                                 paddingBottom: '5px',
                                 display: 'inline-block'
                             }}>
@@ -243,8 +243,8 @@ const ProjectOverlay = ({ project, onClose }) => {
                         <h1 style={{
                             margin: '0 0 15px',
                             fontSize: '2.8rem',
-                            fontFamily: 'serif',
-                            color: '#4a3b5c',
+                            fontFamily: 'Cinzel, serif',
+                            color: '#2B2019',
                             lineHeight: 1.2
                         }}>
                             {project.title}
@@ -254,9 +254,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                         <div style={{
                             fontStyle: 'italic',
                             marginBottom: '30px',
-                            color: '#8b7ab8',
+                            color: '#7A614A',
                             fontSize: '0.95rem',
-                            borderBottom: '1px solid #e0d4f7',
+                            borderBottom: '1px solid #D4B886',
                             paddingBottom: '20px'
                         }}>
                             {project.school || project.course || project.personal_project || 'Project'} • {project.date ? project.date.split('-')[0] : ''}
@@ -267,7 +267,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <p style={{
                                 lineHeight: '1.9',
                                 fontSize: '1.05rem',
-                                color: '#4a3b5c',
+                                color: '#2B2019',
                                 textAlign: 'justify',
                                 marginBottom: '20px'
                             }}>
@@ -277,7 +277,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 <p style={{
                                     lineHeight: '1.8',
                                     fontSize: '0.95rem',
-                                    color: '#6c5b7b',
+                                    color: '#5A4638',
                                     marginTop: '20px',
                                     textAlign: 'justify',
                                     fontStyle: 'italic'
@@ -298,7 +298,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 <h3 style={{
                                     fontSize: '0.75rem',
                                     textTransform: 'uppercase',
-                                    color: '#8b7ab8',
+                                    color: '#7A614A',
                                     marginBottom: '12px',
                                     letterSpacing: '2px',
                                     fontWeight: '600'
@@ -309,11 +309,11 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     {project.tech.slice(0, 6).map((t, i) => (
                                         <span key={i} style={{
                                             background: '#fff',
-                                            border: '1px solid #d4c5f9',
+                                            border: '1px solid #7A614A',
                                             padding: '6px 12px',
                                             borderRadius: '15px',
                                             fontSize: '0.8rem',
-                                            color: '#6c5b7b',
+                                            color: '#5A4638',
                                             fontWeight: '500'
                                         }}>
                                             {t}
@@ -323,7 +323,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                         <span style={{
                                             padding: '6px 12px',
                                             fontSize: '0.8rem',
-                                            color: '#a89bb9',
+                                            color: '#A89078',
                                             fontStyle: 'italic'
                                         }}>
                                             +{project.tech.length - 6} more
@@ -337,7 +337,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         <div style={{ position: 'absolute', bottom: '30px', right: '40px' }}>
                             {pageState === 1 && (
                                 <button onClick={handleNext} style={{
-                                    background: '#7c5cdb',
+                                    background: '#8C2E16',
                                     border: 'none',
                                     cursor: 'pointer',
                                     fontSize: '1rem',
@@ -348,33 +348,33 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     gap: '8px',
                                     padding: '10px 20px',
                                     borderRadius: '20px',
-                                    boxShadow: '0 4px 15px rgba(124, 92, 219, 0.3)',
+                                    boxShadow: '0 4px 15px rgba(140, 46, 22, 0.3)',
                                     transition: 'all 0.2s'
                                 }}>
                                     View Details ☞
                                 </button>
                             )}
                         </div>
-                        <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#a89bb9' }}>1</div>
+                        <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#A89078' }}>1</div>
                     </div>
 
                     {/* PAGE 2 (Back - Tech Stack & Links) - LIGHT ELEGANT STYLE */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#f8f4ff',
+                        background: '#FDF5E6',
                         borderRadius: '5px 0 0 5px',
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
                         padding: '50px 40px', boxSizing: 'border-box',
-                        borderRight: '1px solid #e0d4f7',
+                        borderRight: '1px solid #D4B886',
                         display: 'flex', flexDirection: 'column',
                         boxShadow: 'inset -10px 0 20px rgba(0,0,0,0.02)'
                     }}>
                         <h2 style={{
-                            fontFamily: 'serif',
-                            color: '#4a3b5c',
+                            fontFamily: 'Cinzel, serif',
+                            color: '#2B2019',
                             marginBottom: '25px',
-                            borderBottom: '2px solid #7c5cdb',
+                            borderBottom: '2px solid #8C2E16',
                             paddingBottom: '10px',
                             fontSize: '2rem'
                         }}>
@@ -385,7 +385,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <h3 style={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
-                                color: '#8b7ab8',
+                                color: '#7A614A',
                                 marginBottom: '15px',
                                 letterSpacing: '2px',
                                 fontWeight: '600'
@@ -394,11 +394,11 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 {project.tech && project.tech.map((t, i) => (
                                     <span key={i} style={{
                                         background: '#fff',
-                                        border: '1px solid #d4c5f9',
+                                        border: '1px solid #7A614A',
                                         padding: '10px 16px',
                                         borderRadius: '15px',
                                         fontSize: '0.9rem',
-                                        color: '#6c5b7b',
+                                        color: '#5A4638',
                                         fontWeight: '500',
                                         boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
                                     }}>
@@ -412,7 +412,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <h3 style={{
                                 fontSize: '0.75rem',
                                 textTransform: 'uppercase',
-                                color: '#8b7ab8',
+                                color: '#7A614A',
                                 marginBottom: '15px',
                                 letterSpacing: '2px',
                                 fontWeight: '600'
@@ -423,10 +423,10 @@ const ProjectOverlay = ({ project, onClose }) => {
                                         display: 'flex', alignItems: 'center', gap: '10px',
                                         color: '#fff', fontWeight: '600', fontSize: '1.1rem', textDecoration: 'none',
                                         padding: '12px 20px',
-                                        background: '#7c5cdb',
+                                        background: '#8C2E16',
                                         borderRadius: '20px',
                                         width: 'fit-content',
-                                        boxShadow: '0 4px 15px rgba(124, 92, 219, 0.3)',
+                                        boxShadow: '0 4px 15px rgba(140, 46, 22, 0.3)',
                                         transition: 'all 0.2s'
                                     }}>
                                         <span>🚀</span> Visit Live Project
@@ -435,13 +435,13 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 {project.github && (
                                     <a href={project.github} target="_blank" rel="noopener noreferrer" style={{
                                         display: 'flex', alignItems: 'center', gap: '10px',
-                                        color: '#7c5cdb', fontSize: '1.1rem', textDecoration: 'none',
+                                        color: '#8C2E16', fontSize: '1.1rem', textDecoration: 'none',
                                         padding: '12px 20px',
-                                        border: '2px solid #7c5cdb',
+                                        border: '2px solid #8C2E16',
                                         borderRadius: '20px',
                                         width: 'fit-content',
                                         background: '#fff',
-                                        boxShadow: '0 4px 15px rgba(124, 92, 219, 0.2)',
+                                        boxShadow: '0 4px 15px rgba(140, 46, 22, 0.2)',
                                         transition: 'all 0.2s',
                                         fontWeight: '600'
                                     }}>
@@ -451,7 +451,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             </div>
                         </div>
 
-                        <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#a89bb9' }}>2</div>
+                        <div style={{ position: 'absolute', bottom: '30px', left: '50%', transform: 'translateX(-50%)', fontSize: '0.8rem', color: '#A89078' }}>2</div>
                     </div>
                 </animated.div>
 
@@ -471,7 +471,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                     {/* FRONT COVER - LIGHT ELEGANT STYLE */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: 'linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%)',
+                        background: 'linear-gradient(135deg, #ffffff 0%, #FDF5E6 100%)',
                         borderRadius: '0 10px 10px 0',
                         backfaceVisibility: 'hidden',
                         display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
@@ -480,7 +480,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         padding: '40px'
                     }}>
                         <div style={{
-                            border: '3px solid #7c5cdb',
+                            border: '3px solid #8C2E16',
                             padding: '30px',
                             width: '100%',
                             height: '100%',
@@ -490,16 +490,16 @@ const ProjectOverlay = ({ project, onClose }) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             position: 'relative',
-                            boxShadow: 'inset 0 0 30px rgba(124, 92, 219, 0.05)'
+                            boxShadow: 'inset 0 0 30px rgba(140, 46, 22, 0.05)'
                         }}>
                             {/* Decorative Corners - Purple */}
-                            <div style={{ position: 'absolute', top: '10px', left: '10px', width: '30px', height: '30px', borderTop: '4px solid #7c5cdb', borderLeft: '4px solid #7c5cdb' }}></div>
-                            <div style={{ position: 'absolute', top: '10px', right: '10px', width: '30px', height: '30px', borderTop: '4px solid #7c5cdb', borderRight: '4px solid #7c5cdb' }}></div>
-                            <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '30px', height: '30px', borderBottom: '4px solid #7c5cdb', borderLeft: '4px solid #7c5cdb' }}></div>
-                            <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '30px', height: '30px', borderBottom: '4px solid #7c5cdb', borderRight: '4px solid #7c5cdb' }}></div>
+                            <div style={{ position: 'absolute', top: '10px', left: '10px', width: '30px', height: '30px', borderTop: '4px solid #8C2E16', borderLeft: '4px solid #8C2E16' }}></div>
+                            <div style={{ position: 'absolute', top: '10px', right: '10px', width: '30px', height: '30px', borderTop: '4px solid #8C2E16', borderRight: '4px solid #8C2E16' }}></div>
+                            <div style={{ position: 'absolute', bottom: '10px', left: '10px', width: '30px', height: '30px', borderBottom: '4px solid #8C2E16', borderLeft: '4px solid #8C2E16' }}></div>
+                            <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '30px', height: '30px', borderBottom: '4px solid #8C2E16', borderRight: '4px solid #8C2E16' }}></div>
 
                             <h1 style={{
-                                color: '#4a3b5c',
+                                color: '#2B2019',
                                 textAlign: 'center',
                                 fontFamily: '"Cinzel", serif',
                                 fontSize: '3.5rem',
@@ -508,9 +508,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                             }}>
                                 {project.title}
                             </h1>
-                            <div style={{ width: '100px', height: '3px', background: 'linear-gradient(90deg, transparent, #7c5cdb, transparent)', margin: '30px 0' }}></div>
+                            <div style={{ width: '100px', height: '3px', background: 'linear-gradient(90deg, transparent, #8C2E16, transparent)', margin: '30px 0' }}></div>
                             <span style={{
-                                color: '#8b7ab8',
+                                color: '#7A614A',
                                 textTransform: 'uppercase',
                                 letterSpacing: '4px',
                                 fontSize: '1.2rem',
@@ -524,7 +524,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                     {/* INSIDE COVER (Left visible when open) - LAVENDER STYLE */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#f8f4ff',
+                        background: '#FDF5E6',
                         borderRadius: '10px 0 0 10px',
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
@@ -534,12 +534,12 @@ const ProjectOverlay = ({ project, onClose }) => {
                         {/* Ex Libris Pattern */}
                         <div style={{
                             width: '80%', height: '80%',
-                            border: '1px solid #e0d4f7',
+                            border: '1px solid #D4B886',
                             backgroundImage: 'radial-gradient(#d4c5f9 1px, transparent 1px)',
                             backgroundSize: '20px 20px',
                             opacity: 0.3
                         }}></div>
-                        <div style={{ position: 'absolute', bottom: '30px', color: '#8b7ab8', fontFamily: 'serif', fontStyle: 'italic' }}>
+                        <div style={{ position: 'absolute', bottom: '30px', color: '#7A614A', fontFamily: 'Cinzel, serif', fontStyle: 'italic' }}>
                             Ex Libris • Klervi Choblet
                         </div>
                     </div>

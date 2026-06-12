@@ -451,49 +451,6 @@
     "image":["/img/projets/MultiColumn.png"]
   },
   {
-    "id": "fullstack-1",
-    "title": "Site Jeux Multijoueurs en Temps Réel",
-    "category": "Application Web",
-    "tech": [
-      "React",
-      "Supabase",
-      "WebSockets"
-    ],
-    "description": {
-      "fr": "Plateforme de jeux avec fonctionnalités multijoueurs en temps réel via Supabase et synchronisation d'état.",
-      "en": "Gaming platform with real-time multiplayer features via Supabase and state synchronization."
-    },
-    "project_url": "https://github.com/Kae712635/SiteJeux",
-    "date": "2026-06-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
     "id": "ing1-42sh",
     "title": "42sh",
     "category": "Logiciel",
@@ -547,48 +504,6 @@
     "description": {
       "fr": "Programmation parallèle sur carte graphique (GPGPU) avec CUDA.",
       "en": "Parallel programming on graphics cards (GPGPU) with CUDA."
-    },
-    "date": "2025-06-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-idep",
-    "title": "IDEP",
-    "category": "Application Web",
-    "tech": [
-      "C++",
-      "Imagerie"
-    ],
-    "description": {
-      "fr": "Projet IDEP : Imagerie et Développement Poussé.",
-      "en": "IDEP Project: Advanced Imaging and Development."
     },
     "date": "2025-06-01",
     "project_url": "https://github.com/Kae712635/",
@@ -748,15 +663,15 @@
   },
   {
     "id": "ing2-ocvx",
-    "title": "Optimisation Convexe (OCVX1)",
-    "category": "Application Web",
+    "title": "Optimisation Convexe",
+    "category": "Benchmark & Algorithmique avec Alexia Gnanassegarane",
     "tech": [
       "Python",
       "Mathématiques"
     ],
     "description": {
-      "fr": "Algorithmes d'optimisation convexe et applications (OCVX1).",
-      "en": "Convex optimization algorithms and applications (OCVX1)."
+      "fr": "Algorithmes d'optimisation convexe et applications.",
+      "en": "Convex optimization algorithms and applications."
     },
     "date": "2025-04-01",
     "project_url": "https://github.com/Kae712635/",
@@ -786,7 +701,8 @@
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
       "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
     ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
+    "doc": "../documents/Optimisation_Convexe_Rapport.pdf"
   },
   {
     "id": "ing2-vtkitk",
