@@ -1,0 +1,40 @@
+/* NOUVELLE PALETTE */
+:root {
+  --color-dark-bg: #0A0A0F;
+  --color-primary-accent: #00FFFF;
+  --color-secondary-accent: #FF00FF;
+  --color-text-light: #F0F4F8;
+}
+
+/* Appliquer le fond sombre à l'ensemble du corps */
+body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-text-light);
+  min-height: 100vh;
+}
+
+/* Classe pour un effet "glow" sur les bordures ou les cartes de projet */
+.glow-border {
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.glow-border:hover {
+  border-color: var(--color-primary-accent);
+  box-shadow: 0 0 15px var(--color-primary-accent), 0 0 30px rgba(0, 255, 255, 0.5);
+  transform: translateY(-2px); /* Effet de soulèvement dynamique */
+}
+
+/* Style des liens et boutons pour l'effet néon */
+a, button {
+  color: var(--color-primary-accent);
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+h1 {
+  /* Utilisation de l'Accent Secondaire pour souligner les titres */
+  border-bottom: 2px solid var(--color-secondary-accent);
+  padding-bottom: 10px;
+}

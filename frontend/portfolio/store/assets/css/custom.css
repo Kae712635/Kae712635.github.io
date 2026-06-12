@@ -1,0 +1,14 @@
+
+nav.theme-dark, nav.theme-dark ul.links-wrapper.active { background-color: #0f172a }
+
+header.theme-dark   { background-color: #161A30 }
+
+header.theme-dark  h1 { color: #F0ECE5; text-shadow: -5px 3px 3px #31304D}
+
+section.theme-dark   { background-color: #161A30;
+    background-image: linear-gradient(180deg, #31304D , #31304D);
+}
+
+footer.theme-dark   { background-color: #161A30 }
+
+header .col-text h2, .col-1 > h3 { line-height: 1.8 }
