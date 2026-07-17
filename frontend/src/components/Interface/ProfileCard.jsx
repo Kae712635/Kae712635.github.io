@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
 
 const ProfileCard = ({ isOpen, onClose }) => {
-    const { t } = useLanguage();
+    const { t, language } = useLanguage();
 
     return (
         <AnimatePresence>
@@ -26,7 +26,7 @@ const ProfileCard = ({ isOpen, onClose }) => {
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
                         transition={{ type: "spring", duration: 0.5 }}
                         style={{
-                            background: 'rgba(20, 20, 40, 0.85)',
+                            background: 'rgba(21, 16, 12, 0.85)',
                             backdropFilter: 'blur(15px)',
                             border: '1px solid rgba(255, 255, 255, 0.15)',
                             borderRadius: '20px',
@@ -57,31 +57,60 @@ const ProfileCard = ({ isOpen, onClose }) => {
                             ✕
                         </button>
 
-                        {/* Profile Image */}
-                        <img
-                            src="/media/photo_identité.png"
-                            alt="Klervi Choblet"
-                            style={{
-                                width: '120px',
-                                height: '120px',
-                                borderRadius: '50%',
-                                objectFit: 'cover',
-                                margin: '0 auto 20px auto',
-                                boxShadow: '0 0 20px rgba(181, 126, 220, 0.3)',
-                                border: '2px solid rgba(255, 255, 255, 0.1)'
-                            }}
-                        />
+                        <div style={{
+                            width: '60px',
+                            height: '60px',
+                            borderRadius: '50%',
+                            background: 'rgba(212, 175, 55, 0.1)',
+                            border: '1px solid #D4B886',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            margin: '0 auto 20px auto',
+                            fontSize: '30px',
+                            boxShadow: '0 0 20px rgba(212, 175, 55, 0.3)'
+                        }}>
+                            🧭
+                        </div>
 
-                        <h2 style={{ fontSize: '24px', margin: '0 0 5px 0', fontFamily: 'Outfit, sans-serif' }}>
-                            {t('profileName')}
+                        <h2 style={{ fontSize: '24px', margin: '0 0 5px 0', fontFamily: 'Cinzel, serif', color: '#FDF5E6' }}>
+                            {language === 'fr' ? 'Guide des Archives' : 'Archive Guide'}
                         </h2>
-                        <h3 style={{ fontSize: '16px', color: '#b57edc', margin: '0 0 20px 0', fontWeight: 'normal' }}>
-                            {t('profileRole')}
+                        <h3 style={{ fontSize: '14px', color: '#D4B886', margin: '0 0 25px 0', fontWeight: 'normal', fontFamily: 'Cinzel, serif', letterSpacing: '1px', textTransform: 'uppercase' }}>
+                            {language === 'fr' ? 'Navigation 3D Interactive' : 'Interactive 3D Navigation'}
                         </h3>
 
-                        <p style={{ lineHeight: '1.6', color: 'rgba(255,255,255,0.8)', fontSize: '15px' }}>
-                            {t('profileBio')}
-                        </p>
+                        <div style={{ lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontSize: '15px', fontFamily: 'serif', textAlign: 'justify' }}>
+                            {language === 'fr' ? (
+                                <>
+                                    <p style={{ marginBottom: '15px' }}>
+                                        Bienvenue dans ma bibliothèque virtuelle. Ce portfolio explore une nouvelle manière de présenter l'information via la 3D.
+                                    </p>
+                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#C8B8A6' }}>
+                                        <li style={{ marginBottom: '8px' }}><strong>Rotation :</strong> Cliquez et glissez (ou utilisez le tactile) pour tourner la caméra.</li>
+                                        <li style={{ marginBottom: '8px' }}><strong>Exploration :</strong> Cliquez sur les rayons dorés pour vous approcher.</li>
+                                        <li style={{ marginBottom: '8px' }}><strong>Lecture :</strong> Cliquez sur un livre brillant pour découvrir un projet.</li>
+                                    </ul>
+                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#7A614A' }}>
+                                        Vous pouvez basculer vers le Catalogue 2D classique à l'aide du bouton en haut à gauche.
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <p style={{ marginBottom: '15px' }}>
+                                        Welcome to my virtual library. This portfolio explores a new way to present information through 3D.
+                                    </p>
+                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#C8B8A6' }}>
+                                        <li style={{ marginBottom: '8px' }}><strong>Rotation:</strong> Click and drag (or touch) to rotate the camera.</li>
+                                        <li style={{ marginBottom: '8px' }}><strong>Exploration:</strong> Click on the golden sections to move closer.</li>
+                                        <li style={{ marginBottom: '8px' }}><strong>Reading:</strong> Click on a glowing book to discover a project.</li>
+                                    </ul>
+                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#7A614A' }}>
+                                        You can switch to the classic 2D Catalog using the button on the top left.
+                                    </p>
+                                </>
+                            )}
+                        </div>
 
                         {/* Social Links (Mockup for now) */}
                         <div style={{ marginTop: '25px', display: 'flex', justifyContent: 'center', gap: '15px' }}>

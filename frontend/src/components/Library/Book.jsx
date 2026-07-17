@@ -81,8 +81,8 @@ const Book = ({ position, rotation, color, project, onClick, isSelected, isFille
             {/* Tooltip on Hover (Replacing text on spine) */}
             {!isFiller && hovered && (
                 <Html position={[0, 0.5, depth / 2 + 0.1]} center distanceFactor={6} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-                    <div className="px-3 py-2 bg-neutral-900/90 text-gold border border-gold/50 rounded shadow-xl backdrop-blur-sm">
-                        <span className="font-serif text-sm tracking-wider uppercase font-semibold">
+                    <div className="px-3 py-2 bg-[#1a1a1a]/95 text-[#EEE2DF] border border-[#415D43]/50 rounded shadow-xl backdrop-blur-sm">
+                        <span className="font-cinzel text-sm tracking-wider uppercase font-semibold">
                             {project?.title}
                         </span>
                     </div>

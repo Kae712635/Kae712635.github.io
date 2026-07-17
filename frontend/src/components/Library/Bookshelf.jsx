@@ -1,19 +1,16 @@
-import { Text } from '@react-three/drei';
+import React, { useMemo } from 'react';
+import { Text, Float } from '@react-three/drei';
 import Book from './Book';
 import FillerBooks from './FillerBooks';
-import { useMemo } from 'react';
 
 const BOOK_COLORS = [
-    '#38040E', '#1B2E1C', '#0A0A2A', '#1C0F0B', '#2F0808', '#0F1F2F', '#3B1E08', '#000000',
-    '#5D4037', '#4E342E', '#3E2723', '#8D6E63', '#795548', '#6D4C41', // Browns
-    '#880E4F', '#4A148C', '#311B92', '#1A237E', '#0D47A1', '#01579B', // Deep Colors
-    '#004D40', '#1B5E20', '#33691E', '#827717', '#F57F17', '#FF6F00', // Greens/Oranges
-    '#E65100', '#BF360C', '#3E2723', '#263238', '#212121', '#424242'  // Rust/Grey
+    '#353535', '#415D43', '#8A897C', '#B36A5E', '#EEE2DF',
+    '#252525', '#314D33', '#7A796C', '#A35A4E', '#DED2CF',
+    '#454545', '#516D53', '#9A998C', '#C37A6E', '#FEF2EF'
 ];
 
 const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }) => {
-    // No textures - using PBR colors only to avoid GPU texture limit
-
+    // Determine book layouts
     const { fillers, activeBooks } = useMemo(() => {
         const fillers = [];
         const activeBooks = [];
@@ -22,11 +19,12 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
         shelfYPositions.forEach((shelfY, shelfIndex) => {
             // Middle shelf (index 1) contains the actual projects
             const isProjectShelf = shelfIndex === 1;
-            // Top shelf (index 0) and Bottom shelf (index 2) are fillers
 
             const shelfCapacity = 24;
-            const startX = -2.3;
-            const gap = 0.2;
+            // Available width for books
+            const SHELF_WIDTH = 3.6;
+            const startX = -SHELF_WIDTH / 2;
+            const gap = SHELF_WIDTH / shelfCapacity;
 
             const projectCount = projects?.length || 0;
             const startIndex = Math.floor((shelfCapacity - projectCount) / 2);
@@ -48,11 +46,13 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 const colorIndex = (shelfIndex * 100 + i) % BOOK_COLORS.length;
                 const bookColor = BOOK_COLORS[colorIndex];
 
-                // Rotation for fillers
-                const rotationZ = isFiller ? Math.sin((shelfIndex * 100 + i + (name ? name.length * 10 : 0)) * 123.45) * 0.1 : 0;
+                // Rotation and depth for realistic placement
+                const depthOffset = isFiller ? (Math.sin(shelfIndex * 10 + i * 7.3) * 0.04 + Math.cos(i * 3.1) * 0.04) : 0;
+                const rotationY = isFiller ? (Math.sin(i * 12.3) * 0.08) : 0;
+                const rotationZ = isFiller ? Math.sin((shelfIndex * 100 + i + (name ? name.length * 10 : 0)) * 123.45) * 0.05 : 0;
 
-                const pos = [x, shelfY + 0.55, 0];
-                const rot = [0, 0, rotationZ];
+                const pos = [x, shelfY + 0.55, depthOffset];
+                const rot = [0, rotationY, rotationZ];
 
                 if (isFiller) {
                     fillers.push({
@@ -71,84 +71,59 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 }
             }
         });
-
         return { fillers, activeBooks };
     }, [projects, name]);
 
     return (
         <group position={position}>
-            {/* Shelf Structure - Sandblasted Oak with Bevels */}
+            <Float speed={2} rotationIntensity={0.1} floatIntensity={0.5}>
+                {/* JUST THE SHELVES - No heavy backing or pillars */}
+                {/* Bottom */}
+                <mesh position={[0, -1.2, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4, 0.08, 1]} />
+                    <meshStandardMaterial color="#353535" roughness={0.8} metalness={0.0} />
+                </mesh>
+                {/* Middle */}
+                <mesh position={[0, 0, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4, 0.08, 1]} />
+                    <meshStandardMaterial color="#353535" roughness={0.8} metalness={0.0} />
+                </mesh>
+                {/* Top */}
+                <mesh position={[0, 1.25, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4, 0.08, 1]} />
+                    <meshStandardMaterial color="#353535" roughness={0.8} metalness={0.0} />
+                </mesh>
 
-            {/* Main Backing */}
-            <mesh position={[0, 0, -0.4]}>
-                <boxGeometry args={[5, 2.5, 0.2]} />
-                <meshStandardMaterial color="#d4c5a3" roughness={0.8} metalness={0.0} />
-            </mesh>
+                {/* Shelf Label - Floating above */}
+                <Float speed={3} rotationIntensity={0.2} floatIntensity={1} floatingRange={[-0.05, 0.05]}>
+                    <group position={[0, 1.8, 0]}>
+                        <mesh position={[0, 0, 0]}>
+                            <boxGeometry args={[2, 0.25, 0.05]} />
+                            <meshStandardMaterial color="#415D43" metalness={0.1} roughness={0.8} />
+                        </mesh>
+                        <Text position={[0, 0, 0.03]} fontSize={0.14} color="#EEE2DF" font="/fonts/Cinzel-Regular.woff" anchorX="center" letterSpacing={0.05}>
+                            {name ? name.toUpperCase() : ''}
+                        </Text>
+                    </group>
+                </Float>
 
-            {/* Sides with Pillars/Columns effect */}
-            <mesh position={[-2.55, 0, -0.1]}>
-                <boxGeometry args={[0.3, 2.8, 0.4]} />
-                <meshStandardMaterial color="#bfa37e" roughness={0.8} metalness={0.0} />
-            </mesh>
-            <mesh position={[2.55, 0, -0.1]}>
-                <boxGeometry args={[0.3, 2.8, 0.4]} />
-                <meshStandardMaterial color="#bfa37e" roughness={0.8} metalness={0.0} />
-            </mesh>
+                {/* Filler Books (Instanced Mesh) */}
+                <FillerBooks bookData={fillers} />
 
-            {/* Top Cornice (Molding) */}
-            <mesh position={[0, 1.35, -0.3]}>
-                <boxGeometry args={[5.2, 0.3, 0.4]} />
-                <meshStandardMaterial color="#bfa37e" roughness={0.8} metalness={0.0} />
-            </mesh>
-
-            {/* Bottom Baseboard (Molding) */}
-            <mesh position={[0, -1.35, -0.3]}>
-                <boxGeometry args={[5.2, 0.3, 0.4]} />
-                <meshStandardMaterial color="#bfa37e" roughness={0.8} metalness={0.0} />
-            </mesh>
-
-            {/* Shelves - Bevelled Edges */}
-            {/* Bottom */}
-            <mesh position={[0, -1.2, 0]}>
-                <boxGeometry args={[5, 0.1, 1]} />
-                <meshStandardMaterial color="#d4c5a3" roughness={0.8} metalness={0.0} />
-            </mesh>
-            {/* Middle */}
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[5, 0.1, 1]} />
-                <meshStandardMaterial color="#d4c5a3" roughness={0.8} metalness={0.0} />
-            </mesh>
-            {/* Top */}
-            <mesh position={[0, 1.25, 0]}>
-                <boxGeometry args={[5, 0.1, 1]} />
-                <meshStandardMaterial color="#d4c5a3" roughness={0.8} metalness={0.0} />
-            </mesh>
-
-            {/* Shelf Label (Gold Plate) */}
-            <mesh position={[0, 1.35, 0.52]}>
-                <boxGeometry args={[2, 0.25, 0.05]} />
-                <meshStandardMaterial color="#D4AF37" metalness={1} roughness={0.2} /> {/* High Polish Gold */}
-            </mesh>
-            <Text position={[0, 1.35, 0.555]} fontSize={0.14} color="#050505" font="/fonts/Cinzel-Regular.woff" anchorX="center" letterSpacing={0.05}>
-                {name.toUpperCase()}
-            </Text>
-
-            {/* Filler Books (Instanced Mesh) */}
-            <FillerBooks bookData={fillers} />
-
-            {/* Active Project Books (Separate Components) */}
-            {activeBooks.map((book) => (
-                <Book
-                    key={book.key}
-                    position={book.position}
-                    rotation={book.rotation}
-                    color={book.color}
-                    project={book.project}
-                    onClick={() => onProjectClick(book.project)}
-                    isSelected={selectedProject?.id === book.project?.id}
-                    isFiller={false}
-                />
-            ))}
+                {/* Active Project Books (Separate Components) */}
+                {activeBooks.map((book) => (
+                    <Book
+                        key={book.key}
+                        position={book.position}
+                        rotation={book.rotation}
+                        color={book.color}
+                        project={book.project}
+                        onClick={() => onProjectClick(book.project)}
+                        isSelected={selectedProject?.id === book.project?.id}
+                        isFiller={false}
+                    />
+                ))}
+            </Float>
         </group>
     );
 };

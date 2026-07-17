@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Float, Text, useTexture, Sparkles } from '@react-three/drei';
+import { Text, useTexture, Sparkles } from '@react-three/drei';
 import Bookshelf from './Bookshelf';
 import { useProjects } from '../../hooks/useProjects';
 import { useLanguage } from '../../context/LanguageContext';
@@ -23,15 +23,15 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
 
     const categories = Object.keys(projectsByCategory);
 
-    // Trinity College Long Room Parameters (Simplified to Single Hall)
+    // Trinity College Long Room Parameters (Tripled)
     const SECTION_WIDTH = 20;
-    const NUM_SECTIONS = 1;
-    const SECTION_OFFSETS = [0]; // Only Center Hall
-    const ROOM_LENGTH = 60;
-    const ROOM_WIDTH = SECTION_WIDTH * NUM_SECTIONS; // 20
+    const NUM_SECTIONS = 3;
+    const SECTION_OFFSETS = [-20, 0, 20]; // Left, Center, Right Halls
+    const ROOM_LENGTH = 80;
+    const ROOM_WIDTH = SECTION_WIDTH * NUM_SECTIONS; // 60
     const ROOM_HEIGHT = 14;
-    const BAY_WIDTH = 9; // Plus d'espace entre les étagères
-    const NUM_BAYS = 5;
+    const BAY_WIDTH = 6;
+    const NUM_BAYS = 8;
 
     // Generate Bays (Book Section)
     const bays = useMemo(() => {
@@ -49,8 +49,8 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
         const assignments = [];
         const levels = [0, 1]; // 0: Ground, 1: Gallery
 
-        // Determine priority order for categories: Center (0)
-        const sections = [0];
+        // Determine priority order for categories: Center (1), Left (0), Right (2)
+        const sections = [1, 0, 2];
 
         let catIndex = 0;
         let fillerIndex = 1;
@@ -95,8 +95,6 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
         <group>
             {/* Lighting is now handled in Scene.jsx for better control */}
 
-
-
             {/* Magical "Gold Dust" Particles */}
             <Sparkles
                 count={200}
@@ -110,14 +108,15 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
 
             {/* --- ARCHITECTURE --- */}
 
-            {/* Floor - Anthracite */}
+            {/* Floor - Terracotta with realistic PBR properties */}
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, -15]} receiveShadow>
                 <planeGeometry args={[ROOM_WIDTH, ROOM_LENGTH]} />
+                {/* Terracotta floor with varied roughness for realistic light reflection */}
                 <meshStandardMaterial
-                    color="#8A897C" // Khaki/Grey floor
-                    roughness={0.9}
-                    metalness={0.0}
-                    roughnessMap={null}
+                    color="#8B5A2B"
+                    roughness={0.6}      // Higher roughness to prevent washout
+                    metalness={0.05}     // Very slight metallic
+                    roughnessMap={null}  // Could add texture here for variation
                 />
             </mesh>
 
@@ -126,15 +125,15 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                 <mesh receiveShadow>
                     <boxGeometry args={[ROOM_WIDTH, 14, 1]} />
                     <meshStandardMaterial
-                        color="#EEE2DF" // Cream walls
-                        roughness={0.9}
+                        color="#A0522D"
+                        roughness={0.8}
                         metalness={0.0}
                     />
                 </mesh>
                 <mesh position={[0, -2, -0.6]}>
                     <boxGeometry args={[4, 8, 1]} />
                     <meshStandardMaterial
-                        color="#EEE2DF"
+                        color="#5C4033"
                         roughness={0.9}
                         metalness={0.0}
                     />
@@ -149,26 +148,82 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     <group position={[0, ROOM_HEIGHT, -15]}>
                         <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0]} side={THREE.DoubleSide} receiveShadow>
                             <cylinderGeometry args={[SECTION_WIDTH / 2, SECTION_WIDTH / 2, ROOM_LENGTH, 32, 1, true, Math.PI / 2, Math.PI]} />
-                            <meshStandardMaterial color="#EEE2DF" side={THREE.DoubleSide} roughness={0.9} metalness={0} />
+                            <meshStandardMaterial color="#F5DEB3" side={THREE.DoubleSide} roughness={0.9} /> {/* Wheat/Cream Plaster */}
                         </mesh>
+
+                        {/* Ribs - Gold/Brass Accents */}
+                        {bays.map((bay) => (
+                            <group key={`rib-${sectionIdx}-${bay.id}`} position={[0, 0, bay.z - (-15) + BAY_WIDTH / 2]}>
+                                <mesh rotation={[0, 0, 0]} receiveShadow>
+                                    <torusGeometry args={[SECTION_WIDTH / 2 - 0.2, 0.2, 8, 32, Math.PI]} />
+                                    <meshStandardMaterial color="#D4AF37" roughness={0.3} metalness={0.6} />
+                                </mesh>
+                            </group>
+                        ))}
                     </group>
 
-                    {/* Side Walls */}
+                    {/* Side Walls with Arched Windows */}
                     {/* Left Wall of Left Section */}
                     {sectionIdx === 0 && (
-                        <group position={[-SECTION_WIDTH / 2 - 0.5, 7, 3.5]}>
+                        <group position={[-SECTION_WIDTH / 2 + 0.5, 7, 3.5]}>
+                            {/* Wall Mass */}
                             <mesh receiveShadow>
                                 <boxGeometry args={[1, 14, 26]} />
-                                <meshStandardMaterial color="#EEE2DF" metalness={0} roughness={0.9} />
+                                <meshStandardMaterial color="#A0522D" />
+                            </mesh>
+                            {/* Window Simulations (Emissive Panels) - Bright for Bloom */}
+                            <mesh position={[0.6, 2, -5]}>
+                                <planeGeometry args={[0.2, 6, 3]} />
+                                <meshStandardMaterial
+                                    color="#ffffff"
+                                    emissive="#ffffff"
+                                    emissiveIntensity={2.5}  // High intensity for bloom effect
+                                    toneMapped={false}
+                                />
+                            </mesh>
+                            <mesh position={[0.6, 2, 5]}>
+                                <planeGeometry args={[0.2, 6, 3]} />
+                                <meshStandardMaterial
+                                    color="#ffffff"
+                                    emissive="#ffffff"
+                                    emissiveIntensity={2.5}
+                                    toneMapped={false}
+                                />
+                            </mesh>
+
+                            {/* Volumetric Rays (Cones) */}
+                            <mesh position={[5, 0, -5]} rotation={[0, 0, -Math.PI / 3]}>
+                                <coneGeometry args={[2, 15, 32, 1, true]} />
+                                <meshBasicMaterial color="#fff5cc" transparent opacity={0.15} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
+                            </mesh>
+                            <mesh position={[5, 0, 5]} rotation={[0, 0, -Math.PI / 3]}>
+                                <coneGeometry args={[2, 15, 32, 1, true]} />
+                                <meshBasicMaterial color="#fff5cc" transparent opacity={0.15} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
                             </mesh>
                         </group>
                     )}
+
                     {/* Right Wall of Right Section */}
                     {sectionIdx === NUM_SECTIONS - 1 && (
-                        <group position={[SECTION_WIDTH / 2 + 0.5, 7, 3.5]}>
+                        <group position={[SECTION_WIDTH / 2 - 0.5, 7, 3.5]}>
                             <mesh receiveShadow>
                                 <boxGeometry args={[1, 14, 26]} />
-                                <meshStandardMaterial color="#EEE2DF" metalness={0} roughness={0.9} />
+                                <meshStandardMaterial color="#A0522D" />
+                            </mesh>
+                            {/* Windows - Bright for Bloom */}
+                            <mesh position={[-0.6, 2, -5]}>
+                                <planeGeometry args={[0.2, 6, 3]} />
+                                <meshStandardMaterial
+                                    color="#ffffff"
+                                    emissive="#ffffff"
+                                    emissiveIntensity={2.5}
+                                    toneMapped={false}
+                                />
+                            </mesh>
+                            {/* Rays */}
+                            <mesh position={[-5, 0, -5]} rotation={[0, 0, Math.PI / 3]}>
+                                <coneGeometry args={[2, 15, 32, 1, true]} />
+                                <meshBasicMaterial color="#fff5cc" transparent opacity={0.15} side={THREE.DoubleSide} depthWrite={false} blending={THREE.AdditiveBlending} />
                             </mesh>
                         </group>
                     )}
@@ -176,7 +231,17 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     {/* Front Lunette */}
                     <mesh position={[0, 14, 15]}>
                         <circleGeometry args={[10, 32, 0, Math.PI]} />
-                        <meshStandardMaterial color="#EEE2DF" side={THREE.DoubleSide} metalness={0} roughness={0.9} />
+                        <meshStandardMaterial color="#A0522D" side={THREE.DoubleSide} />
+                    </mesh>
+
+                    {/* Gallery floors */}
+                    <mesh position={[-SECTION_WIDTH / 2 + 2, 5, 6.5]} receiveShadow>
+                        <boxGeometry args={[4, 0.4, 17]} />
+                        <meshStandardMaterial color="#8B4513" /> {/* SaddleBrown */}
+                    </mesh>
+                    <mesh position={[SECTION_WIDTH / 2 - 2, 5, 6.5]} receiveShadow>
+                        <boxGeometry args={[4, 0.4, 17]} />
+                        <meshStandardMaterial color="#8B4513" />
                     </mesh>
 
                     {/* Bays */}
@@ -189,54 +254,92 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
 
                         return (
                             <group key={`bay-${sectionIdx}-${bay.id}`} position={[0, 0, bay.z]}>
-                                {/* No heavy pillars in Antigravity */}roup>
+                                {/* Left Side Structure */}
+                                <group position={[-SECTION_WIDTH / 2 + 2, 0, 0]}>
+                                    <mesh position={[2, 7, BAY_WIDTH / 2]} castShadow receiveShadow>
+                                        <boxGeometry args={[1.5, 14, 1.5]} />
+                                        <meshStandardMaterial color="#CD853F" roughness={0.4} /> {/* Peru / Light Oak */}
+                                    </mesh>
+                                    <mesh position={[0, 5, 0]} castShadow receiveShadow>
+                                        <boxGeometry args={[4, 0.4, BAY_WIDTH]} />
+                                        <meshStandardMaterial color="#DEB887" /> {/* Burlywood */}
+                                    </mesh>
+                                    <mesh position={[2, 6, 0]}>
+                                        <boxGeometry args={[0.1, 1.2, BAY_WIDTH - 0.2]} />
+                                        <meshStandardMaterial color="#5C4033" />
+                                    </mesh>
+                                    {sectionIdx === 0 && (
+                                        <mesh position={[-2, 7, 0]}>
+                                            <boxGeometry args={[1, 14, BAY_WIDTH]} />
+                                            <meshStandardMaterial color="#A0522D" />
+                                        </mesh>
+                                    )}
 
-                                {/* Hanging Signs - Free floating in Antigravity */}
-                                {leftAssignment && leftAssignment.cat && (
-                                    <Float speed={2} rotationIntensity={0.5} floatIntensity={2} floatingRange={[-0.2, 0.2]}>
-                                        <group position={[-4, 4.5 + Math.random() * 2, BAY_WIDTH / 2]}>
+                                    {/* Plaque d'information de l'allée (gauche) */}
+                                    {leftAssignment && leftAssignment.cat && (
+                                        <group position={[2, 6.0, -BAY_WIDTH / 2 + 0.76]}>
                                             <mesh castShadow>
-                                                <boxGeometry args={[2.5, 0.6, 0.05]} />
-                                                <meshStandardMaterial color="#415D43" metalness={0.0} roughness={0.8} />
+                                                <boxGeometry args={[3.5, 1.2, 0.04]} />
+                                                <meshStandardMaterial color="#1a100c" metalness={0.4} roughness={0.5} />
                                             </mesh>
                                             <Text
-                                                position={[0, 0, 0.03]}
-                                                fontSize={0.25}
+                                                position={[0, 0, 0.025]}
+                                                fontSize={0.35}
+                                                color="#FFD700" // Doré brillant
                                                 font="/fonts/Cinzel-Regular.woff"
                                                 anchorX="center"
                                                 anchorY="middle"
-                                                maxWidth={2.3}
+                                                maxWidth={3.2}
                                                 textAlign="center"
-                                                color="#EEE2DF" // Texte crème
                                             >
                                                 {leftAssignment.cat.toUpperCase()}
                                             </Text>
                                         </group>
-                                    </Float>
-                                )}
+                                    )}
+                                </group>
+                                {/* Right Side Structure */}
+                                <group position={[SECTION_WIDTH / 2 - 2, 0, 0]}>
+                                    <mesh position={[-2, 7, BAY_WIDTH / 2]} castShadow receiveShadow>
+                                        <boxGeometry args={[1.5, 14, 1.5]} />
+                                        <meshStandardMaterial color="#CD853F" roughness={0.4} />
+                                    </mesh>
+                                    <mesh position={[0, 5, 0]} castShadow receiveShadow>
+                                        <boxGeometry args={[4, 0.4, BAY_WIDTH]} />
+                                        <meshStandardMaterial color="#DEB887" />
+                                    </mesh>
+                                    <mesh position={[-2, 6, 0]}>
+                                        <boxGeometry args={[0.1, 1.2, BAY_WIDTH - 0.2]} />
+                                        <meshStandardMaterial color="#5C4033" />
+                                    </mesh>
+                                    {sectionIdx === NUM_SECTIONS - 1 && (
+                                        <mesh position={[2, 7, 0]}>
+                                            <boxGeometry args={[1, 14, BAY_WIDTH]} />
+                                            <meshStandardMaterial color="#A0522D" />
+                                        </mesh>
+                                    )}
 
-                                {rightAssignment && rightAssignment.cat && (
-                                    <Float speed={2} rotationIntensity={0.5} floatIntensity={2} floatingRange={[-0.2, 0.2]}>
-                                        <group position={[4, 4.5 + Math.random() * 2, BAY_WIDTH / 2]}>
+                                    {/* Plaque d'information de l'allée (droite) */}
+                                    {rightAssignment && rightAssignment.cat && (
+                                        <group position={[-2, 6.0, -BAY_WIDTH / 2 + 0.76]}>
                                             <mesh castShadow>
-                                                <boxGeometry args={[2.5, 0.6, 0.05]} />
-                                                <meshStandardMaterial color="#415D43" metalness={0.0} roughness={0.8} />
+                                                <boxGeometry args={[3.5, 1.2, 0.04]} />
+                                                <meshStandardMaterial color="#1a100c" metalness={0.4} roughness={0.5} />
                                             </mesh>
                                             <Text
-                                                position={[0, 0, 0.03]}
-                                                fontSize={0.25}
+                                                position={[0, 0, 0.025]}
+                                                fontSize={0.35}
+                                                color="#FFD700" // Doré brillant
                                                 font="/fonts/Cinzel-Regular.woff"
                                                 anchorX="center"
                                                 anchorY="middle"
-                                                maxWidth={2.3}
+                                                maxWidth={3.2}
                                                 textAlign="center"
-                                                color="#EEE2DF" // Texte crème
                                             >
                                                 {rightAssignment.cat.toUpperCase()}
                                             </Text>
                                         </group>
-                                    </Float>
-                                )}
+                                    )}
+                                </group>
 
                                 {/* Busts/Statues */}
                                 <group position={[-3.5, 0, BAY_WIDTH / 2]} scale={0.8}>
@@ -309,47 +412,46 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     <group position={[0, 0, bays[bays.length - 1].z - 6]}>
                         <mesh position={[0, 7, 0]} receiveShadow>
                             <boxGeometry args={[SECTION_WIDTH, 14, 1]} />
-                            <meshStandardMaterial color="#5C4033" />
+                            <meshStandardMaterial color="#A0522D" />
                         </mesh>
                         {/* Lunette */}
                         <mesh position={[0, 14, 0]}>
                             <circleGeometry args={[10, 32, 0, Math.PI]} />
-                            <meshStandardMaterial color="#5C4033" side={THREE.DoubleSide} />
+                            <meshStandardMaterial color="#A0522D" side={THREE.DoubleSide} />
                         </mesh>
                     </group>
                 </group>
             ))}
 
 
-            {/* --- BOOKSHELVES (Antigravity Random Placement) --- */}
+            {/* --- BOOKSHELVES --- */}
             {shelfAssignments.map((assignment, i) => {
                 const bayZ = bays.find(b => b.id === assignment.bayIndex).z;
                 const sectionX = SECTION_OFFSETS[assignment.sectionIdx];
-                // Randomize positions in the air
-                const randomXOffset = (Math.random() - 0.5) * 3;
-                const randomYOffset = Math.random() * 6 + 1; // Float between y=1 and y=7
-                const localX = assignment.side === 'left' ? -5.5 + randomXOffset : 5.5 + randomXOffset;
+                const localX = assignment.side === 'left'
+                    ? (assignment.level === 0 ? -9.2 : -7.5)
+                    : (assignment.level === 0 ? 9.2 : 7.5);
                 const xPos = sectionX + localX;
-                const yPos = randomYOffset;
+                const yPos = assignment.level === 0 ? 0 : 5;
 
-                // Random slight tilt for true antigravity feel
-                const randomTiltX = (Math.random() - 0.5) * 0.2;
-                const randomTiltZ = (Math.random() - 0.5) * 0.2;
-
+                // Ground Floor (level 0): Use Alcove format (Two shelves facing inward)
+                // Gallery (level 1): Keep original layout (Parallel to wall)
                 if (assignment.level === 0) {
                     return (
                         <group key={`shelf-${i}`}>
-                            <group position={[xPos, yPos, bayZ - 2.1]} rotation={[randomTiltX, 0, randomTiltZ]}>
+                            {/* Shelf 1: Back of Bay, Facing +Z (Toward Camera) */}
+                            <group position={[xPos, yPos, bayZ - 2.1]} rotation={[0, 0, 0]}>
                                 <Bookshelf
-                                    name={assignment.cat || assignment.labelString}
+                                    name={assignment.cat ? (t(assignment.cat.toLowerCase()) || assignment.cat) : assignment.labelString}
                                     projects={assignment.cat ? projectsByCategory[assignment.cat] : []}
                                     onProjectClick={onProjectClick}
                                     selectedProject={selectedProject}
                                 />
                             </group>
-                            <group position={[xPos + (Math.random() - 0.5)*2, yPos + (Math.random()-0.5)*4, bayZ + 2.1]} rotation={[randomTiltX, Math.PI, randomTiltZ]}>
+                            {/* Shelf 2: Front of Bay, Facing -Z (Toward Back of Room) */}
+                            <group position={[xPos, yPos, bayZ + 2.1]} rotation={[0, Math.PI, 0]}>
                                 <Bookshelf
-                                    name={assignment.cat || assignment.labelString}
+                                    name={assignment.cat ? (t(assignment.cat.toLowerCase()) || assignment.cat) : assignment.labelString}
                                     projects={assignment.cat ? projectsByCategory[assignment.cat] : []}
                                     onProjectClick={onProjectClick}
                                     selectedProject={selectedProject}
@@ -359,15 +461,15 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     );
                 }
 
-                // Gallery Logic - also random floating
-                const shelfRotation = [randomTiltX, assignment.side === 'left' ? -Math.PI / 2 : Math.PI / 2, randomTiltZ];
-                const shelfOffset = [assignment.side === 'left' ? 1.75 : -1.75, 0, 0];
+                // Gallery Logic
+                const shelfRotation = [0, assignment.side === 'left' ? -Math.PI / 2 : Math.PI / 2, 0];
+                const shelfOffset = [assignment.side === 'left' ? -0.5 : 0.5, 0, 0];
 
                 return (
-                    <group key={`shelf-${i}`} position={[xPos, yPos + 3, bayZ + BAY_WIDTH / 2]} rotation={[0, 0, 0]}>
+                    <group key={`shelf-${i}`} position={[xPos, yPos, bayZ]} rotation={[0, assignment.side === 'left' ? 0 : 0, 0]}>
                         <group rotation={shelfRotation} position={shelfOffset}>
                             <Bookshelf
-                                name={assignment.cat || assignment.labelString}
+                                name={assignment.cat ? (t(assignment.cat.toLowerCase()) || assignment.cat) : assignment.labelString}
                                 projects={assignment.cat ? projectsByCategory[assignment.cat] : []}
                                 onProjectClick={onProjectClick}
                                 selectedProject={selectedProject}
@@ -376,8 +478,6 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     </group>
                 );
             })}
-
-            {/* --- FLOATING CV IN CENTER REMOVED --- */}
 
             {/* --- SIGNAGE REMOVED --- */}
             {/* Les panneaux suspendus ont été retirés pour épurer la vue et éviter les chevauchements de texte, mettant en valeur l'architecture de la bibliothèque. */}
@@ -394,14 +494,14 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                 {/* Gold Trim */}
                 <mesh position={[0, 1, 0.76]} >
                     <boxGeometry args={[2.8, 0.1, 0.1]} />
-                    <meshStandardMaterial color="#8A897C" metalness={1} roughness={0.1} />
+                    <meshStandardMaterial color="#D4AF37" metalness={1} roughness={0.1} />
                 </mesh>
 
                 {/* Avatar Frame - Baroque Gold Frame */}
                 <group position={[0, 2.5, -0.5]}>
                     <mesh position={[0, 0, 0]} castShadow>
                         <torusGeometry args={[0.6, 0.08, 16, 100]} />
-                        <meshStandardMaterial color="#8A897C" metalness={1} roughness={0.2} />
+                        <meshStandardMaterial color="#D4AF37" metalness={1} roughness={0.2} />
                     </mesh>
                     <mesh position={[0, 0, 0]} receiveShadow>
                         <circleGeometry args={[0.55, 64]} />
@@ -415,9 +515,9 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     </mesh>
                     <mesh position={[0, -0.75, 0]} castShadow>
                         <boxGeometry args={[0.8, 0.05, 0.4]} />
-                        <meshStandardMaterial color="#8A897C" metalness={0.8} roughness={0.2} />
+                        <meshStandardMaterial color="#D4AF37" metalness={0.8} roughness={0.2} />
                     </mesh>
-                    <Text position={[0, -0.9, 0]} fontSize={0.18} color="#8A897C" font="/fonts/Cinzel-Regular.woff" anchorX="center">
+                    <Text position={[0, -0.9, 0]} fontSize={0.18} color="#D4AF37" font="/fonts/Cinzel-Regular.woff" anchorX="center">
                         Klervi Choblet
                     </Text>
                     <Text position={[0, -1.2, 0]} fontSize={0.12} color="#cca" font="/fonts/Cinzel-Regular.woff" anchorX="center">
@@ -429,7 +529,7 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                 <group position={[-1, 2.05, 0.5]} onClick={(e) => { e.stopPropagation(); window.location.href = "mailto:klervi.choblet+portfolio@gmail.com"; }}>
                     <mesh rotation={[-Math.PI / 2, 0, 0]}>
                         <boxGeometry args={[0.8, 0.4, 0.05]} />
-                        <meshStandardMaterial color="#8A897C" metalness={0.8} />
+                        <meshStandardMaterial color="#D4AF37" metalness={0.8} />
                     </mesh>
                     <Text position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.12} color="#2b1b17" font="/fonts/Cinzel-Regular.woff">Contact Me</Text>
                 </group>
@@ -441,7 +541,7 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     <boxGeometry args={[2, 2, 1]} />
                     <meshStandardMaterial color="#3E2723" roughness={0.1} />
                 </mesh>
-                <Text position={[0, 2.5, 0]} fontSize={0.3} color="#8A897C" font="/fonts/Cinzel-Regular.woff" anchorX="center">
+                <Text position={[0, 2.5, 0]} fontSize={0.3} color="#D4AF37" font="/fonts/Cinzel-Regular.woff" anchorX="center">
                     Language
                 </Text>
 

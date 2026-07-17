@@ -9,22 +9,37 @@
 }
 
 @theme {
-  /* Variables Premium Minimaliste (Dark Mode Élégant) */
-  --color-primary: #ffffff;
-  --color-secondary: #a0a0a0;
-  --color-accent: #d4af37; /* Accent doré subtil pour rester cohérent avec le site */
-  --color-bg: #0a0705;
-  --color-card-bg: rgba(255, 255, 255, 0.03); /* Verre dépoli très léger pour laisser passer les lumières */
-  
-  --shadow-subtle: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 175, 55, 0.2);
-  --border-light: 1px solid rgba(255, 255, 255, 0.08);
-  --border-hover: 1px solid rgba(255, 255, 255, 0.2);
-  
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  /* ── Palette Bibliothèque Éditoriale ─────────────────────────────── */
+  --color-cream:   #EEE2DF; /* Crème de Papier — fond principal 2D    */
+  --color-graphite:#353535; /* Graphite — texte, structure             */
+  --color-green:   #415D43; /* Vert Bibliothèque — accent principal    */
+  --color-olive:   #8A897C; /* Olive — bordures fines, détails         */
+  --color-bronze:  #B36A5E; /* Bronze — CTA, micro-éléments            */
+
+  /* Dérivés utiles */
+  --color-cream-dark:  #D9CCC8;
+  --color-cream-light: #F5EFED;
+  --color-green-dark:  #2E4330;
+  --color-green-light: #5A7D5C;
+  --color-bronze-dark: #8A4C43;
+
+  /* Système générique */
+  --color-bg:       var(--color-cream);
+  --color-primary:  var(--color-graphite);
+  --color-accent:   var(--color-green);
+  --color-muted:    var(--color-olive);
+  --color-cta:      var(--color-bronze);
+
+  --shadow-subtle: 0 4px 24px rgba(53,53,53,0.08);
+  --shadow-hover:  0 8px 32px rgba(53,53,53,0.15), 0 0 0 1px rgba(65,93,67,0.2);
+  --border-light:  1px solid rgba(138,137,124,0.25);
+  --border-hover:  1px solid rgba(65,93,67,0.5);
+
+  --font-heading: 'Cinzel', serif;
+  --font-body:    'Inter', sans-serif;
   --font-display: 'Cinzel', serif;
-  
+  --font-cinzel:  'Cinzel', serif;
+
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
@@ -42,96 +57,79 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 }
 
 @layer components {
-  /* Boutons Premium */
-  .btn-premium {
-    @apply inline-flex items-center justify-center px-6 py-2.5 text-[13px] font-medium tracking-wide transition-all duration-300;
-    color: var(--color-primary);
-    background: rgba(255, 255, 255, 0.03);
-    border: var(--border-light);
-    border-radius: 6px;
-    backdrop-filter: blur(8px);
-  }
-
-  .btn-premium:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border: var(--border-hover);
-    transform: translateY(-1px);
-  }
-
-  .btn-premium-primary {
-    @apply inline-flex items-center justify-center px-6 py-2.5 text-[13px] font-medium tracking-wide transition-all duration-300;
-    color: #000;
-    background: var(--color-primary);
-    border: 1px solid transparent;
-    border-radius: 6px;
-  }
-
-  .btn-premium-primary:hover {
-    background: #e0e0e0;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
-  }
-
-  /* Tags Techniques */
-  .tech-badge {
-    @apply inline-block text-[11px] font-medium tracking-wide px-3 py-1 mr-2 mb-2 transition-colors duration-300;
-    color: var(--color-secondary);
-    background: rgba(255, 255, 255, 0.02);
-    border: var(--border-light);
+  /* Boutons */
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
+    color: var(--color-graphite);
+    background: transparent;
+    border: 1px solid var(--color-olive);
     border-radius: 4px;
   }
-  
-  .tech-badge:hover {
-    color: var(--color-primary);
-    background: rgba(255, 255, 255, 0.05);
-    border: var(--border-hover);
+  .btn-outline:hover {
+    border-color: var(--color-green);
+    color: var(--color-green);
+    background: rgba(65,93,67,0.06);
   }
 
-  /* Filtres Élégants */
-  .filter-pill {
-    @apply px-5 py-2 text-[13px] font-medium transition-all duration-300 cursor-pointer select-none whitespace-nowrap;
-    color: var(--color-secondary);
-    background: transparent;
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
+    color: #fff;
+    background: var(--color-green);
     border: 1px solid transparent;
-    border-radius: 20px;
+    border-radius: 4px;
+  }
+  .btn-primary:hover {
+    background: var(--color-green-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(65,93,67,0.3);
   }
 
-  .filter-pill:hover {
-    color: var(--color-primary);
+  .btn-cta {
+    @apply inline-flex items-center justify-center px-7 py-3 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
+    color: #fff;
+    background: var(--color-bronze);
+    border-radius: 99px;
+  }
+  .btn-cta:hover {
+    background: var(--color-bronze-dark);
+    box-shadow: 0 4px 16px rgba(179,106,94,0.35);
   }
 
-  .filter-pill.active {
-    color: var(--color-primary);
-    background: rgba(255, 255, 255, 0.08);
-    border: var(--border-light);
+  /* Badge / Tag */
+  .tag {
+    @apply inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1;
+    color: var(--color-green);
+    background: rgba(65,93,67,0.1);
+    border: 1px solid rgba(65,93,67,0.25);
+    border-radius: 3px;
   }
-  
-  /* Utilities */
-  .glass-panel {
-    background: var(--color-card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+
+  /* Card */
+  .card {
+    background: var(--color-cream-light);
     border: var(--border-light);
+    border-radius: 8px;
+    box-shadow: var(--shadow-subtle);
+    transition: box-shadow 0.2s, transform 0.2s;
   }
-  
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
   /* Scrollbar discrète */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(138,137,124,0.35);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(138,137,124,0.6);
   }
 }

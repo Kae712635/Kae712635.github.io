@@ -7,8 +7,13 @@ import { damp3 } from 'maath/easing';
 import Library from '../Library/Library';
 import HUD from '../Interface/HUD';
 import ProjectOverlay from '../Interface/ProjectOverlay';
-
 import KeyboardControls from './KeyboardControls';
+
+// Détecte prefers-reduced-motion
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
 
 const CameraController = ({ view, selectedProject }) => {
     const { camera, controls } = useThree();
@@ -47,12 +52,18 @@ const CameraController = ({ view, selectedProject }) => {
             targetLookAt = [0, -10, 5];
         }
 
-        // Smoothly animate camera position
-        damp3(state.camera.position, targetPos, 0.5, delta);
+        // Smoothly animate camera position (désactivé si reduced-motion)
+        if (prefersReducedMotion) {
+            state.camera.position.set(...targetPos);
+            if (controls) controls.target.set(...targetLookAt);
+            setIsAnimating(false);
+            return;
+        }
+        damp3(state.camera.position, targetPos, 0.3, delta);
 
         // Smoothly animate OrbitControls target if it exists, otherwise lookAt
         if (controls) {
-            damp3(controls.target, targetLookAt, 0.5, delta);
+            damp3(controls.target, targetLookAt, 0.3, delta);
         }
     });
 
@@ -90,30 +101,28 @@ const Scene = ({ children }) => {
 
             <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }}>
                 <Canvas 
-                    shadows 
-                    camera={{ position: [0, 1.6, 12], fov: 50 }}
+                    shadows={{ type: THREE.PCFSoftShadowMap }}
+                    camera={{ position: [0, 1.6, 12], fov: 45 }}
                     dpr={[1, 1.5]} 
                     performance={{ min: 0.5 }}
                 >
-                    <color attach="background" args={['#ffecce']} /> {/* Warm golden sunlight background */}
+                    <color attach="background" args={['#EEE2DF']} /> {/* Fond clair */}
 
-                    {/* Lighting Setup */}
-                    <ambientLight intensity={0.6} color="#ffeebb" /> {/* High warm ambient */}
-                    {/* Sun Light (Directional) simulating God Rays source from side/top */}
+                    {/* Lighting Setup - Bright Library */}
+                    <ambientLight intensity={1.0} color="#ffffff" />
                     <directionalLight
                         position={[-15, 20, 10]}
-                        intensity={2}
-                        color="#fff0dd"
+                        intensity={1.0}
+                        color="#fff5e6" // Warm sun
                         castShadow
                         shadow-mapSize-width={2048}
                         shadow-mapSize-height={2048}
-                        shadow-bias={-0.0001}
+                        shadow-bias={-0.0005}
                     />
-                    <pointLight
-                        position={[10, 15, 10]}
-                        intensity={0.5}
-                        color="#ffaa00"
-                    />
+                    {/* Spotlights pour l'allée centrale */}
+                    <spotLight position={[0, 15, -10]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
+                    <spotLight position={[0, 15, 10]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
+                    <spotLight position={[0, 15, 0]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
 
                     <Suspense fallback={null}>
                         <Library

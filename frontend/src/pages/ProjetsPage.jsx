@@ -6,6 +6,8 @@ import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
 import { useProjects } from "../hooks/useProjects";
 
+const CV_PATH = "/documents/CV_Klervi_Choblet.pdf";
+
 export default function ProjetsPage() {
   const { t, language } = useLanguage();
   const { projects: allProjects, loading } = useProjects();
@@ -16,25 +18,28 @@ export default function ProjetsPage() {
   const [visibleCount, setVisibleCount] = useState(9);
   const [activeTab, setActiveTab] = useState('projets'); // 'projets' | 'apropos' | 'contact'
 
-  // Extraire les catégories uniques pour les filtres
-  const categories = useMemo(() => {
-    const cats = new Set();
-    allProjects.forEach(p => {
-      const pCats = Array.isArray(p.category) ? p.category : [p.category];
-      pCats.forEach(c => cats.add(c));
-    });
-    return ["Tout", ...Array.from(cats).sort()];
-  }, [allProjects]);
+  // Catégories consolidées pour les filtres (5 max)
+  const FILTER_GROUPS = [
+    { id: 'Tout', label: language === 'fr' ? 'Tout' : 'All' },
+    { id: 'Logiciel', label: 'Logiciel' },
+    { id: 'Web', label: 'Web & Fullstack' },
+    { id: 'IA & Data', label: 'IA & Data' },
+    { id: 'Infrastructure & Systèmes', label: 'Infrastructure' },
+  ];
+
+  // Mapping des catégories JSON vers les groupes
+  function matchesFilter(project, filterId) {
+    if (filterId === 'Tout') return true;
+    const pCats = Array.isArray(project.category) ? project.category : [project.category];
+    if (filterId === 'Logiciel') return pCats.some(c => c === 'Logiciel' || c === 'Algorithmique');
+    if (filterId === 'Web') return pCats.some(c => c.toLowerCase().includes('web') || c.toLowerCase().includes('fullstack') || c.toLowerCase().includes('interface'));
+    if (filterId === 'IA & Data') return pCats.some(c => c.toLowerCase().includes('ia') || c.toLowerCase().includes('data') || c.toLowerCase().includes('intelligence') || c.toLowerCase().includes('algorithmi'));
+    if (filterId === 'Infrastructure & Systèmes') return pCats.some(c => c.toLowerCase().includes('infra') || c.toLowerCase().includes('syst') || c.toLowerCase().includes('réseau') || c.toLowerCase().includes('bdd'));
+    return pCats.includes(filterId);
+  }
 
   const filteredProjects = useMemo(() => {
-    let result = activeFilter === "Tout" 
-      ? [...allProjects] 
-      : allProjects.filter(p => {
-          const pCats = Array.isArray(p.category) ? p.category : [p.category];
-          return pCats.includes(activeFilter);
-        });
-
-    // Tri par date décroissante (plus récent en premier) si disponible
+    let result = allProjects.filter(p => matchesFilter(p, activeFilter));
     return result.sort((a, b) => {
       if (!a.date) return 1;
       if (!b.date) return -1;
@@ -88,69 +93,140 @@ export default function ProjetsPage() {
   ];
 
   return (
-    <section className="relative min-h-screen py-24 px-6 md:px-12 overflow-hidden bg-black bg-[url('/img/projets/background.png')] bg-cover bg-center bg-fixed">
-      {/* Overlay sombre pour la lisibilité */}
-      <div className="absolute inset-0 bg-[#0c0a09]/60 backdrop-blur-[1px]"></div>
-      
-      {/* Bouton de retour vers la Bibliothèque 3D */}
-      <div className="absolute top-6 left-6 md:top-8 md:left-8 z-50">
+    <section className="relative min-h-screen overflow-hidden bg-[#1e1d1b]">
+      {/* Texture sombre subtile */}
+      <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
+
+      {/* STICKY BAR — GitHub / CV / Contact */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-[#1e1d1b]/95 backdrop-blur-lg border-b border-[#EEE2DF]/10 shadow-sm">
+        {/* Left: retour 3D */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#7A614A] bg-[#3B2A1E]/80 text-[#E0C89F] hover:bg-[#5A4638] hover:text-[#FDF5E6] hover:scale-105 transition-all duration-300 font-bold tracking-widest uppercase text-sm backdrop-blur-md shadow-[0_0_15px_rgba(122,97,74,0.3)]"
+          className="hidden md:flex items-center gap-2 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-widest uppercase"
         >
-          <span className="text-xl">🏛️</span>
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
           {language === 'fr' ? 'Bibliothèque 3D' : '3D Library'}
         </button>
+
+        {/* Center: identity */}
+        <span className="font-cinzel text-[#EEE2DF] text-xs md:text-sm tracking-widest uppercase font-bold">
+          Klervi Choblet
+        </span>
+
+        {/* Right: links */}
+        <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/Kae712635/"
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-wider uppercase"
+            aria-label="GitHub"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </a>
+          <span className="text-[#D9CCC8]" aria-hidden>|</span>
+          <a
+            href={CV_PATH}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-wider uppercase"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            CV
+          </a>
+          <span className="text-[#D9CCC8]" aria-hidden>|</span>
+          <button
+            onClick={() => setActiveTab('contact')}
+            className="flex items-center gap-1.5 text-[#B36A5E] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-wider uppercase font-bold"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            Contact
+          </button>
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header Élégant */}
-        <header className="text-center mb-16 max-w-4xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10 pt-28 pb-16 px-6 md:px-12">
+        {/* HERO — Point focal unique */}
+        <header className="text-center mb-16 max-w-3xl mx-auto" id="hero">
           <motion.span
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block py-1.5 px-6 rounded-full border border-[#7A614A] bg-[#3B2A1E]/80 text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#E0C89F] mb-6 uppercase shadow-lg backdrop-blur-sm"
+            className="text-[#8A897C] text-xs md:text-sm tracking-[0.2em] font-cinzel mb-4 block"
           >
-            {language === 'fr' ? 'Archive Numérique v2.0' : 'Digital Archive v2.0'}
+            {language === 'fr' ? 'Le Catalogue · Archive Numérique' : 'The Catalog · Digital Archive'}
           </motion.span>
 
-          <motion.h2 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-cinzel text-[#FDF5E6] tracking-wide mb-6 drop-shadow-2xl uppercase"
+            transition={{ delay: 0.05 }}
+            className="text-4xl md:text-6xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-4 uppercase leading-tight"
           >
-            {language === 'fr' ? 'LE CATALOGUE' : 'THE CATALOG'}
-          </motion.h2>
+            {language === 'fr' ? 'Ingénieure Logicielle' : 'Software Engineer'}<br/>
+            <span className="text-[#415D43] drop-shadow-sm">
+              {language === 'fr' ? '& Développeuse' : '& Developer'}
+            </span>
+            <br />
+            <span className="text-[#415D43] drop-shadow-sm">Fullstack</span>
+          </motion.h1>
 
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-[#C8B8A6] font-serif leading-relaxed max-w-2xl mx-auto"
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="flex items-center justify-center gap-4 mt-8 flex-wrap"
           >
-            {t?.section?.projectsIntro || "Une sélection méticuleuse de travaux d'ingénierie, d'explorations algorithmiques et de conceptions d'interfaces."}
-          </motion.p>
+            <button
+              onClick={() => setActiveTab('projets')}
+              className="px-7 py-3 rounded-full bg-[#415D43] text-white font-cinzel font-bold text-sm tracking-widest uppercase hover:bg-[#2E4330] transition-all duration-200 shadow-[0_4px_16px_rgba(65,93,67,0.3)]"
+            >
+              <span className="relative z-10 text-white group-hover:text-[#F5EFED] transition-colors">
+                {language === 'fr' ? 'Voir les projets' : 'View Projects'}
+              </span>
+            </button>
+            <a
+              href={CV_PATH}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-3 rounded-full border border-[#8A897C]/50 text-[#EEE2DF] font-cinzel tracking-wider text-sm hover:bg-[#8A897C]/10 transition-colors"
+            >
+              {language === 'fr' ? 'Télécharger le CV' : 'Download Resume'}
+            </a>
+          </motion.div>
         </header>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center items-center mb-16 relative z-20">
-          <div className="bg-[#15100C]/80 border border-[#3B2A1E]/80 rounded-full p-1.5 backdrop-blur-md flex gap-2 shadow-[0_5px_15px_rgba(0,0,0,0.5)]">
+        <div className="flex justify-center items-center mb-10 relative z-20">
+          <div className="bg-[#1e1d1b]/80 border border-[#8A897C]/30 rounded-full p-1.5 backdrop-blur-md flex gap-2 shadow-sm">
             {[
-              { id: 'projets', label: language === 'fr' ? 'Archives' : 'Archives', icon: '📜' },
-              { id: 'apropos', label: language === 'fr' ? "L'Architecte" : 'The Architect', icon: '👤' },
-              { id: 'contact', label: language === 'fr' ? 'Correspondance' : 'Correspondence', icon: '✉️' }
+              { id: 'projets', label: language === 'fr' ? 'Projets' : 'Projects', icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> },
+              { id: 'apropos', label: language === 'fr' ? 'À propos / CV' : 'About / Resume', icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
+              { id: 'contact', label: 'Contact', icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-2.5 rounded-full text-sm font-cinzel tracking-widest transition-all duration-300 flex items-center gap-2 ${
+                className={`px-6 py-2.5 rounded-full text-sm font-cinzel tracking-widest transition-all duration-200 flex items-center gap-2 ${
                   activeTab === tab.id 
-                    ? 'bg-[#3B2A1E] text-[#E0C89F] shadow-inner border border-[#7A614A]' 
-                    : 'text-[#8C745C] hover:text-[#C8B8A6] border border-transparent'
+                    ? tab.id === 'contact'
+                        ? 'bg-[#B36A5E] text-white font-bold shadow-sm border border-[#B36A5E]'
+                        : 'bg-[#415D43] text-white shadow-sm border border-[#415D43]'
+                    : tab.id === 'contact'
+                        ? 'text-[#B36A5E] border border-[#B36A5E]/40 hover:bg-[#B36A5E]/10'
+                        : 'text-[#8A897C] hover:text-[#EEE2DF] border border-transparent hover:border-[#8A897C]/30'
                 }`}
               >
-                <span className="text-base">{tab.icon}</span>
+                <span className="flex items-center justify-center">{tab.icon}</span>
                 {tab.label}
               </button>
             ))}
@@ -164,25 +240,26 @@ export default function ProjetsPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
           >
-            <div className="flex flex-wrap justify-center gap-3 mb-16 relative z-20">
-              {categories.map((cat, idx) => (
+            {/* Filtres consolidés */}
+            <div className="inline-flex flex-wrap justify-center gap-2 p-2 bg-[#2c2b28]/80 backdrop-blur-md rounded-full shadow-lg border border-[#8A897C]/20 mb-10 w-full md:w-auto mx-auto flex items-center justify-center">
+              {FILTER_GROUPS.map(({ id, label }) => (
                 <button
-                  key={cat}
-                  onClick={() => handleFilterChange(cat)}
-                  className={`px-5 py-1.5 rounded-full text-[13px] font-medium transition-all duration-300 border backdrop-blur-sm ${
-                    activeFilter === cat 
-                      ? 'bg-[#5A4638] border-[#8C745C] text-[#FDF5E6] shadow-lg' 
-                      : 'bg-black/60 border-white/20 text-[#D0C0B0] hover:bg-[#3F2B20]/80 hover:text-white hover:border-[#8C745C]/60'
+                  key={id}
+                  onClick={() => handleFilterChange(id)}
+                  className={`px-5 py-1.5 rounded-full text-[13px] font-cinzel tracking-wide transition-all duration-200 ${
+                    activeFilter === id 
+                      ? 'bg-[#415D43] border-[#415D43] text-white shadow-sm' 
+                      : 'text-[#8A897C] hover:text-[#EEE2DF] hover:bg-[#8A897C]/10'
                   }`}
                 >
-                  {cat}
+                  {label}
                 </button>
               ))}
             </div>
 
         {loading ? (
           <div className="flex justify-center items-center py-32">
-            <div className="w-8 h-8 border-2 border-gold/20 border-t-gold rounded-full animate-spin"></div>
+            <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
           </div>
         ) : (
           <>
@@ -256,6 +333,16 @@ export default function ProjetsPage() {
                     ? "Ingénieure logicielle passionnée par la conception de systèmes complexes, l'optimisation algorithmique et les interfaces immersives. Je combine une rigueur mathématique avec une créativité technique pour donner vie à des architectures robustes et des expériences visuelles saisissantes."
                     : "Software engineer passionate about designing complex systems, algorithmic optimization, and immersive interfaces. I combine mathematical rigor with technical creativity to bring robust architectures and striking visual experiences to life."}
                 </p>
+                <a 
+                  href={CV_PATH}
+                  download 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="mt-2 px-8 py-3 bg-[#3B2A1E] hover:bg-[#5A4638] text-[#E0C89F] border border-[#7A614A] rounded-full font-cinzel tracking-widest uppercase text-sm transition-all hover:scale-105 shadow-[0_5px_15px_rgba(0,0,0,0.4)] flex items-center gap-3"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                  {language === 'fr' ? 'Télécharger mon CV' : 'Download Resume'}
+                </a>
               </div>
 
               {/* Compétences */}
