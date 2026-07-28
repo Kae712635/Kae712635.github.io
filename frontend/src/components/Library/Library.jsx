@@ -321,25 +321,22 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
             ))}
 
 
-            {/* --- BOOKSHELVES (Antigravity Random Placement) --- */}
+            {/* --- BOOKSHELVES (Grounded Placement) --- */}
             {shelfAssignments.map((assignment, i) => {
                 const bayZ = bays.find(b => b.id === assignment.bayIndex).z;
                 const sectionX = SECTION_OFFSETS[assignment.sectionIdx];
-                // Randomize positions in the air
-                const randomXOffset = (Math.random() - 0.5) * 3;
-                const randomYOffset = Math.random() * 6 + 1; // Float between y=1 and y=7
-                const localX = assignment.side === 'left' ? -5.5 + randomXOffset : 5.5 + randomXOffset;
+                
+                // Stable positions on the floor
+                const localX = assignment.side === 'left' ? -6.5 : 6.5;
                 const xPos = sectionX + localX;
-                const yPos = randomYOffset;
-
-                // Random slight tilt for true antigravity feel
-                const randomTiltX = (Math.random() - 0.5) * 0.2;
-                const randomTiltZ = (Math.random() - 0.5) * 0.2;
+                
+                // Base Y position so the bottom shelf (at y=-1.2) sits nicely above the floor
+                const yPos = 1.25; 
 
                 if (assignment.level === 0) {
                     return (
                         <group key={`shelf-${i}`}>
-                            <group position={[xPos, yPos, bayZ - 2.1]} rotation={[randomTiltX, 0, randomTiltZ]}>
+                            <group position={[xPos, yPos, bayZ - 2.1]} rotation={[0, 0, 0]}>
                                 <Bookshelf
                                     name={assignment.cat || assignment.labelString}
                                     projects={assignment.cat ? projectsByCategory[assignment.cat] : []}
@@ -347,7 +344,7 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                                     selectedProject={selectedProject}
                                 />
                             </group>
-                            <group position={[xPos + (Math.random() - 0.5)*2, yPos + (Math.random()-0.5)*4, bayZ + 2.1]} rotation={[randomTiltX, Math.PI, randomTiltZ]}>
+                            <group position={[xPos, yPos, bayZ + 2.1]} rotation={[0, Math.PI, 0]}>
                                 <Bookshelf
                                     name={assignment.cat || assignment.labelString}
                                     projects={assignment.cat ? projectsByCategory[assignment.cat] : []}
@@ -359,12 +356,13 @@ const Library = ({ view, onGalaxyClick, onProjectClick, selectedProject }) => {
                     );
                 }
 
-                // Gallery Logic - also random floating
-                const shelfRotation = [randomTiltX, assignment.side === 'left' ? -Math.PI / 2 : Math.PI / 2, randomTiltZ];
+                // Gallery Logic - stable placement
+                const shelfRotation = [0, assignment.side === 'left' ? -Math.PI / 2 : Math.PI / 2, 0];
                 const shelfOffset = [assignment.side === 'left' ? 1.75 : -1.75, 0, 0];
+                const galleryYPos = 7; // Estimated gallery height
 
                 return (
-                    <group key={`shelf-${i}`} position={[xPos, yPos + 3, bayZ + BAY_WIDTH / 2]} rotation={[0, 0, 0]}>
+                    <group key={`shelf-${i}`} position={[xPos, galleryYPos + 1.25, bayZ + BAY_WIDTH / 2]} rotation={[0, 0, 0]}>
                         <group rotation={shelfRotation} position={shelfOffset}>
                             <Bookshelf
                                 name={assignment.cat || assignment.labelString}
