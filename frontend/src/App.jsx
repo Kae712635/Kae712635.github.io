@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import { LanguageProvider } from "./context/LanguageContext";
 import WelcomePopup from "./components/Interface/WelcomePopup";
+import HUD from "./components/Interface/HUD";
 
 // Lazy loading des composants lourds
 const Scene = lazy(() => import("./components/Universe/Scene"));
@@ -13,8 +14,8 @@ const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const LoadingFallback = () => (
   <div style={{
     display: 'flex', justifyContent: 'center', alignItems: 'center',
-    height: '100vh', background: '#0a0502', color: '#D4AF37',
-    fontFamily: 'Cinzel, serif', fontSize: '1.5rem'
+    height: '100vh', background: '#1e1d1b', color: '#EEE2DF',
+    fontFamily: 'Cinzel, serif', fontSize: '1.25rem'
   }}>
     Chargement...
   </div>
@@ -35,8 +36,8 @@ function MobileBanner({ onDismiss }) {
   return (
     <div style={{
       position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)',
-      zIndex: 9999, background: 'rgba(21,16,12,0.95)', backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(212,175,55,0.4)', borderRadius: '12px',
+      zIndex: 9999, background: 'rgba(30, 29, 27, 0.95)', backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(238, 226, 223, 0.2)', borderRadius: '12px',
       padding: '14px 20px', maxWidth: '90vw', width: '380px',
       display: 'flex', alignItems: 'center', gap: '12px',
       boxShadow: '0 8px 32px rgba(0,0,0,0.6)'
@@ -47,15 +48,15 @@ function MobileBanner({ onDismiss }) {
         <line x1="12" y1="22.08" x2="12" y2="12"/>
       </svg>
       <div style={{ flex: 1 }}>
-        <p style={{ color: '#D4AF37', fontFamily: 'Cinzel, serif', fontSize: '12px', fontWeight: 'bold', margin: 0, letterSpacing: '0.05em' }}>
+        <p style={{ color: '#EEE2DF', fontFamily: 'Cinzel, serif', fontSize: '12px', fontWeight: 'bold', margin: 0, letterSpacing: '0.05em' }}>
           Mode interactif indisponible
         </p>
-        <p style={{ color: '#A39281', fontSize: '11px', margin: '4px 0 0 0', lineHeight: '1.4' }}>
+        <p style={{ color: '#8A897C', fontSize: '11px', margin: '4px 0 0 0', lineHeight: '1.4' }}>
           La bibliothèque 3D requiert un navigateur desktop. Voici le catalogue complet.
         </p>
       </div>
       <button onClick={onDismiss} style={{
-        background: 'none', border: 'none', color: '#8C745C', cursor: 'pointer',
+        background: 'none', border: 'none', color: '#8A897C', cursor: 'pointer',
         fontSize: '18px', lineHeight: 1, padding: '4px', flexShrink: 0
       }} aria-label="Fermer">×</button>
     </div>
@@ -85,11 +86,16 @@ function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+        {/* Universal Sticky Top Bar across all views */}
+        <HUD />
+        
         <WelcomePopup />
         <MobileRedirect />
+        
         <Suspense fallback={<LoadingFallback />}>
           <Scene />
         </Suspense>
+        
         <Routes>
           <Route path="/" element={null} />
           <Route path="projets" element={
@@ -114,4 +120,3 @@ function App() {
 }
 
 export default App;
-

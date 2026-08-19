@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
 import { damp3 } from 'maath/easing';
 import Library from '../Library/Library';
-import HUD from '../Interface/HUD';
 import ProjectOverlay from '../Interface/ProjectOverlay';
 import KeyboardControls from './KeyboardControls';
+import { useLanguage } from '../../context/LanguageContext';
 
 const CameraController = ({ view, targetCategory }) => {
     const { camera, controls } = useThree();
@@ -33,17 +33,22 @@ const CameraController = ({ view, targetCategory }) => {
         if (view === 'contact') {
             targetPos = [-2, 1.6, 7];
             targetLookAt = [-4, 1.4, 6];
-        } else if (view === 'languages') {
-            targetPos = [2, 1.6, 7];
-            targetLookAt = [4, 1.4, 6];
         } else if (targetCategory) {
             const zMap = {
+                'EXPÉRIENCES PROFESSIONNELLES': -5,
+                'WORK EXPERIENCES': -5,
                 'Expériences Pro': -5,
                 'Work Experiences': -5,
+                'PROJETS PHARES': -14,
+                'FEATURED PROJECTS': -14,
                 'Projets Web & 3D': -14,
                 'Web & 3D Projects': -14,
+                'COMPÉTENCES TECH & LANGUES': -23,
+                'TECH SKILLS & LANGUAGES': -23,
                 'Compétences Tech': -23,
                 'Tech Skills': -23,
+                'FORMATIONS & DIPLÔMES': -32,
+                'EDUCATION & DEGREES': -32,
                 'Formations & Diplômes': -32,
                 'Education & Degrees': -32,
             };
@@ -66,6 +71,7 @@ const Scene = ({ children }) => {
     const [targetCategory, setTargetCategory] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
+    const { language } = useLanguage();
 
     const handleProjectClick = (project) => {
         setSelectedProject(project);
@@ -85,7 +91,7 @@ const Scene = ({ children }) => {
         setTargetCategory(null);
     };
 
-    const isProjetsPage = location.pathname === '/projets';
+    const is2DPage = location.pathname !== '/';
 
     return (
         <div style={{ 
@@ -94,10 +100,8 @@ const Scene = ({ children }) => {
             position: 'fixed', 
             top: 0, 
             left: 0, 
-            pointerEvents: isProjetsPage ? 'none' : 'auto'
+            pointerEvents: is2DPage ? 'none' : 'auto'
         }}>
-            <HUD view={view} targetCategory={targetCategory} onBack={handleBackToEntrance} />
-
             {selectedProject && <ProjectOverlay project={selectedProject} onClose={handleCloseProject} />}
 
             <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }}>
@@ -118,7 +122,7 @@ const Scene = ({ children }) => {
                     {/* Ambient Light */}
                     <ambientLight intensity={0.8} color="#fff8f2" />
 
-                    {/* Main Architectural Directional Light (Soft Sun Rays through vault) */}
+                    {/* Main Architectural Directional Light */}
                     <directionalLight
                         position={[-12, 22, 10]}
                         intensity={1.25}

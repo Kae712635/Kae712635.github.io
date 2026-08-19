@@ -27,24 +27,33 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-[#15100c] text-[#EEE2DF] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden">
-      {/* Background ambient glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none"></div>
+      {/* Ambient background glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#415D43]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="max-w-2xl w-full bg-[#1b1612] border border-[#D4AF37]/40 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md relative z-10">
+      <div className="max-w-2xl w-full bg-[#1e1d1b] border border-[#8A897C]/30 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-md relative z-10">
         
         {/* Header */}
         <div className="text-center mb-8">
-          <button 
-            onClick={() => navigate('/')}
-            className="mb-4 inline-flex items-center gap-2 text-xs font-cinzel text-[#D4AF37] hover:text-white transition-colors uppercase tracking-widest"
-          >
-            ← {language === 'fr' ? 'Retour à la Bibliothèque 3D' : 'Back to 3D Library'}
-          </button>
-          <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-3">
-            {language === 'fr' ? 'ME CONTACTER' : 'GET IN TOUCH'}
+          <div className="flex justify-center gap-4 mb-4 flex-wrap">
+            <button 
+              onClick={() => navigate('/')}
+              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#8A897C] hover:text-[#EEE2DF] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#8A897C]/30"
+            >
+              ← {language === 'fr' ? 'Bibliothèque 3D' : '3D Library'}
+            </button>
+            <button 
+              onClick={() => navigate('/projets')}
+              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#415D43] hover:text-[#EEE2DF] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#415D43]/40"
+            >
+              {language === 'fr' ? 'Catalogue 2D' : '2D Catalog'} →
+            </button>
+          </div>
+
+          <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-3 uppercase">
+            {language === 'fr' ? 'ME CONTACTER' : 'CONTACT ME'}
           </h1>
-          <div className="w-16 h-[1px] bg-[#D4AF37]/50 mx-auto mb-4"></div>
-          <p className="text-sm md:text-base text-[#8A897C] max-w-md mx-auto">
+          <div className="w-16 h-[2px] bg-[#415D43] mx-auto mb-4"></div>
+          <p className="text-sm md:text-base text-[#8A897C] max-w-md mx-auto font-serif">
             {language === 'fr' 
               ? `Envoyez-moi un message direct. Il sera acheminé à ${CONTACT_EMAIL}.`
               : `Send me a direct message. It will be sent to ${CONTACT_EMAIL}.`}
@@ -54,7 +63,7 @@ export default function ContactPage() {
         {submitted ? (
           <div className="text-center py-12 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
             <h3 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
-              {language === 'fr' ? 'Message Prêt à l\'Envoi !' : 'Message Ready to Send!'}
+              {language === 'fr' ? "Message Prêt à l'Envoi !" : "Message Ready to Send!"}
             </h3>
             <p className="text-sm text-[#EEE2DF]">
               {language === 'fr'
@@ -69,7 +78,7 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email_address" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+              <label htmlFor="email_address" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
                 {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'}
               </label>
               <input
@@ -78,13 +87,13 @@ export default function ContactPage() {
                 name="email_address"
                 required
                 placeholder="votre.email@exemple.com"
-                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
               />
             </div>
 
             {/* Subject Field */}
             <div>
-              <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+              <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
                 {language === 'fr' ? 'Objet du Message' : 'Subject'}
               </label>
               <input
@@ -92,14 +101,14 @@ export default function ContactPage() {
                 id="subject_line"
                 name="subject_line"
                 required
-                placeholder={language === 'fr' ? "Opportunité, Projet, Question..." : "Opportunity, Project, Inquiry..."}
-                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+                placeholder={language === 'fr' ? "Opportunité, Projet, Collaboration..." : "Opportunity, Project, Collaboration..."}
+                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
               />
             </div>
 
             {/* Message Field */}
             <div>
-              <label htmlFor="form_message" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+              <label htmlFor="form_message" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
                 {language === 'fr' ? 'Votre Message' : 'Your Message'}
               </label>
               <textarea
@@ -108,7 +117,7 @@ export default function ContactPage() {
                 rows="6"
                 required
                 placeholder={language === 'fr' ? "Rédigez votre message ici..." : "Type your message here..."}
-                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm resize-y"
+                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm resize-y"
               ></textarea>
             </div>
 

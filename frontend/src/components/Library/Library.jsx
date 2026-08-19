@@ -7,22 +7,79 @@ import cvData from '../../data/cvData';
 import * as THREE from 'three';
 
 const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => {
-    const { t, setLanguage, language } = useLanguage();
+    const { t, language } = useLanguage();
     const { projects: allProjects } = useProjects();
 
     const avatarTexture = useTexture('/media/photo_identité.png');
 
-    const categories = [
-        { id: 'exp', label: language === 'fr' ? 'Expériences Pro' : 'Work Experiences', items: cvData.experiences.map(e => ({ id: e.id, title: e.role[language] || e.role.fr, category: 'Expériences', description: e.description, tech: e.highlights[language] })) },
-        { id: 'web', label: language === 'fr' ? 'Projets Web & 3D' : 'Web & 3D Projects', items: allProjects.filter(p => matchesCat(p, 'Web') || matchesCat(p, 'Frontend')) },
-        { id: 'skills', label: language === 'fr' ? 'Compétences Tech' : 'Tech Skills', items: cvData.skills.flatMap(s => s.items.map(item => ({ id: `skill-${item}`, title: item, category: 'Compétences', description: { fr: `${s.categoryName.fr} : ${item}`, en: `${s.categoryName.en}: ${item}` }, tech: [item] }))) },
-        { id: 'edu', label: language === 'fr' ? 'Formations & Diplômes' : 'Education & Degrees', items: cvData.education.map(ed => ({ id: ed.id, title: ed.title[language] || ed.title.fr, category: 'Formations', description: ed.details, tech: [ed.school] })) }
-    ];
-
-    function matchesCat(p, filter) {
-        const pCats = Array.isArray(p.category) ? p.category : [p.category];
-        return pCats.some(c => c.toLowerCase().includes(filter.toLowerCase()));
-    }
+    const categories = useMemo(() => [
+        { 
+            id: 'exp', 
+            label: language === 'fr' ? 'Expériences Pro' : 'Work Experiences', 
+            items: cvData.experiences.map(e => ({ 
+                id: e.id, 
+                title: typeof e.role === 'object' ? (e.role[language] || e.role.fr) : e.role, 
+                category: language === 'fr' ? 'Expériences Pro' : 'Work Experiences', 
+                description: e.description, 
+                tech: e.highlights ? (e.highlights[language] || e.highlights.fr || []) : [],
+                company: e.company,
+                period: e.period,
+                school: e.company,
+                date: e.period
+            })) 
+        },
+        { 
+            id: 'projects', 
+            label: language === 'fr' ? 'Projets Phares' : 'Featured Projects', 
+            items: allProjects 
+        },
+        { 
+            id: 'skills', 
+            label: language === 'fr' ? 'Compétences Tech' : 'Tech Skills', 
+            items: [
+                ...cvData.skills.flatMap(s => s.items.map(item => ({ 
+                    id: `skill-${item}`, 
+                    title: item, 
+                    category: language === 'fr' ? 'Compétences' : 'Skills', 
+                    description: { 
+                        fr: `Domaine d'expertise : ${s.categoryName.fr}. Maîtrise des concepts, bonnes pratiques et mise en application sur des projets complexes.`, 
+                        en: `Area of expertise: ${s.categoryName.en}. Strong proficiency in core concepts, best practices, and production implementations.` 
+                    }, 
+                    tech: [item, s.categoryName[language] || s.categoryName.fr] 
+                }))),
+                ...cvData.languages.map(l => ({
+                    id: l.id,
+                    title: l.name[language] || l.name.fr,
+                    category: language === 'fr' ? 'Langues' : 'Languages',
+                    description: l.description,
+                    tech: [l.level[language] || l.level.fr]
+                }))
+            ]
+        },
+        { 
+            id: 'edu', 
+            label: language === 'fr' ? 'Formations & Diplômes' : 'Education & Degrees', 
+            items: [
+                ...cvData.education.map(ed => ({ 
+                    id: ed.id, 
+                    title: typeof ed.title === 'object' ? (ed.title[language] || ed.title.fr) : ed.title, 
+                    category: language === 'fr' ? 'Formations' : 'Education', 
+                    description: ed.details, 
+                    tech: [ed.school, ed.period],
+                    school: ed.school,
+                    period: ed.period,
+                    date: ed.period
+                })),
+                ...cvData.interests.map(it => ({
+                    id: it.id,
+                    title: it.name[language] || it.name.fr,
+                    category: language === 'fr' ? "Centres d'intérêt" : "Interests",
+                    description: it.description,
+                    tech: [language === 'fr' ? 'Passion & Veille' : 'Passion & Research']
+                }))
+            ]
+        }
+    ], [language, allProjects]);
 
     const ROOM_WIDTH = 18;
     const ROOM_LENGTH = 50;
@@ -30,9 +87,9 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
     const bays = useMemo(() => {
         return [
-            { id: 0, z: -5, label: language === 'fr' ? 'EXPÉRIENCES PRO' : 'WORK EXPERIENCES', cat: categories[0] },
-            { id: 1, z: -14, label: language === 'fr' ? 'PROJETS WEB & 3D' : 'WEB & 3D PROJECTS', cat: categories[1] },
-            { id: 2, z: -23, label: language === 'fr' ? 'COMPÉTENCES TECH' : 'TECH SKILLS', cat: categories[2] },
+            { id: 0, z: -5, label: language === 'fr' ? 'EXPÉRIENCES PROFESSIONNELLES' : 'WORK EXPERIENCES', cat: categories[0] },
+            { id: 1, z: -14, label: language === 'fr' ? 'PROJETS PHARES' : 'FEATURED PROJECTS', cat: categories[1] },
+            { id: 2, z: -23, label: language === 'fr' ? 'COMPÉTENCES TECH & LANGUES' : 'TECH SKILLS & LANGUAGES', cat: categories[2] },
             { id: 3, z: -32, label: language === 'fr' ? 'FORMATIONS & DIPLÔMES' : 'EDUCATION & DEGREES', cat: categories[3] }
         ];
     }, [language, categories]);
@@ -52,7 +109,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
             {/* --- ARCHITECTURE --- */}
 
-            {/* Restored Original Khaki/Grey Floor (#8A897C) */}
+            {/* Floor (#8A897C) */}
             <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, -15]} receiveShadow>
                 <planeGeometry args={[ROOM_WIDTH, ROOM_LENGTH]} />
                 <meshStandardMaterial
@@ -131,7 +188,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         Klervi Choblet
                     </Text>
                     <Text position={[0, -1.08, 0]} fontSize={0.12} color="#EEE2DF" font="/fonts/Cinzel-Regular.woff" anchorX="center">
-                        Creative Developer
+                        {language === 'fr' ? 'Ingénieure Logicielle' : 'Software Engineer'}
                     </Text>
                 </group>
 
@@ -146,7 +203,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                     onPointerOut={() => { document.body.style.cursor = 'auto'; }}
                 >
                     <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow>
-                        <boxGeometry args={[1.2, 0.45, 0.05]} />
+                        <boxGeometry args={[1.3, 0.45, 0.05]} />
                         <meshStandardMaterial color="#415D43" metalness={0.5} roughness={0.2} />
                     </mesh>
                     <Text position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.12} color="#ffffff" font="/fonts/Cinzel-Regular.woff">
@@ -155,48 +212,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                 </group>
             </group>
 
-            {/* --- LANGUAGE DESK (ENTRANCE RIGHT) --- */}
-            <group position={[4, 0, 7.5]} rotation={[0, -Math.PI / 6, 0]}>
-                <mesh position={[0, 0.9, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[2.4, 1.8, 1.1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.1} metalness={0.2} />
-                </mesh>
-                <mesh position={[0, 1.75, 0.56]}>
-                    <boxGeometry args={[2.3, 0.08, 0.05]} />
-                    <meshStandardMaterial color="#8A897C" metalness={0.9} roughness={0.1} />
-                </mesh>
-                <Text position={[0, 2.3, 0]} fontSize={0.24} color="#8A897C" font="/fonts/Cinzel-Regular.woff" anchorX="center">
-                    Language / Langue
-                </Text>
-
-                {/* FR Button */}
-                <group 
-                    position={[-0.5, 1.85, 0.1]} 
-                    onClick={(e) => { e.stopPropagation(); setLanguage('fr'); }}
-                    onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
-                    onPointerOut={() => { document.body.style.cursor = 'auto'; }}
-                >
-                    <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow>
-                        <boxGeometry args={[0.7, 0.4, 0.05]} />
-                        <meshStandardMaterial color={language === 'fr' ? '#415D43' : '#221c18'} metalness={0.5} roughness={0.2} />
-                    </mesh>
-                    <Text position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.16} color="#ffffff" font="/fonts/Cinzel-Regular.woff">FR</Text>
-                </group>
-
-                {/* EN Button */}
-                <group 
-                    position={[0.5, 1.85, 0.1]} 
-                    onClick={(e) => { e.stopPropagation(); setLanguage('en'); }}
-                    onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
-                    onPointerOut={() => { document.body.style.cursor = 'auto'; }}
-                >
-                    <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow>
-                        <boxGeometry args={[0.7, 0.4, 0.05]} />
-                        <meshStandardMaterial color={language === 'en' ? '#415D43' : '#221c18'} metalness={0.5} roughness={0.2} />
-                    </mesh>
-                    <Text position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.16} color="#ffffff" font="/fonts/Cinzel-Regular.woff">EN</Text>
-                </group>
-            </group>
+            {/* Note: Language desk at Entrance Right has been completely removed in accordance with Requirement #7 */}
 
             {/* --- BAYS & PLAQUES & SHELVES --- */}
             {bays.map((bay) => (
@@ -213,16 +229,17 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
                     >
                         <mesh castShadow>
-                            <boxGeometry args={[4.2, 0.85, 0.08]} />
+                            <boxGeometry args={[5.2, 0.85, 0.08]} />
                             <meshStandardMaterial color="#415D43" metalness={0.0} roughness={0.8} />
                         </mesh>
                         <Text
                             position={[0, 0, 0.05]}
-                            fontSize={0.24}
+                            fontSize={0.22}
                             font="/fonts/Cinzel-Regular.woff"
                             anchorX="center"
                             anchorY="middle"
                             color="#EEE2DF"
+                            letterSpacing={0.05}
                         >
                             {bay.label}
                         </Text>

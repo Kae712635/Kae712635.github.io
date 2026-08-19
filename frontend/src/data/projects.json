@@ -1,1566 +1,211 @@
 [
   {
-    "id": "sys-1",
-    "title": "Réimplémentation de malloc",
-    "category": "Logiciel",
-    "tech": [
-      "C",
-      "Gestion de la Mémoire",
-      "Kernel Calls"
-    ],
-    "description": {
-      "fr": "Développement d'une librairie d'allocation de mémoire complète. Démontre une expertise en C et une compréhension fine du fonctionnement système.",
-      "en": "Development of a complete memory allocation library. Demonstrates expertise in C and a deep understanding of system operations."
-    },
-    "school": "2ème année de prépa - EPITA (2023)",
-    "date": "2023-12-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "sys-2",
-    "title": "Client/Serveur BitTorrent",
-    "category": "Infrastructure & Systèmes",
-    "tech": [
-      "Python / Go",
-      "Protocole P2P",
-      "Concurrence"
-    ],
-    "description": {
-      "fr": "Implémentation complète du protocole BitTorrent, couvrant le réseau, les torrents et la gestion de pairs.",
-      "en": "Complete implementation of the BitTorrent protocol, covering networking, torrents, and peer management."
-    },
-    "school": "2ème année de prépa - EPITA (2023)",
-    "date": "2023-12-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "back-1",
-    "title": "API Microservices Bancaires",
-    "category": "Application Web",
-    "tech": [
-      "Node.js / Spring",
-      "PostgreSQL",
-      "Architecture Microservices",
-      "Sécurité"
-    ],
-    "description": {
-      "fr": "Conception et déploiement d'une API pour des calculatrices financières sécurisées.",
-      "en": "Design and deployment of an API for secure financial calculators."
-    },
-    "school": "2ème année de prépa - EPITA (2023)",
-    "date": "2024-01-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "front-1",
-    "title": "Crypto Wallet (React)",
-    "category": "Application Web",
-    "tech": [
-      "React",
-      "UI/UX",
-      "Tailwind CSS"
-    ],
-    "description": {
-      "fr": "Migration vers React du projet Crypto Wallet avec focus sur l'état dynamique des graphiques boursiers.",
-      "en": "Migration of the Crypto Wallet project to React with a focus on dynamic stock chart states."
-    },
-    "image": "crypto-wallet-hero-image.jpg",
-    "project_url": "/portfolio/crypto-wallet/index.html",
-    "course": "Frontend Course - Dorset College (2024)",
-    "date": "2024-06-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image":["/img/projets/SnazzyCryptoWallet.png"]
-  },
-  {
-    "id": "mobile-1",
-    "title": "Application E-commerce Mobile",
-    "category": "Logiciel",
-    "tech": [
-      "React Native / Flutter",
-      "Redux/Context",
-      "Navigation Native"
-    ],
-    "description": {
-      "fr": "Développement d'une application de e-commerce responsive, compatible iOS et Android.",
-      "en": "Development of a responsive e-commerce application, compatible with iOS and Android."
-    },
-    "school": "1ère année de cycle ingénieur - EPITA (2024)",
-    "date": "2024-10-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "front-2",
-    "title": "Howea — Puzzles pour la maladie à corps de Lewy",
-    "category": "Application Web",
-    "tech": [
-      "React",
-      "Accessibilité",
-      "Vercel",
-      "API"
-    ],
-    "description": {
-      "fr": "Site de puzzles conçu pour les personnes atteintes de la maladie à corps de Lewy, pour stimuler la cognition et l'attention de façon adaptée.",
-      "en": "Puzzle site designed for people with Lewy body dementia, to stimulate cognition and attention in an adapted way."
-    },
-    "project_url": "https://howea.vercel.app",
-    "details": {
-      "fr": "Application web full-stack (React + API) dédiée aux personnes atteintes de la maladie à corps de Lewy. Les puzzles sont conçus pour stimuler la cognition et l'attention de façon adaptée. Déployée sur Vercel, avec une attention particulière à l'accessibilité.",
-      "en": "Full-stack web application (React + API) dedicated to people with Lewy body dementia. Puzzles are designed to stimulate cognition and attention suitably. Deployed on Vercel, with special attention to accessibility."
-    },
-    "personal_project": "Projet personnel (2026)",
-    "date": "2026-02-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "/img/projets/howea.png"
-  },
-  {
-    "id": "front-3",
-    "title": "Snazzy Fashion",
-    "category": "Application Web",
-    "tech": [
-      "HTML",
-      "CSS",
-      "Responsive Design",
-      "E-commerce"
-    ],
-    "description": {
-      "fr": "Site e-commerce de mode présentant une collection de vêtements et accessoires. Design élégant avec navigation fluide.",
-      "en": "Fashion e-commerce site presenting a collection of clothing and accessories. Elegant design with fluid navigation."
-    },
-    "image": "fashion-img.jpg",
-    "project_url": "/portfolio/fashion/index.html",
-    "course": "Frontend Course - Dorset College (2024)",
-    "date": "2024-08-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image":"/img/projets/SuperSnazzy.png"
-  },
-  {
-    "id": "front-4",
-    "title": "Smooth Smoothies",
-    "category": "Application Web",
-    "tech": [
-      "HTML",
-      "CSS",
-      "Responsive Design",
-      "Animations"
-    ],
-    "description": {
-      "fr": "Site pour une chaîne de smoothies à Dublin. Présente le menu, les valeurs nutritionnelles et l'expérience client.",
-      "en": "Site for a smoothie chain in Dublin. Presents the menu, nutritional values, and customer experience."
-    },
-    "image": "smoothies-hero-image.jpg",
-    "project_url": "/portfolio/smoothies/index.html",
-    "course": "Frontend Course - Dorset College (2024)",
-    "date": "2024-07-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image":["/img/projets/SmoothSmoothies.png"]
-  },
-  {
-    "id": "front-5",
-    "title": "Hero Block Layouts Gallery",
-    "category": "Application Web",
-    "tech": [
-      "HTML",
-      "CSS",
-      "Responsive Design",
-      "Layouts"
-    ],
-    "description": {
-      "fr": "Galerie complète de layouts hero block pour différents domaines. Démontre diverses approches de design.",
-      "en": "Complete gallery of hero block layouts for different domains. Demonstrates various design approaches."
-    },
-    "image": "project-hero-img.jpg",
-    "project_url": "/portfolio/project-hero/index-1.html",
-    "course": "Frontend Course - Dorset College (2024)",
-    "date": "2024-05-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image":["/img/projets/HeroBlock.png"]
-  },
-  {
-    "id": "front-6",
-    "title": "Multi-column Layout Gallery",
-    "category": "Application Web",
-    "tech": [
-      "HTML",
-      "CSS",
-      "Responsive Design",
-      "Grid CSS"
-    ],
-    "description": {
-      "fr": "Galerie de layouts multi-colonnes responsifs. Présente diverses approches de mise en page utilisant CSS Grid et Flexbox.",
-      "en": "Gallery of responsive multi-column layouts. Presents various layout approaches using CSS Grid and Flexbox."
-    },
-    "image": "project-multi-column-img.png",
-    "project_url": "/portfolio/project-multi-column/index.html",
-    "course": "Frontend Course - Dorset College (2024)",
-    "date": "2024-04-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image":["/img/projets/MultiColumn.png"]
-  },
-  {
-    "id": "ing1-42sh",
-    "title": "42sh",
-    "category": "Logiciel",
-    "tech": [
-      "C",
-      "Shell"
-    ],
-    "description": {
-      "fr": "Implémentation d'un shell POSIX complet (42sh) en C.",
-      "en": "Implementation of a complete POSIX shell (42sh) in C."
-    },
-    "date": "2025-01-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-gpgpu",
-    "title": "GPGPU",
-    "category": "Application Web",
-    "tech": [
-      "C++",
-      "CUDA",
-      "GPU"
-    ],
-    "description": {
-      "fr": "Programmation parallèle sur carte graphique (GPGPU) avec CUDA.",
-      "en": "Parallel programming on graphics cards (GPGPU) with CUDA."
-    },
-    "date": "2025-06-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-iml",
-    "title": "Introduction Machine Learning",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python",
-      "Machine Learning"
-    ],
-    "description": {
-      "fr": "Introduction au Machine Learning (IML) et implémentation d'algorithmes.",
-      "en": "Introduction to Machine Learning (IML) and algorithms implementation."
-    },
-    "date": "2025-05-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-mlrf",
-    "title": "Machine Learning & Reconnaissance de Formes",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python",
-      "Deep Learning"
-    ],
-    "description": {
-      "fr": "Projets avancés en Machine Learning et reconnaissance de formes (MLRF).",
-      "en": "Advanced projects in Machine Learning and pattern recognition (MLRF)."
-    },
-    "date": "2025-06-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-neuro",
-    "title": "NeuroVolumetry (Medical Visualization)",
-    "category": "Application Web",
-    "tech": [
-      "C++",
-      "Visualisation 3D"
-    ],
-    "description": {
-      "fr": "Visualisation de données médicales en 3D (NeuroVolumetry).",
-      "en": "3D Medical Data Visualization (NeuroVolumetry)."
-    },
-    "date": "2026-05-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "/img/projets/neuroVolumetry.png"
-  },
-  {
-    "id": "ing2-ocvx",
-    "title": "Optimisation Convexe",
-    "category": "Algorithmique",
-    "tech": [
-      "Python",
-      "Mathématiques"
-    ],
-    "description": {
-      "fr": "Algorithmes d'optimisation convexe et applications. En collaboration avec Alexia Gnanassegarane.",
-      "en": "Convex optimization algorithms and applications. In collaboration with Alexia Gnanassegarane."
-    },
-    "date": "2025-04-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
-    "doc": "../documents/Optimisation_Convexe_Rapport.pdf"
-  },
-  {
-    "id": "ing2-vtkitk",
-    "title": "VTK / ITK",
-    "category": "Application Web",
-    "tech": [
-      "C++",
-      "VTK",
-      "ITK"
-    ],
-    "description": {
-      "fr": "Traitement et visualisation d'images médicales avec VTK et ITK.",
-      "en": "Medical image processing and visualization with VTK and ITK."
-    },
-    "date": "2025-06-01",
-    "project_url": "https://github.com/Kae712635/",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-malloc",
-    "title": "Malloc",
-    "category": "Logiciel",
-    "tech": [
-      "C"
-    ],
-    "description": {
-      "fr": "Implémentation d'un allocateur de mémoire dynamique.",
-      "en": "Implementation of a dynamic memory allocator."
-    },
-    "date": "2024-11-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-myfind",
-    "title": "MyFind",
-    "category": "Logiciel",
-    "tech": [
-      "C"
-    ],
-    "description": {
-      "fr": "Recréation de la commande Unix find.",
-      "en": "Recreation of the Unix find command."
-    },
-    "date": "2024-10-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-iaml",
-    "title": "IAML Project",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python"
-    ],
-    "description": {
-      "fr": "Projet d'introduction au Machine Learning (S6).",
-      "en": "Introduction to Machine Learning project (S6)."
-    },
-    "date": "2025-05-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-jws",
-    "title": "JWS",
-    "category": "Application Web",
-    "tech": [
-      "Java",
-      "Spring"
-    ],
-    "description": {
-      "fr": "Projet de Web Services en Java.",
-      "en": "Java Web Services project."
-    },
-    "date": "2025-04-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-approx",
-    "title": "APPROX",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python"
-    ],
-    "description": {
-      "fr": "Algorithmes d'approximation et heuristiques.",
-      "en": "Approximation algorithms and heuristics."
-    },
-    "date": "2025-03-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-idvoc",
-    "title": "IDVOC",
-    "category": "Application Web",
-    "tech": [
-      "C++"
-    ],
-    "description": {
-      "fr": "Projet d'ingénierie logicielle et conception.",
-      "en": "Software engineering and design project."
-    },
-    "date": "2025-02-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-ero",
-    "title": "ERO",
-    "category": "Logiciel",
-    "tech": [
-      "C"
-    ],
-    "description": {
-      "fr": "Projet de systèmes et réseaux (ERO).",
-      "en": "Systems and networks project (ERO)."
-    },
-    "date": "2025-02-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-tiger",
-    "title": "Compilateur TIGER",
-    "category": "Logiciel",
-    "tech": [
-      "C++",
-      "Flex",
-      "Bison"
-    ],
-    "description": {
-      "fr": "Création d'un compilateur pour le langage Tiger.",
-      "en": "Creation of a compiler for the Tiger language."
-    },
-    "date": "2025-05-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-ping",
-    "title": "PING",
-    "category": "Infrastructure & Systèmes",
-    "tech": [
-      "C"
-    ],
-    "description": {
-      "fr": "Implémentation d'utilitaires réseau.",
-      "en": "Implementation of network utilities."
-    },
-    "date": "2025-01-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
-    "document": "/documents/PING_Presentation.pdf"
-  },
-  {
-    "id": "ing1-tui",
-    "title": "TUI (Text User Interface)",
-    "category": "Application Web",
-    "tech": [
-      "C",
-      "Ncurses"
-    ],
-    "description": {
-      "fr": "Développement d'une interface en ligne de commande.",
-      "en": "Command Line Interface development."
-    },
-    "date": "2025-05-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing1-tyla",
-    "title": "TYLA",
-    "category": "Logiciel",
-    "tech": [
-      "C++"
-    ],
-    "description": {
-      "fr": "Projet de typage et d'analyse de langages.",
-      "en": "Typing and language analysis project."
-    },
-    "date": "2025-06-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-epitweet",
-    "title": "Epitweet",
-    "category": "Application Web",
-    "tech": [
-      "React",
-      "Node.js"
-    ],
-    "description": {
-      "fr": "Clone de Twitter (Epitweet) avec microservices.",
-      "en": "Twitter clone (Epitweet) with microservices."
-    },
-    "date": "2025-10-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "ing2-isim-projet",
-    "title": "ISIM Projet Final",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python"
-    ],
-    "description": {
-      "fr": "Projet final d'ingénierie des systèmes d'information (feux de forêt, etc).",
-      "en": "Final project for information systems engineering (forest fires, etc)."
-    },
-    "date": "2026-01-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "/img/projets/Isim_fire.png",
-    "video": "/documents/ISIM_fire.mp4"
-  },
-  {
-    "id": "ing2-rempy-projet",
-    "title": "REMPY",
-    "category": "Intelligence Artificielle",
-    "tech": [
-      "Python",
-      "Mathématiques"
-    ],
-    "description": {
-      "fr": "Projet d'analyse et méthodes numériques en Python.",
-      "en": "Analysis and numerical methods project in Python."
-    },
-    "date": "2026-02-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
     "id": "ing2-opengl-projet",
-    "title": "OpenGL Project",
-    "category": "Application Web",
+    "title": "OpenGL",
+    "category": ["Logiciel", "Systèmes & 3D"],
     "tech": [
       "C++",
-      "OpenGL"
+      "OpenGL",
+      "GLSL",
+      "Shaders",
+      "3D Real-time"
     ],
     "description": {
-      "fr": "Scène 3D interactive en OpenGL pur (Vaisseau, Eau, etc).",
-      "en": "Interactive 3D scene in pure OpenGL (Boat, Water, etc)."
+      "fr": "Scène 3D interactive et moteur de rendu temps réel développé en C++ et OpenGL moderne avec shaders GLSL.",
+      "en": "Interactive real-time 3D scene and rendering engine developed in C++ and modern OpenGL with GLSL shaders."
     },
     "date": "2026-06-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
     "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
+      "fr": "Conception d'un moteur de rendu 3D temps réel en C++ et OpenGL moderne. Implémentation de pipeline graphique complet : maillages polygonaux, gestion des caméras orbitales/FPS, illumination de Phong et shaders d'eau animés.",
+      "en": "Design of a real-time 3D rendering engine in C++ and modern OpenGL. Full graphics pipeline implementation: polygonal meshes, orbital/FPS cameras, Phong illumination, and animated water shaders."
     },
     "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
+      "fr": "Pipeline programmable OpenGL 4.x, vertex & fragment shaders en GLSL, gestion matricielle MVP (Model-View-Projection), chargement de modèles OBJ et buffers VBO/VAO/EBO optimisés.",
+      "en": "Programmable OpenGL 4.x pipeline, GLSL vertex & fragment shaders, MVP matrix transformations, OBJ model loader, and optimized VBO/VAO/EBO buffers."
     },
     "challenges": [
       {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
+        "fr": "Optimisation des performances de rendu et gestion précise du frame rate.",
+        "en": "Rendering performance optimization and frame rate management."
       },
       {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
+        "fr": "Calcul mathématique des normales et réfraction de la lumière sur les surfaces animées.",
+        "en": "Mathematical normal calculations and light refraction on dynamic surfaces."
       }
     ],
     "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
+      "/img/projets/OpenGL.png"
     ],
     "image": "/img/projets/OpenGL.png",
     "video": "/documents/animation_peche_rendu_cartoon.mp4"
   },
   {
-    "id": "irl-movieapp",
-    "title": "MovieApp (.NET)",
-    "category": "Application Web",
+    "id": "ing2-isim-projet",
+    "title": "ISIM",
+    "category": ["Intelligence Artificielle", "Simulation"],
     "tech": [
-      "C#",
-      ".NET",
-      "MVC"
+      "Python",
+      "Modélisation",
+      "Simulation",
+      "Visualisation"
     ],
     "description": {
-      "fr": "Application web complète de gestion de films avec .NET MVC.",
-      "en": "Full web application for movie management using .NET MVC."
+      "fr": "Modélisation et simulation dynamique de propagation de feux de forêt avec visualisations avancées.",
+      "en": "Dynamic modeling and simulation system for forest fire propagation with advanced visual analytics."
     },
-    "date": "2024-05-01",
+    "date": "2026-01-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
     "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
+      "fr": "Projet d'ingénierie et de modélisation mathématique simulant la propagation de feux de forêt en fonction des conditions environnementales (vent, humidité, relief, types de végétation).",
+      "en": "Engineering and mathematical modeling project simulating forest fire spreading based on environmental parameters (wind, humidity, elevation, vegetation types)."
     },
     "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
+      "fr": "Automates cellulaires et équations différentielles discrétisées pour le front de flamme, couplés à une interface de visualisation graphique animée en Python.",
+      "en": "Cellular automata and discretized differential equations for flame fronts, coupled with animated Python graphical visualizations."
     },
     "challenges": [
       {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
+        "fr": "Équilibrage de la complexité algorithmique pour permettre une simulation fluide à grande échelle.",
+        "en": "Algorithmic complexity balancing for smooth large-scale real-time simulations."
       },
       {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
+        "fr": "Validation des modèles physiques par rapport à des données réelles.",
+        "en": "Physical model validation against realistic empirical data."
       }
     ],
     "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
+      "/img/projets/Isim_fire.png"
     ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
+    "image": "/img/projets/Isim_fire.png",
+    "video": "/documents/ISIM_fire.mp4"
   },
   {
-    "id": "s3-ocr",
-    "title": "OCR (Optical Character Recognition)",
-    "category": "Intelligence Artificielle",
+    "id": "ing2-neuro",
+    "title": "Medviz (Neurovolumetry)",
+    "category": ["Systèmes & 3D", "Logiciel"],
     "tech": [
-      "C",
-      "Réseaux de Neurones"
+      "C++",
+      "Visualisation 3D",
+      "Imagerie Médicale",
+      "VTK",
+      "ITK"
     ],
     "description": {
-      "fr": "Reconnaissance optique de caractères développée from scratch en C (Détection de grille, filtres, solver de Sudoku).",
-      "en": "Optical Character Recognition built from scratch in C (Grid detection, filters, Sudoku solver)."
+      "fr": "Plateforme de traitement, segmentation et reconstruction volumique 3D d'IRM et scans cérébraux.",
+      "en": "3D volumetric reconstruction, segmentation, and processing platform for MRI and brain scans."
     },
-    "date": "2023-12-01",
+    "date": "2026-05-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
     "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
+      "fr": "Outil spécialisé dans le traitement et la visualisation tridimensionnelle de données médicales volumiques. Permet l'analyse anatomique, le calcul volumétrique de structures cérébrales et le rendu direct par ray-casting.",
+      "en": "Specialized tool for 3D medical volume processing and visualization. Enables anatomical analysis, volumetric quantification of brain structures, and direct volume ray-casting rendering."
     },
     "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
+      "fr": "Pipeline de traitement ITK pour le filtrage et la segmentation, combiné à VTK pour le rendu volumique GPU et l'interaction temps réel.",
+      "en": "ITK processing pipeline for filtering and segmentation, combined with VTK for GPU volume rendering and real-time slice interaction."
     },
     "challenges": [
       {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
+        "fr": "Gestion de volumes de données massifs (fichiers DICOM / NIfTI) sans latence.",
+        "en": "Handling massive data volumes (DICOM / NIfTI files) with zero latency."
       },
       {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
+        "fr": "Précision de la segmentation automatique des zones d'intérêt médical.",
+        "en": "High precision in automated segmentation of regions of clinical interest."
       }
     ],
     "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
+      "/img/projets/neuroVolumetry.png"
     ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
+    "image": "/img/projets/neuroVolumetry.png"
   },
   {
-    "id": "s3-hough",
-    "title": "Hough Transform",
-    "category": "Intelligence Artificielle",
+    "id": "ing1-ping",
+    "title": "Ping",
+    "category": ["Infrastructure & Systèmes", "Réseau"],
     "tech": [
       "C",
-      "Mathématiques"
+      "Réseaux",
+      "Sockets Raw",
+      "Protocole ICMP"
     ],
     "description": {
-      "fr": "Implémentation de la transformée de Hough pour la détection de lignes.",
-      "en": "Implementation of the Hough transform for line detection."
+      "fr": "Implémentation bas niveau de l'utilitaire réseau ICMP Ping en C avec analyse détaillée de latence.",
+      "en": "Low-level implementation of the ICMP Ping network utility in C with detailed latency analytics."
     },
-    "date": "2023-11-01",
+    "date": "2025-01-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
+    "document": "/documents/PING_Presentation.pdf",
     "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
+      "fr": "Développement complet en C sous UNIX de l'utilitaire Ping utilisant des raw sockets pour forger et décoder des paquets ICMP Echo Request / Echo Reply.",
+      "en": "Full UNIX C development of the Ping utility using raw sockets to craft and parse ICMP Echo Request / Echo Reply packets."
     },
     "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
+      "fr": "Communication par sockets bruts (SOCK_RAW), calcul de checksum IP/ICMP en binaire, gestion des signaux POSIX et calcul précis des RTT (Round Trip Time).",
+      "en": "Raw socket communication (SOCK_RAW), binary IP/ICMP checksum computations, POSIX signal handling, and precise sub-millisecond RTT statistics."
     },
     "challenges": [
       {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
+        "fr": "Gestion des privilèges système et des paquets corrompus / timeouts réseau.",
+        "en": "System permission handling and management of corrupted packets / network timeouts."
       },
       {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
+        "fr": "Précision nanoseconde du calcul des temps aller-retour.",
+        "en": "Nanosecond accuracy for round-trip time measurements."
       }
     ],
     "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
+      "/img/projets/background.png"
     ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
+    "image": "/img/projets/background.png"
   },
   {
-    "id": "s3-training",
-    "title": "Systèmes Avancés & Algorithmique",
-    "category": "Logiciel",
+    "id": "front-2",
+    "title": "Howea",
+    "category": ["Application Web", "Fullstack"],
     "tech": [
-      "C",
-      "Syscalls"
+      "React",
+      "Accessibilité (a11y)",
+      "Vercel",
+      "API REST"
     ],
     "description": {
-      "fr": "Implémentations de bas niveau : Hash Tables, Merge Sort, Fork, et listes chaînées.",
-      "en": "Low-level implementations: Hash Tables, Merge Sort, Fork, and linked lists."
+      "fr": "Application web de puzzles conçue pour stimuler la cognition des personnes atteintes de la maladie à corps de Lewy.",
+      "en": "Cognitive puzzle web application designed to stimulate attention for people living with Lewy body dementia."
     },
-    "date": "2023-10-01",
+    "project_url": "https://howea.vercel.app",
+    "github_url": "https://github.com/Kae712635/",
+    "date": "2026-02-01",
+    "details": {
+      "fr": "Application web full-stack dédiée aux personnes atteintes de la maladie à corps de Lewy. Les puzzles sont conçus pour stimuler la cognition de façon adaptée, avec une attention maximale portée à l'ergonomie et l'accessibilité.",
+      "en": "Full-stack web application dedicated to individuals with Lewy body dementia. Puzzles are tailored to stimulate cognitive faculties with maximum care for accessibility and ergonomic clarity."
+    },
     "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
+      "fr": "Conception et déploiement d'une plateforme web inclusive. Ergonomie douce, contrastes adaptés (normes WCAG AA/AAA), feedbacks haptiques et sonores bienveillants pour accompagner les utilisateurs dans des exercices de mémoire et de repérage visuel.",
+      "en": "Design and deployment of an inclusive web platform. Gentle ergonomics, adapted contrasts (WCAG AA/AAA standards), and considerate sensory feedbacks assisting users in memory and visual orientation exercises."
     },
     "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
+      "fr": "Front-end moderne en React, animations fluides non intrusives, persistance des progrès locaux sécurisée et déploiement continu sur Vercel.",
+      "en": "Modern React frontend, gentle non-intrusive animations, secure local progress persistence, and continuous deployment on Vercel."
     },
     "challenges": [
       {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
+        "fr": "Conception UX/UI hautement inclusive répondant aux contraintes neurologiques spécifiques.",
+        "en": "Highly inclusive UX/UI design addressing specific neurological requirements."
       },
       {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
+        "fr": "Garantie d'une réactivité instantanée et d'une navigation sans friction.",
+        "en": "Guaranteeing instant responsiveness and zero-friction navigation."
       }
     ],
     "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
+      "/img/projets/howea.png"
     ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    "id": "s3-asm",
-    "title": "Projets Assembleur / C",
-    "category": "Logiciel",
-    "tech": [
-      "C",
-      "Assembleur"
-    ],
-    "description": {
-      "fr": "Multiples projets de bas niveau mêlant le C et l'Assembleur.",
-      "en": "Multiple low-level projects mixing C and Assembly."
-    },
-    "date": "2023-09-01",
-    "detailed_description": {
-      "fr": "Ce projet représente une étape majeure dans mon parcours de développement. J'ai conçu cette solution en partant de zéro pour répondre à des exigences techniques strictes (performances, stabilité, architecture). L'objectif était de produire un code robuste, modulaire, et parfaitement testable.",
-      "en": "This project represents a major milestone in my development journey. I designed this solution from scratch to meet strict technical requirements (performance, stability, architecture). The goal was to produce robust, modular, and perfectly testable code."
-    },
-    "architecture": {
-      "fr": "L'architecture s'articule autour d'un découplage fort des responsabilités. Le cœur logique est isolé des entrées/sorties, avec un focus sur la sécurité de la mémoire et la gestion des processus concurrents. Les tests unitaires (via Criterion ou équivalent) valident chaque composant isolément.",
-      "en": "The architecture is built around strong separation of concerns. The logical core is isolated from I/O, focusing on memory safety and concurrent process management. Unit tests validate each component in isolation."
-    },
-    "challenges": [
-      {
-        "fr": "Optimisation de la mémoire et gestion des fuites (valgrind/asan).",
-        "en": "Memory optimization and leak management (valgrind/asan)."
-      },
-      {
-        "fr": "Gestion des edge-cases complexes et des erreurs système (syscalls).",
-        "en": "Handling complex edge-cases and system errors (syscalls)."
-      },
-      {
-        "fr": "Architecture modulaire permettant l'évolution future du code.",
-        "en": "Modular architecture allowing for future code evolution."
-      }
-    ],
-    "screenshots": [
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-    ],
-    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
+    "image": "/img/projets/howea.png"
   }
 ]
