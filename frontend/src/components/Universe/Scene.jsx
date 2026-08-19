@@ -9,15 +9,8 @@ import HUD from '../Interface/HUD';
 import ProjectOverlay from '../Interface/ProjectOverlay';
 import KeyboardControls from './KeyboardControls';
 
-// Détecte prefers-reduced-motion
-const prefersReducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-
-
-const CameraController = ({ view, selectedProject }) => {
+const CameraController = ({ view, targetCategory }) => {
     const { camera, controls } = useThree();
-    const vec = new THREE.Vector3();
     const [isAnimating, setIsAnimating] = useState(false);
     const transitionTimeout = useRef(null);
 
@@ -26,44 +19,42 @@ const CameraController = ({ view, selectedProject }) => {
         if (transitionTimeout.current) clearTimeout(transitionTimeout.current);
         transitionTimeout.current = setTimeout(() => {
             setIsAnimating(false);
-        }, 4000); // 4 seconds to ensure full settling
+        }, 3000);
 
         return () => clearTimeout(transitionTimeout.current);
-    }, [view]);
+    }, [view, targetCategory]);
 
     useFrame((state, delta) => {
         if (!isAnimating) return;
 
-        // Define camera targets for each view
-        let targetPos = [0, 1.6, 12]; // Library Entrance - Eye level
-        let targetLookAt = [0, 1.6, -10]; // Look straight ahead
+        let targetPos = [0, 1.6, 9]; // Library Entrance
+        let targetLookAt = [0, 1.6, -10];
 
-        if (view === 'projects' || view === 'universe') {
-            targetPos = [0, 1.6, 12];
-            targetLookAt = [0, 1.6, -10];
-        } else if (view === 'contact') {
-            targetPos = [8, 1.6, 10]; // Look at Contact Desk
-            targetLookAt = [10, 1.4, 8];
+        if (view === 'contact') {
+            targetPos = [-2, 1.6, 7];
+            targetLookAt = [-4, 1.4, 6];
         } else if (view === 'languages') {
-            targetPos = [-8, 1.6, 10]; // Look at Language Desk
-            targetLookAt = [-10, 1.4, 8];
-        } else if (view === 'privacy') {
-            targetPos = [0, -10, 15];
-            targetLookAt = [0, -10, 5];
+            targetPos = [2, 1.6, 7];
+            targetLookAt = [4, 1.4, 6];
+        } else if (targetCategory) {
+            const zMap = {
+                'Expériences Pro': -5,
+                'Work Experiences': -5,
+                'Projets Web & 3D': -14,
+                'Web & 3D Projects': -14,
+                'Compétences Tech': -23,
+                'Tech Skills': -23,
+                'Formations & Diplômes': -32,
+                'Education & Degrees': -32,
+            };
+            const z = zMap[targetCategory] || -14;
+            targetPos = [0, 1.6, z + 5];
+            targetLookAt = [0, 1.6, z - 4];
         }
 
-        // Smoothly animate camera position (désactivé si reduced-motion)
-        if (prefersReducedMotion) {
-            state.camera.position.set(...targetPos);
-            if (controls) controls.target.set(...targetLookAt);
-            setIsAnimating(false);
-            return;
-        }
-        damp3(state.camera.position, targetPos, 0.3, delta);
-
-        // Smoothly animate OrbitControls target if it exists, otherwise lookAt
+        damp3(state.camera.position, targetPos, 0.35, delta);
         if (controls) {
-            damp3(controls.target, targetLookAt, 0.3, delta);
+            damp3(controls.target, targetLookAt, 0.35, delta);
         }
     });
 
@@ -72,6 +63,7 @@ const CameraController = ({ view, selectedProject }) => {
 
 const Scene = ({ children }) => {
     const [view, setView] = useState('universe');
+    const [targetCategory, setTargetCategory] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
 
@@ -83,7 +75,16 @@ const Scene = ({ children }) => {
         setSelectedProject(null);
     };
 
-    // Si on est sur la page de catalogue 2D, on cache complètement la scène 3D pour éviter le chevauchement visuel
+    const handleCategoryClick = (catName) => {
+        setTargetCategory(catName);
+        setView('section');
+    };
+
+    const handleBackToEntrance = () => {
+        setView('universe');
+        setTargetCategory(null);
+    };
+
     const isProjetsPage = location.pathname === '/projets';
 
     return (
@@ -95,57 +96,71 @@ const Scene = ({ children }) => {
             left: 0, 
             pointerEvents: isProjetsPage ? 'none' : 'auto'
         }}>
-            <HUD view={view} onBack={() => setView('universe')} />
+            <HUD view={view} targetCategory={targetCategory} onBack={handleBackToEntrance} />
 
             {selectedProject && <ProjectOverlay project={selectedProject} onClose={handleCloseProject} />}
 
             <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }}>
                 <Canvas 
                     shadows={{ type: THREE.PCFSoftShadowMap }}
-                    camera={{ position: [0, 1.6, 12], fov: 45 }}
+                    camera={{ position: [0, 1.6, 9], fov: 50 }}
                     dpr={[1, 1.5]} 
-                    performance={{ min: 0.5 }}
+                    performance={{ min: 0.6 }}
+                    gl={{
+                        antialias: true,
+                        toneMapping: THREE.ACESFilmicToneMapping,
+                        toneMappingExposure: 1.15
+                    }}
                 >
-                    <color attach="background" args={['#EEE2DF']} /> {/* Fond clair */}
+                    {/* Bright Warm Library Background */}
+                    <color attach="background" args={['#EEE2DF']} />
 
-                    {/* Lighting Setup - Bright Library */}
-                    <ambientLight intensity={1.0} color="#ffffff" />
+                    {/* Ambient Light */}
+                    <ambientLight intensity={0.8} color="#fff8f2" />
+
+                    {/* Main Architectural Directional Light (Soft Sun Rays through vault) */}
                     <directionalLight
-                        position={[-15, 20, 10]}
-                        intensity={1.0}
-                        color="#fff5e6" // Warm sun
+                        position={[-12, 22, 10]}
+                        intensity={1.25}
+                        color="#fff5e8"
                         castShadow
                         shadow-mapSize-width={2048}
                         shadow-mapSize-height={2048}
-                        shadow-bias={-0.0005}
+                        shadow-bias={-0.0001}
+                        shadow-normalBias={0.035}
+                        shadow-camera-near={0.5}
+                        shadow-camera-far={80}
+                        shadow-camera-left={-12}
+                        shadow-camera-right={12}
+                        shadow-camera-top={32}
+                        shadow-camera-bottom={-48}
                     />
-                    {/* Spotlights pour l'allée centrale */}
-                    <spotLight position={[0, 15, -10]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
-                    <spotLight position={[0, 15, 10]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
-                    <spotLight position={[0, 15, 0]} intensity={1.0} angle={0.8} penumbra={0.5} color="#ffffff" castShadow />
+
+                    {/* Soft Warm Vault Fill Lights along the Corridor */}
+                    <pointLight position={[0, 8, 5]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
+                    <pointLight position={[0, 8, -5]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
+                    <pointLight position={[0, 8, -15]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
+                    <pointLight position={[0, 8, -25]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
+                    <pointLight position={[0, 8, -35]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
 
                     <Suspense fallback={null}>
                         <Library
                             view={view}
-                            onGalaxyClick={setView}
                             onProjectClick={handleProjectClick}
-                            selectedProject={selectedProject} // Pass this down to control book animation
+                            onCategoryClick={handleCategoryClick}
+                            selectedProject={selectedProject}
                         />
                         {children}
                     </Suspense>
 
-                    <CameraController view={view} selectedProject={selectedProject} />
+                    <CameraController view={view} targetCategory={targetCategory} />
                     <KeyboardControls />
                     <OrbitControls
                         makeDefault
-                        enableZoom={true}
+                        enableRotate={false}
+                        enableZoom={false}
                         enablePan={false}
-                        autoRotate={false}
-                        autoRotateSpeed={0.5}
-                        maxDistance={30}
-                        minDistance={2}
-                        maxPolarAngle={Math.PI / 1.8} // Prevent going below floor level
-                        target={[0, 1.6, 0]}
+                        target={[0, 1.6, -10]}
                     />
                 </Canvas>
             </div>

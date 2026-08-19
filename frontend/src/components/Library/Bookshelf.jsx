@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Text, Float } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import Book from './Book';
 import FillerBooks from './FillerBooks';
 
@@ -21,7 +21,6 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
             const isProjectShelf = shelfIndex === 1;
 
             const shelfCapacity = 24;
-            // Available width for books
             const SHELF_WIDTH = 3.6;
             const startX = -SHELF_WIDTH / 2;
             const gap = SHELF_WIDTH / shelfCapacity;
@@ -42,12 +41,12 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                     }
                 }
 
-                // Randomize color for fillers
+                // Pick color for both filler and active books from the rich library palette
                 const colorIndex = (shelfIndex * 100 + i) % BOOK_COLORS.length;
                 const bookColor = BOOK_COLORS[colorIndex];
 
                 // Rotation and depth for realistic placement
-                const depthOffset = isFiller ? (Math.sin(shelfIndex * 10 + i * 7.3) * 0.04 + Math.cos(i * 3.1) * 0.04) : 0;
+                const depthOffset = isFiller ? (Math.sin(shelfIndex * 10 + i * 7.3) * 0.04 + Math.cos(i * 3.1) * 0.04) : 0.02;
                 const rotationY = isFiller ? (Math.sin(i * 12.3) * 0.08) : 0;
                 const rotationZ = isFiller ? Math.sin((shelfIndex * 100 + i + (name ? name.length * 10 : 0)) * 123.45) * 0.05 : 0;
 
@@ -64,8 +63,8 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                     activeBooks.push({
                         key: `shelf-${shelfIndex}-book-${i}`,
                         position: pos,
-                        rotation: [0, 0, 0], // Active books start straight
-                        color: "#D4AF37", // Gold
+                        rotation: [0, 0, 0], // Active books stand proud
+                        color: bookColor,     // Same base palette as other books
                         project: project
                     });
                 }
@@ -77,40 +76,58 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
     return (
         <group position={position}>
             <group>
-                {/* Vertical Side Panels for stability */}
-                <mesh position={[-2.05, 0.025, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[0.1, 2.53, 1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.8} metalness={0.0} />
-                </mesh>
-                <mesh position={[2.05, 0.025, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[0.1, 2.53, 1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.8} metalness={0.0} />
+                {/* 1. Solid Ground Base Plinth (Firmly seated on floor) */}
+                <mesh position={[0, -1.26, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4.25, 0.16, 1.05]} />
+                    <meshStandardMaterial color="#2c1a12" roughness={0.7} metalness={0.05} />
                 </mesh>
 
-                {/* SHELVES */}
-                {/* Bottom */}
-                <mesh position={[0, -1.2, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[4, 0.08, 1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.8} metalness={0.0} />
+                {/* 2. Solid Wooden Backing Panel (No see-through void behind books) */}
+                <mesh position={[0, 0.05, -0.48]} castShadow receiveShadow>
+                    <boxGeometry args={[4.15, 2.7, 0.06]} />
+                    <meshStandardMaterial color="#22140e" roughness={0.75} metalness={0.02} />
                 </mesh>
-                {/* Middle */}
+
+                {/* 3. Solid Heavy Side Columns */}
+                <mesh position={[-2.05, 0.05, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[0.14, 2.65, 1.02]} />
+                    <meshStandardMaterial color="#3E2723" roughness={0.7} metalness={0.05} />
+                </mesh>
+                <mesh position={[2.05, 0.05, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[0.14, 2.65, 1.02]} />
+                    <meshStandardMaterial color="#3E2723" roughness={0.7} metalness={0.05} />
+                </mesh>
+
+                {/* 4. Shelves */}
+                {/* Bottom shelf */}
+                <mesh position={[0, -1.18, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4, 0.08, 0.98]} />
+                    <meshStandardMaterial color="#3E2723" roughness={0.75} metalness={0.05} />
+                </mesh>
+                {/* Middle shelf */}
                 <mesh position={[0, 0, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[4, 0.08, 1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.8} metalness={0.0} />
+                    <boxGeometry args={[4, 0.08, 0.98]} />
+                    <meshStandardMaterial color="#3E2723" roughness={0.75} metalness={0.05} />
                 </mesh>
-                {/* Top */}
+                {/* Top shelf */}
                 <mesh position={[0, 1.25, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[4, 0.08, 1]} />
-                    <meshStandardMaterial color="#3E2723" roughness={0.8} metalness={0.0} />
+                    <boxGeometry args={[4, 0.08, 0.98]} />
+                    <meshStandardMaterial color="#3E2723" roughness={0.75} metalness={0.05} />
                 </mesh>
 
-                {/* Shelf Label - Placed firmly on top instead of floating */}
-                <group position={[0, 1.5, 0]}>
-                    <mesh position={[0, 0, 0]}>
-                        <boxGeometry args={[2, 0.25, 0.05]} />
+                {/* 5. Top Crown Cornice */}
+                <mesh position={[0, 1.34, 0]} castShadow receiveShadow>
+                    <boxGeometry args={[4.25, 0.1, 1.05]} />
+                    <meshStandardMaterial color="#2c1a12" roughness={0.7} metalness={0.05} />
+                </mesh>
+
+                {/* Shelf Label Header */}
+                <group position={[0, 1.52, 0]}>
+                    <mesh position={[0, 0, 0]} castShadow>
+                        <boxGeometry args={[2.2, 0.26, 0.06]} />
                         <meshStandardMaterial color="#415D43" metalness={0.1} roughness={0.8} />
                     </mesh>
-                    <Text position={[0, 0, 0.03]} fontSize={0.14} color="#EEE2DF" font="/fonts/Cinzel-Regular.woff" anchorX="center" letterSpacing={0.05}>
+                    <Text position={[0, 0, 0.035]} fontSize={0.14} color="#EEE2DF" font="/fonts/Cinzel-Regular.woff" anchorX="center" letterSpacing={0.05}>
                         {name ? name.toUpperCase() : ''}
                     </Text>
                 </group>
@@ -118,7 +135,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 {/* Filler Books (Instanced Mesh) */}
                 <FillerBooks bookData={fillers} />
 
-                {/* Active Project Books (Separate Components) */}
+                {/* Active Project Books (Separate Components with subtle shimmer) */}
                 {activeBooks.map((book) => (
                     <Book
                         key={book.key}

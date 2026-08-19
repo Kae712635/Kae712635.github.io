@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-ro
 import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import { LanguageProvider } from "./context/LanguageContext";
+import WelcomePopup from "./components/Interface/WelcomePopup";
 
 // Lazy loading des composants lourds
 const Scene = lazy(() => import("./components/Universe/Scene"));
@@ -84,6 +85,7 @@ function App() {
   return (
     <LanguageProvider>
       <BrowserRouter>
+        <WelcomePopup />
         <MobileRedirect />
         <Suspense fallback={<LoadingFallback />}>
           <Scene />

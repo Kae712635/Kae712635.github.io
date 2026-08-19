@@ -156,7 +156,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         fontSize: '2rem',
                         width: '100%'
                     }}>
-                        Visual Reference
+                        {language === 'fr' ? 'Référence Visuelle' : 'Visual Reference'}
                     </h2>
 
                     {/* Duplicate image for page 3 */}
@@ -177,12 +177,12 @@ const ProjectOverlay = ({ project, onClose }) => {
                             color: '#7A614A', fontStyle: 'italic',
                             borderRadius: '4px'
                         }}>
-                            No Visual Available
+                            {language === 'fr' ? 'Aucun visuel disponible' : 'No Visual Available'}
                         </div>
                     )}
 
                     <div style={{ textAlign: 'center', color: '#5A4638', fontStyle: 'italic', fontSize: '0.9rem', letterSpacing: '1px' }}>
-                        {t('visualReference') || "Project Screenshot"}
+                        {language === 'fr' ? 'Capture d\'écran du projet' : (t('visualReference') || "Project Screenshot")}
                     </div>
 
                     <button onClick={handlePrev} style={{
@@ -196,7 +196,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         boxShadow: '0 2px 10px rgba(140, 46, 22, 0.2)',
                         transition: 'all 0.2s'
                     }}>
-                        ☜ Back
+                        {language === 'fr' ? '☜ Retour' : '☜ Back'}
                     </button>
                 </div>
 
@@ -259,7 +259,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             borderBottom: '1px solid #D4B886',
                             paddingBottom: '20px'
                         }}>
-                            {project.school || project.course || project.personal_project || 'Project'} • {project.date ? project.date.split('-')[0] : ''}
+                            {project.school || project.course || project.personal_project || (language === 'fr' ? 'Projet' : 'Project')} • {project.date ? project.date.split('-')[0] : ''}
                         </div>
 
                         {/* Description */}
@@ -303,7 +303,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     letterSpacing: '2px',
                                     fontWeight: '600'
                                 }}>
-                                    Technical Stack
+                                    {language === 'fr' ? 'Stack Technique' : 'Technical Stack'}
                                 </h3>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                                     {project.tech.slice(0, 6).map((t, i) => (
@@ -326,7 +326,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                             color: '#A89078',
                                             fontStyle: 'italic'
                                         }}>
-                                            +{project.tech.length - 6} more
+                                            +{project.tech.length - 6} {language === 'fr' ? 'autres' : 'more'}
                                         </span>
                                     )}
                                 </div>
@@ -351,7 +351,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     boxShadow: '0 4px 15px rgba(140, 46, 22, 0.3)',
                                     transition: 'all 0.2s'
                                 }}>
-                                    View Details ☞
+                                    {language === 'fr' ? 'Détails ☞' : 'View Details ☞'}
                                 </button>
                             )}
                         </div>
@@ -378,7 +378,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             paddingBottom: '10px',
                             fontSize: '2rem'
                         }}>
-                            Technical Details
+                            {language === 'fr' ? 'Détails Techniques' : 'Technical Details'}
                         </h2>
 
                         <div style={{ marginBottom: '40px' }}>
@@ -389,7 +389,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 marginBottom: '15px',
                                 letterSpacing: '2px',
                                 fontWeight: '600'
-                            }}>Technologies</h3>
+                            }}>{language === 'fr' ? 'Technologies' : 'Technologies'}</h3>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                                 {project.tech && project.tech.map((t, i) => (
                                     <span key={i} style={{
@@ -416,7 +416,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 marginBottom: '15px',
                                 letterSpacing: '2px',
                                 fontWeight: '600'
-                            }}>Access</h3>
+                            }}>{language === 'fr' ? 'Accès au Projet' : 'Access'}</h3>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                                 {(project.project_url || project.link) && (
                                     <a href={project.project_url || project.link} target="_blank" rel="noopener noreferrer" style={{
@@ -429,7 +429,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                         boxShadow: '0 4px 15px rgba(140, 46, 22, 0.3)',
                                         transition: 'all 0.2s'
                                     }}>
-                                        <span>🚀</span> Visit Live Project
+                                        <span>🚀</span> {language === 'fr' ? 'Consulter le Projet Live' : 'Visit Live Project'}
                                     </a>
                                 )}
                                 {project.github && (
@@ -445,7 +445,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                                         transition: 'all 0.2s',
                                         fontWeight: '600'
                                     }}>
-                                        <span>🐙</span> View Source Code
+                                        <span>🐙</span> {language === 'fr' ? 'Code Source GitHub' : 'View Source Code'}
                                     </a>
                                 )}
                             </div>

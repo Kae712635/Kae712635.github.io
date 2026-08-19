@@ -2,7 +2,24 @@
 import React from 'react';
 import { Button } from "flowbite-react";
 
+const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
+
 const Contact = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const fullName = form.full_name?.value || "";
+    const email = form.email_address?.value || "";
+    const message = form.form_message?.value || "";
+
+    const subject = encodeURIComponent(`Portfolio — Contact de ${fullName || email}`);
+    const body = encodeURIComponent(
+      `Nom: ${fullName}\nEmail: ${email}\n\nMessage:\n${message}\n\n---\nEnvoyé depuis le portfolio de Klervi Choblet`
+    );
+
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  };
+
   return (
     <>
       <section className="bg-dark-secondary py-16 px-8 text-center md:px-20">
@@ -13,10 +30,10 @@ const Contact = () => {
           <p className="text-xl leading-relaxed text-gray-300 md:text-2xl">
             Vous avez un projet à discuter ? Écrivez-moi à {" "}
             <a
-              href="mailto:klervi.choblet@gmail.com"
+              href={`mailto:${CONTACT_EMAIL}`}
               className="font-medium text-primary-accent underline underline-offset-4 hover:text-secondary-accent"
             >
-              klervi.choblet@gmail.com
+              {CONTACT_EMAIL}
             </a>{" "}
             ou utilisez le formulaire ci-dessous pour me parler de vos objectifs.
           </p>
@@ -38,7 +55,7 @@ const Contact = () => {
            {/* Formulaire (partie droite) */}
            <div className="lg:w-1/2 mt-8 lg:mt-0">
               <div className="bg-dark-secondary rounded-xl p-8 shadow-2xl border border-gray-800">
-                <form id="email-form" name="email-form" method="post" action="https://formspree/n/nnnnn">
+                <form id="email-form" name="email-form" onSubmit={handleSubmit}>
                   
                   <div className="mb-4">
                     <label htmlFor="full_name" className="block mb-2 text-text-light font-medium">Nom Complet</label>

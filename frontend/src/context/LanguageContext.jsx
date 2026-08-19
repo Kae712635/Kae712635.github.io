@@ -1,21 +1,49 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import translations from '../data/translations';
 
 const LanguageContext = createContext();
 
+export const languageOptions = [
+  { code: 'fr', label: 'Français' },
+  { code: 'en', label: 'English' }
+];
+
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState('fr'); // Default to French
+  const [language, setLanguageState] = useState(() => {
+    try {
+      const saved = localStorage.getItem('portfolio_lang');
+      return saved === 'en' || saved === 'fr' ? saved : 'fr';
+    } catch {
+      return 'fr';
+    }
+  });
+
+  const setLanguage = (langCode) => {
+    const valid = langCode === 'en' ? 'en' : 'fr';
+    setLanguageState(valid);
+    try {
+      localStorage.setItem('portfolio_lang', valid);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'fr' ? 'en' : 'fr'));
+    setLanguage(language === 'fr' ? 'en' : 'fr');
   };
 
-  const t = (key) => {
-    return translations[language][key] || key;
+  const t = (key, fallback) => {
+    if (typeof key === 'object' && key !== null) {
+      return key[language] || key.fr || key.en || fallback || '';
+    }
+    return (translations[language] && translations[language][key]) || fallback || key;
   };
+
+  const lang = language;
+  const setLang = setLanguage;
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, lang, setLang, toggleLanguage, languageOptions, t }}>
       {children}
     </LanguageContext.Provider>
   );

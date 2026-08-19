@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 
 const HUD = ({ view, onBack }) => {
-    const { t, language } = useLanguage();
+    const { t, language, setLanguage } = useLanguage();
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,18 +21,24 @@ const HUD = ({ view, onBack }) => {
 
     return (
         <>
-            {/* STICKY BAR (Same as Portfolio) */}
+            {/* STICKY BAR (Restored Original Colors & Style) */}
             <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 bg-[#1e1d1b]/95 backdrop-blur-lg border-b border-[#EEE2DF]/10 shadow-sm" style={{ pointerEvents: 'auto' }}>
                 {/* Left: Navigation */}
                 <button
-                    onClick={() => navigate('/projets')}
-                    className="hidden md:flex items-center gap-2 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-widest uppercase"
+                    onClick={() => navigate(isProjetsPage ? '/' : '/projets')}
+                    className="flex items-center gap-2 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-widest uppercase"
                 >
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        {isProjetsPage ? (
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        ) : (
+                            <>
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </>
+                        )}
                     </svg>
-                    {getTranslation('catalogueView', language === 'fr' ? 'Catalogue 2D' : '2D Catalog')}
+                    {isProjetsPage ? (language === 'fr' ? 'Bibliothèque 3D' : '3D Library') : getTranslation('catalogueView', language === 'fr' ? 'Catalogue 2D' : '2D Catalog')}
                 </button>
 
                 {/* Center: identity */}
@@ -42,6 +48,16 @@ const HUD = ({ view, onBack }) => {
 
                 {/* Right: links */}
                 <div className="flex items-center gap-3">
+                    {/* Discrete Language Switcher */}
+                    <button
+                        onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+                        className="px-2 py-0.5 text-xs font-cinzel text-[#8A897C] hover:text-[#EEE2DF] border border-[#8A897C]/30 rounded uppercase transition-colors"
+                        title="Changer de langue"
+                    >
+                        {language === 'fr' ? 'FR' : 'EN'}
+                    </button>
+                    <span className="text-[#D9CCC8] hidden md:inline" aria-hidden>|</span>
+
                     <a
                         href="https://github.com/Kae712635/"
                         target="_blank" rel="noopener noreferrer"
@@ -79,7 +95,7 @@ const HUD = ({ view, onBack }) => {
                 </div>
             </div>
 
-            {/* Back Button (Visible inside aisles) */}
+            {/* Back Button */}
             <div style={{
                 position: 'absolute',
                 top: '70px',
@@ -112,19 +128,6 @@ const HUD = ({ view, onBack }) => {
                     >
                         ← {getTranslation('backToUniverse', 'Retour')}
                     </button>
-                )}
-
-                {view !== 'universe' && (
-                    <h2 style={{
-                        marginTop: '15px',
-                        fontSize: '24px',
-                        fontWeight: '300',
-                        textShadow: '0 0 10px rgba(212, 175, 55, 0.8)',
-                        letterSpacing: '3px',
-                        textTransform: 'uppercase'
-                    }}>
-                        {getTranslation(view + 'Section', language === 'fr' ? 'Rayon ' + view.charAt(0).toUpperCase() + view.slice(1) : view.charAt(0).toUpperCase() + view.slice(1) + ' Section')}
-                    </h2>
                 )}
             </div>
 

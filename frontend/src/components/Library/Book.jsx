@@ -1,52 +1,50 @@
-import { useRef, useState, useMemo } from 'react';
-import { Text, Html, useCursor } from '@react-three/drei';
+import { useRef, useState } from 'react';
+import { Html, useCursor } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
+import { useLanguage } from '../../context/LanguageContext';
 import * as THREE from 'three';
 
-const Book = ({ position, rotation, color, project, onClick, isSelected, isFiller = false }) => {
+const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelected, isFiller = false }) => {
     const group = useRef();
+    const spineMaterialRef = useRef();
     const [hovered, setHover] = useState(false);
-
-    // No textures - using PBR colors only to avoid GPU texture limit (16 max)
+    const { language } = useLanguage();
 
     useCursor(hovered && !isFiller);
 
-    // Initial position to return to
+    // Initial position
     const [initialPos] = useState(() => new THREE.Vector3(...position));
 
-    useFrame(() => {
+    useFrame((state) => {
         if (!group.current) return;
 
-        // Target position & rotation
-        const targetZ = initialPos.z + (!isFiller && isSelected ? 0.4 : (!isFiller && hovered ? 0.15 : 0));
-        const targetRotX = rotation[0] + (!isFiller && isSelected ? -0.15 : 0);
+        // Interactive books advance forward when hovered or selected
+        const targetZ = initialPos.z + (!isFiller && isSelected ? 0.35 : (!isFiller && hovered ? 0.18 : 0));
+        const targetRotX = rotation[0] + (!isFiller && isSelected ? -0.12 : 0);
 
-        // Smoothly interpolate Z and Rotation X
-        group.current.position.z = THREE.MathUtils.lerp(group.current.position.z, targetZ, 0.1);
-        group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotX, 0.1);
+        group.current.position.z = THREE.MathUtils.lerp(group.current.position.z, targetZ, 0.12);
+        group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotX, 0.12);
 
-        // Reset X/Y to ensure stability
         group.current.position.x = initialPos.x;
         group.current.position.y = initialPos.y;
+
+        // Animate subtle golden shimmer on interactive books
+        if (!isFiller && spineMaterialRef.current) {
+            const pulse = Math.sin(state.clock.elapsedTime * 2.8 + initialPos.x * 4) * 0.5 + 0.5;
+            const targetEmissive = hovered ? 0.6 : (isSelected ? 0.5 : 0.16 + pulse * 0.16);
+            spineMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(
+                spineMaterialRef.current.emissiveIntensity,
+                targetEmissive,
+                0.15
+            );
+        }
     });
 
-    // Book Dimensions
-    const width = 0.15; // Thickness
-    const height = 1;
+    const width = 0.15;
+    const height = 1.0;
     const depth = 0.8;
 
-    // Material Properties based on Type - PBR colors only, no textures
-    const materialProps = useMemo(() => isFiller ? {
-        color: color,
-        roughness: 0.6,      // Leather-like roughness
-        metalness: 0.05,     // Slight sheen
-    } : {
-        color: "#D4AF37",    // Gold
-        roughness: 0.2,      // Polished gold
-        metalness: 0.9,      // Very metallic
-        emissive: "#b8860b", // Gold glow
-        emissiveIntensity: 0.15
-    }, [isFiller, color]);
+    const baseColor = color || "#3a281d";
 
     return (
         <group
@@ -66,60 +64,96 @@ const Book = ({ position, rotation, color, project, onClick, isSelected, isFille
                 if (!isFiller) setHover(false);
             }}
         >
-            {/* 1. SPINE (Facing Z+) - Slightly darker */}
-            <mesh position={[0, 0, depth / 2]}>
+            {/* 1. SPINE (Facing Z+) */}
+            <mesh position={[0, 0, depth / 2]} castShadow receiveShadow>
                 <boxGeometry args={[width, height, 0.04]} />
                 <meshStandardMaterial
-                    color={isFiller ? color : "#C4A037"}  // Darker gold for active books
-                    roughness={isFiller ? 0.6 : 0.2}
-                    metalness={isFiller ? 0.05 : 0.9}
-                    emissive={isFiller ? "#000000" : "#b8860b"}
-                    emissiveIntensity={isFiller ? 0 : 0.15}
+                    ref={spineMaterialRef}
+                    color={baseColor}
+                    roughness={isFiller ? 0.7 : 0.25}
+                    metalness={isFiller ? 0.05 : 0.35}
+                    emissive={!isFiller ? "#D4AF37" : "#000000"}
+                    emissiveIntensity={!isFiller ? 0.2 : 0}
                 />
             </mesh>
 
-            {/* Tooltip on Hover (Replacing text on spine) */}
+            {/* Spine Gold Accent Lines for Interactive Books */}
+            {!isFiller && (
+                <>
+                    {/* Top Gold Line */}
+                    <mesh position={[0, 0.38, depth / 2 + 0.024]}>
+                        <boxGeometry args={[width * 0.92, 0.025, 0.006]} />
+                        <meshStandardMaterial color="#FFDF73" metalness={0.9} roughness={0.1} emissive="#D4AF37" emissiveIntensity={0.5} />
+                    </mesh>
+                    {/* Middle Gold Emblem Line */}
+                    <mesh position={[0, 0.0, depth / 2 + 0.024]}>
+                        <boxGeometry args={[width * 0.6, 0.015, 0.006]} />
+                        <meshStandardMaterial color="#FFDF73" metalness={0.9} roughness={0.1} emissive="#D4AF37" emissiveIntensity={0.4} />
+                    </mesh>
+                    {/* Bottom Gold Line */}
+                    <mesh position={[0, -0.38, depth / 2 + 0.024]}>
+                        <boxGeometry args={[width * 0.92, 0.025, 0.006]} />
+                        <meshStandardMaterial color="#FFDF73" metalness={0.9} roughness={0.1} emissive="#D4AF37" emissiveIntensity={0.5} />
+                    </mesh>
+                </>
+            )}
+
+            {/* Tooltip on Hover */}
             {!isFiller && hovered && (
-                <Html position={[0, 0.5, depth / 2 + 0.1]} center distanceFactor={6} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
-                    <div className="px-3 py-2 bg-[#1a1a1a]/95 text-[#EEE2DF] border border-[#415D43]/50 rounded shadow-xl backdrop-blur-sm">
-                        <span className="font-cinzel text-sm tracking-wider uppercase font-semibold">
-                            {project?.title}
+                <Html position={[0, 0.58, depth / 2 + 0.15]} center distanceFactor={7} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+                    <div style={{
+                        padding: '6px 14px',
+                        background: 'rgba(21, 16, 12, 0.96)',
+                        color: '#EEE2DF',
+                        border: '1px solid #D4AF37',
+                        borderRadius: '6px',
+                        boxShadow: '0 8px 25px rgba(0,0,0,0.85), 0 0 12px rgba(212,175,55,0.45)',
+                        backdropFilter: 'blur(8px)',
+                        fontFamily: 'Cinzel, serif',
+                        fontSize: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                    }}>
+                        <span style={{ color: '#D4AF37', fontWeight: 'bold' }}>✨</span>
+                        <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600' }}>
+                            {project?.title || (language === 'fr' ? 'Ouvrage interactif' : 'Interactive Book')}
                         </span>
                     </div>
                 </Html>
             )}
 
-            {/* 2. BACK COVER (Left Side, -X) - Main color */}
-            <mesh position={[-width / 2 + 0.01, 0, 0]}>
+            {/* 2. BACK COVER (Left) */}
+            <mesh position={[-width / 2 + 0.01, 0, 0]} castShadow receiveShadow>
                 <boxGeometry args={[0.02, height, depth]} />
                 <meshStandardMaterial
-                    color={isFiller ? color : "#D4AF37"}
-                    roughness={isFiller ? 0.6 : 0.2}
-                    metalness={isFiller ? 0.05 : 0.9}
-                    emissive={isFiller ? "#000000" : "#b8860b"}
-                    emissiveIntensity={isFiller ? 0 : 0.15}
+                    color={baseColor}
+                    roughness={isFiller ? 0.7 : 0.3}
+                    metalness={isFiller ? 0.05 : 0.25}
+                    emissive={!isFiller ? "#4a3610" : "#000000"}
+                    emissiveIntensity={!isFiller ? 0.1 : 0}
                 />
             </mesh>
 
-            {/* 3. PAGES BLOCK (Center) - Cream/beige paper */}
-            <mesh position={[0, 0, 0]}>
+            {/* 3. PAGES BLOCK (Center) */}
+            <mesh position={[0, 0, 0]} receiveShadow>
                 <boxGeometry args={[width - 0.04, height - 0.04, depth - 0.04]} />
                 <meshStandardMaterial
                     color="#f5deb3"
-                    roughness={0.9}
+                    roughness={0.85}
                     metalness={0.0}
                 />
             </mesh>
 
-            {/* 4. FRONT COVER (Right Side, +X) - Main color */}
-            <mesh position={[width / 2 - 0.01, 0, 0]}>
+            {/* 4. FRONT COVER (Right) */}
+            <mesh position={[width / 2 - 0.01, 0, 0]} castShadow receiveShadow>
                 <boxGeometry args={[0.02, height, depth]} />
                 <meshStandardMaterial
-                    color={isFiller ? color : "#D4AF37"}
-                    roughness={isFiller ? 0.6 : 0.2}
-                    metalness={isFiller ? 0.05 : 0.9}
-                    emissive={isFiller ? "#000000" : "#b8860b"}
-                    emissiveIntensity={isFiller ? 0 : 0.15}
+                    color={baseColor}
+                    roughness={isFiller ? 0.7 : 0.3}
+                    metalness={isFiller ? 0.05 : 0.25}
+                    emissive={!isFiller ? "#4a3610" : "#000000"}
+                    emissiveIntensity={!isFiller ? 0.1 : 0}
                 />
             </mesh>
         </group>

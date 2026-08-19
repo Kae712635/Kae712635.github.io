@@ -1,92 +1,131 @@
+import React, { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
 
 const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
 
 export default function ContactPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const navigate = useNavigate();
+  const [submitted, setSubmitted] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
-    const name = form.full_name?.value || "";
     const email = form.email_address?.value || "";
+    const subjectText = form.subject_line?.value || "Contact Portfolio";
     const message = form.form_message?.value || "";
-    const subject = encodeURIComponent(`Portfolio — message de ${name}`);
+
+    const subject = encodeURIComponent(`Portfolio — ${subjectText}`);
     const body = encodeURIComponent(
-      `${message}\n\n---\nEnvoyé depuis le formulaire portfolio.\nNom: ${name}\nEmail: ${email}`
+      `Objet: ${subjectText}\nDe: ${email}\n\nMessage:\n${message}\n\n---\nEnvoyé depuis le portfolio de Klervi Choblet`
     );
+
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setSubmitted(true);
   }
 
   return (
-    <>
-      <section className="section-dark py-16 px-6 text-center md:px-20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="mb-4 text-4xl font-semibold tracking-tight text-cream md:text-5xl lg:text-6xl border-b-2 border-rose pb-2 inline-block">
-            {t.contact.title}
-          </h2>
-          <p className="text-xl leading-relaxed text-cream/85 md:text-2xl">
-            {t.contact.intro}{" "}
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="font-medium text-rose underline underline-offset-4 hover:text-rose-dark"
-            >
-              {CONTACT_EMAIL}
-            </a>
+    <div className="min-h-screen bg-[#15100c] text-[#EEE2DF] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div className="max-w-2xl w-full bg-[#1b1612] border border-[#D4AF37]/40 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-md relative z-10">
+        
+        {/* Header */}
+        <div className="text-center mb-8">
+          <button 
+            onClick={() => navigate('/')}
+            className="mb-4 inline-flex items-center gap-2 text-xs font-cinzel text-[#D4AF37] hover:text-white transition-colors uppercase tracking-widest"
+          >
+            ← {language === 'fr' ? 'Retour à la Bibliothèque 3D' : 'Back to 3D Library'}
+          </button>
+          <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-3">
+            {language === 'fr' ? 'ME CONTACTER' : 'GET IN TOUCH'}
+          </h1>
+          <div className="w-16 h-[1px] bg-[#D4AF37]/50 mx-auto mb-4"></div>
+          <p className="text-sm md:text-base text-[#8A897C] max-w-md mx-auto">
+            {language === 'fr' 
+              ? `Envoyez-moi un message direct. Il sera acheminé à ${CONTACT_EMAIL}.`
+              : `Send me a direct message. It will be sent to ${CONTACT_EMAIL}.`}
           </p>
         </div>
-      </section>
 
-      <section className="bg-cream py-16 px-6">
-        <div className="max-w-xl mx-auto">
-          <div className="bg-cream rounded-2xl p-8 shadow-card border border-rose/20">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="full_name" className="block mb-2 text-dark font-medium">
-                  {t.contact.name}
-                </label>
-                <input
-                  type="text"
-                  name="full_name"
-                  id="full_name"
-                  required
-                  className="w-full p-3 bg-light-secondary border border-rose/20 rounded-xl text-dark focus:ring-2 focus:ring-rose/30 focus:border-rose"
-                />
-              </div>
-              <div>
-                <label htmlFor="email_address" className="block mb-2 text-dark font-medium">
-                  {t.contact.email}
-                </label>
-                <input
-                  type="email"
-                  name="email_address"
-                  id="email_address"
-                  required
-                  className="w-full p-3 bg-light-secondary border border-rose/20 rounded-xl text-dark focus:ring-2 focus:ring-rose/30 focus:border-rose"
-                />
-              </div>
-              <div>
-                <label htmlFor="form_message" className="block mb-2 text-dark font-medium">
-                  {t.contact.message}
-                </label>
-                <textarea
-                  rows={4}
-                  name="form_message"
-                  id="form_message"
-                  required
-                  className="w-full p-3 bg-light-secondary border border-rose/20 rounded-xl text-dark focus:ring-2 focus:ring-rose/30 focus:border-rose resize-y"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-3 rounded-xl bg-rose hover:bg-rose-dark text-cream font-semibold transition-all duration-300"
-              >
-                {t.contact.send}
-              </button>
-            </form>
+        {submitted ? (
+          <div className="text-center py-12 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
+            <h3 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
+              {language === 'fr' ? 'Message Prêt à l\'Envoi !' : 'Message Ready to Send!'}
+            </h3>
+            <p className="text-sm text-[#EEE2DF]">
+              {language === 'fr'
+                ? "Votre client de messagerie s'est ouvert. Si ce n'est pas le cas, vous pouvez aussi m'écrire directement à :"
+                : "Your email app has opened. You can also write directly to:"}
+            </p>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block mt-3 text-sm font-bold text-[#D4AF37] underline">
+              {CONTACT_EMAIL}
+            </a>
           </div>
-        </div>
-      </section>
-    </>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <div>
+              <label htmlFor="email_address" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+                {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'}
+              </label>
+              <input
+                type="email"
+                id="email_address"
+                name="email_address"
+                required
+                placeholder="votre.email@exemple.com"
+                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+              />
+            </div>
+
+            {/* Subject Field */}
+            <div>
+              <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+                {language === 'fr' ? 'Objet du Message' : 'Subject'}
+              </label>
+              <input
+                type="text"
+                id="subject_line"
+                name="subject_line"
+                required
+                placeholder={language === 'fr' ? "Opportunité, Projet, Question..." : "Opportunity, Project, Inquiry..."}
+                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+              />
+            </div>
+
+            {/* Message Field */}
+            <div>
+              <label htmlFor="form_message" className="block text-xs font-cinzel text-[#D4AF37] mb-2 tracking-widest uppercase font-semibold">
+                {language === 'fr' ? 'Votre Message' : 'Your Message'}
+              </label>
+              <textarea
+                id="form_message"
+                name="form_message"
+                rows="6"
+                required
+                placeholder={language === 'fr' ? "Rédigez votre message ici..." : "Type your message here..."}
+                className="w-full bg-[#261d17] border border-[#D4AF37]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm resize-y"
+              ></textarea>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#415D43] hover:bg-[#2E4330] border border-[#415D43] text-white font-cinzel font-bold tracking-widest uppercase py-4 rounded-xl transition-all shadow-[0_5px_20px_rgba(65,93,67,0.4)] flex justify-center items-center gap-3"
+            >
+              <span>{language === 'fr' ? 'Envoyer le Message' : 'Send Message'}</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
   );
 }
