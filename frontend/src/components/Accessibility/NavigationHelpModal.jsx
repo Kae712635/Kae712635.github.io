@@ -8,7 +8,7 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
   const { t, language } = useLanguage();
   const { preferences, updatePreference, isReducedMotion } = useAccessibility();
   const [showTextVersion, setShowTextVersion] = useState(false);
-  const [expandedSection, setExpandedSection] = useState(null); // 'mouse' | 'keyboard' | 'touch' | null
+  const [activeTab, setActiveTab] = useState('mouse'); // 'mouse' | 'keyboard' | 'touch'
   const modalRef = useRef(null);
   const closeBtnRef = useRef(null);
 
@@ -18,10 +18,6 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
     } catch {
       return fallback;
     }
-  };
-
-  const toggleSection = (sectionKey) => {
-    setExpandedSection(prev => prev === sectionKey ? null : sectionKey);
   };
 
   // Focus trap, Escape key handling, and background scroll lock
@@ -90,7 +86,6 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="nav-help-title"
-        aria-describedby="nav-help-subtitle"
       >
         {/* Backdrop */}
         <motion.div
@@ -105,33 +100,26 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
         {/* Modal Window */}
         <motion.div
           ref={modalRef}
-          initial={{ opacity: 0, scale: isReducedMotion ? 1 : 0.96, y: isReducedMotion ? 0 : 12 }}
+          initial={{ opacity: 0, scale: isReducedMotion ? 1 : 0.96, y: isReducedMotion ? 0 : 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: isReducedMotion ? 1 : 0.96, y: isReducedMotion ? 0 : 8 }}
-          transition={{ duration: isReducedMotion ? 0 : 0.22 }}
-          className="relative w-full max-w-[720px] max-h-[88vh] bg-[#2B0F14] border border-[#D4A24E]/35 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col text-[#F5EBDD] overflow-hidden my-auto"
+          transition={{ duration: isReducedMotion ? 0 : 0.2 }}
+          className="relative w-full max-w-[580px] max-h-[82vh] bg-[#2B0F14] border border-[#D4A24E]/35 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col text-[#F5EBDD] overflow-hidden my-auto"
         >
-          {/* Header */}
-          <header className="relative px-5 pt-5 pb-3 sm:px-6 sm:pt-6 border-b border-[#D4A24E]/20 bg-[#1E0A0E] flex justify-between items-start">
-            <div className="pr-10">
-              <span className="text-[11px] font-cinzel tracking-[0.18em] text-[#D4A24E] uppercase font-bold block mb-1">
-                {language === 'fr' ? 'Accessibilité & Pédagogie' : 'Accessibility & Guide'}
-              </span>
-              <h2 id="nav-help-title" className="text-lg sm:text-xl font-cinzel font-bold text-[#F5EBDD] leading-tight">
-                {getTranslation('a11yNavHelpTitle', 'Aide à la Navigation 3D')}
-              </h2>
-              <p id="nav-help-subtitle" className="text-xs sm:text-sm text-[#D8C6B6] mt-1 font-sans">
-                {getTranslation('a11yNavHelpSubtitle', 'Guide des contrôles de la bibliothèque et raccourcis clavier.')}
-              </p>
-            </div>
+          {/* Header Compact */}
+          <header className="px-4 py-3 sm:px-5 sm:py-3.5 border-b border-[#D4A24E]/20 bg-[#1E0A0E] flex justify-between items-center shrink-0">
+            <h2 id="nav-help-title" className="text-base sm:text-lg font-cinzel font-bold text-[#F5EBDD] flex items-center gap-2">
+              <span className="text-base sm:text-lg" aria-hidden="true">🧭</span>
+              <span>{getTranslation('a11yNavHelpTitle', 'Aide à la Navigation 3D')}</span>
+            </h2>
 
             <button
               ref={closeBtnRef}
               onClick={onClose}
-              className="p-2.5 rounded-lg text-[#D8C6B6] hover:text-[#F5EBDD] hover:bg-white/10 transition-colors border border-transparent hover:border-[#D4A24E]/40 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+              className="p-1.5 rounded-lg text-[#D8C6B6] hover:text-[#F5EBDD] hover:bg-white/10 transition-colors border border-transparent hover:border-[#D4A24E]/40 flex items-center justify-center cursor-pointer min-w-[36px] min-h-[36px]"
               aria-label={getTranslation('a11yClose', 'Fermer la fenêtre')}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
               </svg>
@@ -139,210 +127,158 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
           </header>
 
           {/* Body Content */}
-          <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5 flex-1 custom-scrollbar text-sm font-sans">
+          <div className="p-3.5 sm:p-4 overflow-y-auto space-y-2.5 flex-1 custom-scrollbar text-sm font-sans">
             
-            {/* Quick Motion Toggle Banner */}
-            <div className="flex items-center justify-between p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex-wrap gap-3">
-              <div className="flex-1 min-w-[220px]">
-                <strong className="block text-xs font-cinzel text-[#D4A24E] uppercase">
-                  {language === 'fr' ? 'Sensibilité au mouvement ?' : 'Motion Sensitivity?'}
-                </strong>
-                <span className="text-xs text-[#D8C6B6]">
-                  {language === 'fr' ? 'Désactivez les transitions de caméra et rotations.' : 'Disable camera transitions and continuous animations.'}
-                </span>
+            {/* Quick Motion Toggle - Compact 1-line */}
+            <div className="flex items-center justify-between p-2.5 px-3 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-sm" aria-hidden="true">⚡</span>
+                <div>
+                  <span className="text-xs font-cinzel font-bold text-[#F5EBDD] block leading-tight">
+                    {language === 'fr' ? 'Mouvements réduits' : 'Reduced Motion'}
+                  </span>
+                  <span className="text-[11px] text-[#D8C6B6] block leading-tight">
+                    {language === 'fr' ? 'Désactive les rotations et transitions 3D' : 'Disables 3D rotations & transitions'}
+                  </span>
+                </div>
               </div>
               <button
-                onClick={() => updatePreference('reducedMotion', !preferences.reducedMotion)}
+                type="button"
                 role="switch"
                 aria-checked={preferences.reducedMotion}
-                className={`px-3.5 py-2 rounded-lg font-cinzel text-xs font-bold uppercase transition-all flex items-center gap-2 cursor-pointer min-h-[40px] ${
-                  preferences.reducedMotion 
-                    ? 'bg-[#A6303B] text-white border border-[#A6303B] shadow' 
-                    : 'bg-[#36141B] text-[#D8C6B6] border border-[#D4A24E]/30 hover:text-[#F5EBDD] hover:border-[#D4A24E]'
+                aria-label={language === 'fr' ? 'Mouvements réduits' : 'Reduced Motion'}
+                onClick={() => updatePreference('reducedMotion', !preferences.reducedMotion)}
+                className={`w-11 h-6 flex items-center rounded-full p-0.5 transition-colors shrink-0 cursor-pointer min-h-[32px] ${
+                  preferences.reducedMotion ? 'bg-[#A6303B]' : 'bg-[#36141B] border border-[#D4A24E]/40'
                 }`}
               >
-                <span>{preferences.reducedMotion ? `✓ ${getTranslation('a11yActive', 'Activé')}` : `○ ${getTranslation('a11yInactive', 'Désactivé')}`}</span>
-                <span className="text-[11px] font-normal normal-case opacity-90 hidden sm:inline">
-                  ({language === 'fr' ? 'Mouvements réduits' : 'Reduced motion'})
-                </span>
+                <div className={`bg-white w-4 h-4 rounded-full shadow transform transition-transform ${
+                  preferences.reducedMotion ? 'translate-x-5' : 'translate-x-0.5'
+                }`} />
               </button>
             </div>
 
-            {/* 3 Interaction Sections with Progressive Disclosure Accordions */}
-            <div className="space-y-2.5">
-              
-              {/* 1. Souris & Trackpad */}
-              <div className="bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl overflow-hidden">
+            {/* Horizontal Tabs [ Souris | Clavier | Tactile ] */}
+            <div className="flex p-1 bg-[#1E0A0E] rounded-xl border border-[#D4A24E]/25 gap-1" role="tablist" aria-label="Mode de contrôle">
+              {[
+                { id: 'mouse', label: language === 'fr' ? 'Souris' : 'Mouse', icon: '🖱️' },
+                { id: 'keyboard', label: language === 'fr' ? 'Clavier' : 'Keyboard', icon: '⌨️' },
+                { id: 'touch', label: language === 'fr' ? 'Tactile' : 'Touch', icon: '📱' },
+              ].map((tab) => (
                 <button
-                  type="button"
-                  onClick={() => toggleSection('mouse')}
-                  aria-expanded={expandedSection === 'mouse'}
-                  aria-controls="section-help-mouse"
-                  className="w-full p-3.5 text-left flex items-center justify-between gap-3 hover:bg-white/5 transition-colors cursor-pointer"
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`tabpanel-${tab.id}`}
+                  id={`tab-${tab.id}`}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-cinzel font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer min-h-[34px] ${
+                    activeTab === tab.id
+                      ? 'bg-[#A6303B] text-white shadow'
+                      : 'text-[#D8C6B6] hover:text-[#F5EBDD] hover:bg-white/5'
+                  }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg shrink-0" aria-hidden="true">🖱️</span>
-                    <div>
-                      <h3 className="font-cinzel text-xs sm:text-sm font-bold text-[#F5EBDD]">
-                        {getTranslation('a11yHelpMouseTitle', 'Souris & Trackpad')}
-                      </h3>
-                      <p className="text-[11px] text-[#D8C6B6]">
-                        {getTranslation('a11yMouseSummary', 'Déplacer, pivoter et zoomer à la molette')}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-xs font-cinzel text-[#D4A24E] shrink-0 font-bold">
-                    {expandedSection === 'mouse' ? '▲ ' + getTranslation('a11yHideDetails', 'Masquer') : '▼ ' + getTranslation('a11yShowDetails', 'Détails')}
-                  </span>
+                  <span className="text-xs" aria-hidden="true">{tab.icon}</span>
+                  <span>{tab.label}</span>
                 </button>
+              ))}
+            </div>
 
-                {expandedSection === 'mouse' && (
-                  <div id="section-help-mouse" className="px-4 pb-3.5 pt-1 border-t border-[#D4A24E]/15 bg-[#36141B]/40">
-                    <ul className="space-y-2 text-xs text-[#D8C6B6]">
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Pivoter :' : 'Rotate:'}</strong> {getTranslation('a11yHelpMouseRotate', 'Déplacez le curseur pour observer les rayons de la bibliothèque.')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Zoomer :' : 'Zoom:'}</strong> {getTranslation('a11yHelpMouseZoom', 'Utilisez la molette pour vous approcher des ouvrages.')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Sélectionner :' : 'Select:'}</strong> {getTranslation('a11yHelpMouseSelect', 'Cliquez sur un livre ou une travée pour ouvrir les détails.')}</span>
-                      </li>
-                    </ul>
+            {/* Active Tab Panel */}
+            <div className="p-3 bg-[#1E0A0E] border border-[#D4A24E]/20 rounded-xl">
+              {activeTab === 'mouse' && (
+                <div id="tabpanel-mouse" role="tabpanel" aria-labelledby="tab-mouse" className="space-y-2 text-xs text-[#D8C6B6]">
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Pivoter :' : 'Rotate:'}</strong> {getTranslation('a11yHelpMouseRotate', 'Déplacez le curseur pour observer les rayons.')}</span>
                   </div>
-                )}
-              </div>
-
-              {/* 2. Raccourcis Clavier */}
-              <div className="bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => toggleSection('keyboard')}
-                  aria-expanded={expandedSection === 'keyboard'}
-                  aria-controls="section-help-keyboard"
-                  className="w-full p-3.5 text-left flex items-center justify-between gap-3 hover:bg-white/5 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg shrink-0" aria-hidden="true">⌨️</span>
-                    <div>
-                      <h3 className="font-cinzel text-xs sm:text-sm font-bold text-[#F5EBDD]">
-                        {getTranslation('a11yHelpKeyboardTitle', 'Raccourcis Clavier')}
-                      </h3>
-                      <p className="text-[11px] text-[#D8C6B6]">
-                        {getTranslation('a11yKeyboardSummary', 'Touches 0 à 4 pour naviguer entre les travées')}
-                      </p>
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Zoomer :' : 'Zoom:'}</strong> {getTranslation('a11yHelpMouseZoom', 'Molette de la souris pour approcher les ouvrages.')}</span>
                   </div>
-                  <span className="text-xs font-cinzel text-[#D4A24E] shrink-0 font-bold">
-                    {expandedSection === 'keyboard' ? '▲ ' + getTranslation('a11yHideDetails', 'Masquer') : '▼ ' + getTranslation('a11yShowDetails', 'Détails')}
-                  </span>
-                </button>
-
-                {expandedSection === 'keyboard' && (
-                  <div id="section-help-keyboard" className="px-4 pb-3.5 pt-1 border-t border-[#D4A24E]/15 bg-[#36141B]/40">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#D8C6B6]">
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">1</kbd>
-                        <span>{language === 'fr' ? 'Travée 1 : Expériences Pro' : 'Bay 1: Work Experiences'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">2</kbd>
-                        <span>{language === 'fr' ? 'Travée 2 : Projets Phares' : 'Bay 2: Featured Projects'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">3</kbd>
-                        <span>{language === 'fr' ? 'Travée 3 : Compétences Tech' : 'Bay 3: Tech Skills'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">4</kbd>
-                        <span>{language === 'fr' ? 'Travée 4 : Formations & Diplômes' : 'Bay 4: Education'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">0 / Échap</kbd>
-                        <span>{language === 'fr' ? 'Retour vue globale' : 'Return to entrance view'}</span>
-                      </div>
-                      <div className="flex items-center gap-2 p-2 bg-[#1E0A0E] rounded-lg border border-[#D4A24E]/20">
-                        <kbd className="px-2 py-0.5 bg-[#36141B] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold">Tab / Entrée</kbd>
-                        <span>{language === 'fr' ? 'Sélectionner & Ouvrir' : 'Focus & Open'}</span>
-                      </div>
-                    </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Sélectionner :' : 'Select:'}</strong> {getTranslation('a11yHelpMouseSelect', 'Clic sur un livre ou panneau pour ouvrir la fiche.')}</span>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* 3. Écran Tactile */}
-              <div className="bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => toggleSection('touch')}
-                  aria-expanded={expandedSection === 'touch'}
-                  aria-controls="section-help-touch"
-                  className="w-full p-3.5 text-left flex items-center justify-between gap-3 hover:bg-white/5 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg shrink-0" aria-hidden="true">📱</span>
-                    <div>
-                      <h3 className="font-cinzel text-xs sm:text-sm font-bold text-[#F5EBDD]">
-                        {getTranslation('a11yHelpTouchTitle', 'Écran Tactile')}
-                      </h3>
-                      <p className="text-[11px] text-[#D8C6B6]">
-                        {getTranslation('a11yTouchSummary', 'Glisser et pincer pour explorer')}
-                      </p>
-                    </div>
+              {activeTab === 'keyboard' && (
+                <div id="tabpanel-keyboard" role="tabpanel" aria-labelledby="tab-keyboard" className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-[#D8C6B6]">
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">1</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Travée 1 : Expériences' : 'Bay 1: Experiences'}</span>
                   </div>
-                  <span className="text-xs font-cinzel text-[#D4A24E] shrink-0 font-bold">
-                    {expandedSection === 'touch' ? '▲ ' + getTranslation('a11yHideDetails', 'Masquer') : '▼ ' + getTranslation('a11yShowDetails', 'Détails')}
-                  </span>
-                </button>
-
-                {expandedSection === 'touch' && (
-                  <div id="section-help-touch" className="px-4 pb-3.5 pt-1 border-t border-[#D4A24E]/15 bg-[#36141B]/40">
-                    <ul className="space-y-2 text-xs text-[#D8C6B6]">
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Glisser :' : 'Swipe:'}</strong> {getTranslation('a11yHelpTouchSwipe', 'Glissez un doigt pour orienter la vue dans la pièce.')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Pincer :' : 'Pinch:'}</strong> {getTranslation('a11yHelpTouchPinch', 'Pincez à deux doigts pour zoomer et dézoomer.')}</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-[#D4A24E] font-bold shrink-0">•</span>
-                        <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Toucher :' : 'Tap:'}</strong> {getTranslation('a11yHelpTouchTap', 'Touchez un livre pour ouvrir sa fiche détaillée.')}</span>
-                      </li>
-                    </ul>
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">2</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Travée 2 : Projets' : 'Bay 2: Projects'}</span>
                   </div>
-                )}
-              </div>
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">3</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Travée 3 : Compétences' : 'Bay 3: Skills'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">4</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Travée 4 : Formations' : 'Bay 4: Education'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">0 / Échap</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Vue globale entrée' : 'Entrance view'}</span>
+                  </div>
+                  <div className="flex items-center gap-2 p-1.5 px-2 bg-[#36141B]/40 rounded-lg border border-[#D4A24E]/15">
+                    <kbd className="px-1.5 py-0.5 bg-[#1E0A0E] border border-[#D4A24E]/40 rounded font-mono text-[11px] text-[#D4A24E] font-bold shrink-0">Tab / Entrée</kbd>
+                    <span className="truncate">{language === 'fr' ? 'Sélection & Ouverture' : 'Focus & Open'}</span>
+                  </div>
+                </div>
+              )}
 
+              {activeTab === 'touch' && (
+                <div id="tabpanel-touch" role="tabpanel" aria-labelledby="tab-touch" className="space-y-2 text-xs text-[#D8C6B6]">
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Glisser :' : 'Swipe:'}</strong> {getTranslation('a11yHelpTouchSwipe', 'Glissez un doigt pour orienter la vue.')}</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Pincer :' : 'Pinch:'}</strong> {getTranslation('a11yHelpTouchPinch', 'Pincez à 2 doigts pour zoomer et dézoomer.')}</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[#D4A24E] font-bold shrink-0">•</span>
+                    <span><strong className="text-[#F5EBDD]">{language === 'fr' ? 'Toucher :' : 'Tap:'}</strong> {getTranslation('a11yHelpTouchTap', 'Touchez un livre pour ouvrir sa fiche complète.')}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Toggle Text Alternative View (Teal Contrast Accent) */}
-            <div className="pt-1">
+            <div className="pt-0.5">
               <button
                 type="button"
                 onClick={() => setShowTextVersion(prev => !prev)}
-                className="w-full py-2.5 px-4 rounded-xl border border-[#3C6E71] bg-[#3C6E71]/20 hover:bg-[#3C6E71]/35 text-[#F5EBDD] font-cinzel font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer focus-visible:ring-2 focus-visible:ring-[#D4A24E]"
+                className="w-full py-2 px-3 rounded-xl border border-[#3C6E71]/50 bg-[#3C6E71]/15 hover:bg-[#3C6E71]/25 text-[#F5EBDD] font-cinzel font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer focus-visible:ring-2 focus-visible:ring-[#D4A24E]"
                 aria-expanded={showTextVersion}
               >
-                <span>{showTextVersion ? '▲ ' + getTranslation('a11yTextVersionHide', 'Masquer la version texte') : '▼ ' + getTranslation('a11yTextVersionBtn', 'Consulter la version texte alternative (sans 3D)')}</span>
+                <span className="flex items-center gap-2">
+                  <span className="text-sm" aria-hidden="true">📄</span>
+                  <span>{getTranslation('a11yTextVersionBtn', 'Version texte alternative (sans 3D)')}</span>
+                </span>
+                <span className="text-xs text-[#5E9FA2]">{showTextVersion ? '▲' : '▼'}</span>
               </button>
 
               {showTextVersion && (
-                <TextAlternative3D onSelectProject={onClose} />
+                <div className="mt-2.5">
+                  <TextAlternative3D onSelectProject={onClose} />
+                </div>
               )}
             </div>
 
           </div>
 
           {/* Footer Actions */}
-          <footer className="px-5 py-3 sm:px-6 border-t border-[#D4A24E]/20 bg-[#1E0A0E] flex justify-end">
+          <footer className="px-4 py-2.5 sm:px-5 border-t border-[#D4A24E]/20 bg-[#1E0A0E] flex justify-end shrink-0">
             <button
               onClick={onClose}
-              className="px-5 py-2 bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-colors cursor-pointer min-h-[40px]"
+              className="px-4 py-1.5 bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-colors cursor-pointer min-h-[36px]"
             >
               {getTranslation('a11yClose', 'Fermer')}
             </button>
@@ -352,4 +288,3 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
     </AnimatePresence>
   );
 }
-
