@@ -33,16 +33,16 @@ const HUD = () => {
     return (
         <>
             {/* STICKY TOP BAR - ALWAYS MOUNTED & VISIBLE */}
-            <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-4 sm:px-6 py-3 bg-[#1e1d1b]/95 backdrop-blur-lg border-b border-[#EEE2DF]/10 shadow-sm" style={{ pointerEvents: 'auto' }}>
+            <header className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between px-4 sm:px-6 py-3 bg-[#1E0A0E]/95 backdrop-blur-lg border-b border-[#D4A24E]/20 shadow-sm" style={{ pointerEvents: 'auto' }}>
                 {/* Left: View toggle (Site Web / Bibliothèque) */}
                 <div className="flex items-center gap-2 z-10">
                     <button
                         onClick={() => navigate(isProjetsPage ? '/' : '/projets')}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#8A897C]/30 text-[#8A897C] hover:text-[#EEE2DF] hover:border-[#415D43] hover:bg-[#415D43]/20 transition-all text-xs font-cinzel tracking-widest uppercase group"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#D4A24E]/30 text-[#D8C6B6] hover:text-[#F5EBDD] hover:border-[#A6303B] hover:bg-[#A6303B]/20 transition-all text-xs font-cinzel tracking-widest uppercase group cursor-pointer"
                         title={isProjetsPage ? getTranslation('showLibraryTooltip', 'Afficher la bibliothèque 3D interactive') : getTranslation('hideLibraryTooltip', 'Afficher uniquement le site web / Masquer la bibliothèque')}
                         aria-label={isProjetsPage ? getTranslation('libraryView', 'Bibliothèque 3D') : getTranslation('catalogueView', 'Site Web (2D)')}
                     >
-                        <svg className="w-4 h-4 text-[#415D43] group-hover:text-[#EEE2DF] transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="w-4 h-4 text-[#A6303B] group-hover:text-[#F5EBDD] transition-colors shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             {isProjetsPage ? (
                                 <polyline points="15 18 9 12 15 6"></polyline>
                             ) : (
@@ -63,7 +63,7 @@ const HUD = () => {
 
                 {/* Center: identity - Mathematically centered in viewport with absolute position */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none text-center select-none">
-                    <span className="font-cinzel text-[#EEE2DF] text-xs sm:text-sm md:text-base tracking-[0.18em] uppercase font-bold whitespace-nowrap">
+                    <span className="font-cinzel text-[#F5EBDD] text-xs sm:text-sm md:text-base tracking-[0.18em] uppercase font-bold whitespace-nowrap">
                         Klervi Choblet
                     </span>
                 </div>
@@ -73,19 +73,19 @@ const HUD = () => {
                     {/* Discrete Language Switcher */}
                     <button
                         onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
-                        className="px-2.5 py-1 text-xs font-cinzel text-[#8A897C] hover:text-[#EEE2DF] hover:border-[#D4AF37] border border-[#8A897C]/30 rounded uppercase transition-colors"
+                        className="px-2.5 py-1 text-xs font-cinzel text-[#D8C6B6] hover:text-[#F5EBDD] hover:border-[#D4A24E] border border-[#D4A24E]/30 rounded uppercase transition-colors cursor-pointer"
                         title={getTranslation('languageSwitchTitle', language === 'fr' ? 'Switch to English' : 'Passer en Français')}
                         aria-label="Changer de langue"
                     >
                         {language === 'fr' ? 'FR' : 'EN'}
                     </button>
 
-                    <span className="text-[#8A897C]/40 hidden sm:inline" aria-hidden>|</span>
+                    <span className="text-[#D4A24E]/30 hidden sm:inline" aria-hidden>|</span>
 
                     <a
                         href="https://github.com/Kae712635/"
                         target="_blank" rel="noopener noreferrer"
-                        className="hidden sm:flex items-center gap-1.5 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-wider uppercase"
+                        className="hidden sm:flex items-center gap-1.5 text-[#D8C6B6] hover:text-[#F5EBDD] transition-colors text-xs font-cinzel tracking-wider uppercase"
                         title="GitHub"
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -94,13 +94,13 @@ const HUD = () => {
                         <span className="hidden md:inline">GitHub</span>
                     </a>
 
-                    <span className="text-[#8A897C]/40 hidden sm:inline" aria-hidden>|</span>
+                    <span className="text-[#D4A24E]/30 hidden sm:inline" aria-hidden>|</span>
 
                     <a
                         href="/documents/CV_Klervi_Choblet.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-[#8A897C] hover:text-[#EEE2DF] transition-colors text-xs font-cinzel tracking-wider uppercase"
+                        className="flex items-center gap-1.5 text-[#D8C6B6] hover:text-[#F5EBDD] transition-colors text-xs font-cinzel tracking-wider uppercase"
                         title={getTranslation('downloadPdf', 'Télécharger CV')}
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -110,11 +110,11 @@ const HUD = () => {
                         <span>CV</span>
                     </a>
 
-                    <span className="text-[#8A897C]/40" aria-hidden>|</span>
+                    <span className="text-[#D4A24E]/30" aria-hidden>|</span>
 
                     <button
                         onClick={handleNavigateContact}
-                        className="flex items-center gap-1.5 text-[#B36A5E] hover:text-[#EEE2DF] hover:bg-[#B36A5E]/20 px-2.5 py-1 rounded border border-[#B36A5E]/40 transition-colors text-xs font-cinzel tracking-wider uppercase font-bold"
+                        className="flex items-center gap-1.5 text-[#3C6E71] hover:text-[#F5EBDD] hover:bg-[#3C6E71]/25 px-2.5 py-1 rounded border border-[#3C6E71]/50 transition-colors text-xs font-cinzel tracking-wider uppercase font-bold cursor-pointer"
                     >
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>

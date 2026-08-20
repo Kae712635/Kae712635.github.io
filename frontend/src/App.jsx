@@ -20,7 +20,7 @@ const LoadingFallback = () => (
     aria-live="polite"
     style={{
       display: 'flex', justifyContent: 'center', alignItems: 'center',
-      height: '100vh', background: '#1e1d1b', color: '#EEE2DF',
+      height: '100vh', background: '#2B0F14', color: '#F5EBDD',
       fontFamily: 'Cinzel, serif', fontSize: '1.25rem'
     }}
   >
@@ -45,28 +45,28 @@ function MobileBanner({ onDismiss }) {
       aria-label="Notification d'affichage mobile"
       style={{
         position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)',
-        zIndex: 9999, background: 'rgba(30, 29, 27, 0.95)', backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(238, 226, 223, 0.2)', borderRadius: '12px',
+        zIndex: 9999, background: 'rgba(30, 10, 14, 0.95)', backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(212, 162, 78, 0.3)', borderRadius: '12px',
         padding: '14px 20px', maxWidth: '90vw', width: '380px',
         display: 'flex', alignItems: 'center', gap: '12px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6)'
+        boxShadow: '0 8px 32px rgba(0,0,0,0.7)'
       }}
     >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }} aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4A24E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }} aria-hidden="true">
         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
         <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
         <line x1="12" y1="22.08" x2="12" y2="12"/>
       </svg>
       <div style={{ flex: 1 }}>
-        <p style={{ color: '#EEE2DF', fontFamily: 'Cinzel, serif', fontSize: '12px', fontWeight: 'bold', margin: 0, letterSpacing: '0.05em' }}>
+        <p style={{ color: '#F5EBDD', fontFamily: 'Cinzel, serif', fontSize: '12px', fontWeight: 'bold', margin: 0, letterSpacing: '0.05em' }}>
           Mode interactif adapté
         </p>
-        <p style={{ color: '#8A897C', fontSize: '11px', margin: '4px 0 0 0', lineHeight: '1.4' }}>
+        <p style={{ color: '#D8C6B6', fontSize: '11px', margin: '4px 0 0 0', lineHeight: '1.4' }}>
           La bibliothèque 3D est optimisée desktop. Voici le catalogue 2D complet.
         </p>
       </div>
       <button onClick={onDismiss} style={{
-        background: 'none', border: 'none', color: '#8A897C', cursor: 'pointer',
+        background: 'none', border: 'none', color: '#D8C6B6', cursor: 'pointer',
         fontSize: '18px', lineHeight: 1, padding: '4px', flexShrink: 0
       }} aria-label="Fermer la notification">×</button>
     </aside>

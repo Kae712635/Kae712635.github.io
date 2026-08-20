@@ -50,7 +50,7 @@ const ProjectCard = ({ project, onClick }) => {
 
   return (
     <div 
-      className="group relative flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer hover:-translate-y-1 bg-[#F5EFED] border border-[#8A897C]/20"
+      className="group relative flex flex-col rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl cursor-pointer hover:-translate-y-1 bg-[#1C1417] border border-[#D4A24E]/30 hover:border-[#D4A24E]/80 shadow-[0_10px_30px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_35px_rgba(212,162,78,0.18)]"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -67,18 +67,18 @@ const ProjectCard = ({ project, onClick }) => {
             loading="lazy"
           />
           {/* Subtle overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#15100C] via-transparent to-transparent opacity-90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#140E10] via-transparent to-transparent opacity-90" />
         </div>
         
-        {/* Badges catégories */}
+        {/* Badges catégories & tech — neutres chics & monospace */}
         <div className="absolute -bottom-3.5 left-4 flex flex-wrap gap-1.5 z-10 max-w-[90%]">
           {categories.map((cat, idx) => (
-            <span key={`cat-${idx}`} className="bg-[#415D43] text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded shrink-0">
+            <span key={`cat-${idx}`} className="bg-[#140E10]/95 text-[#D4A24E] border border-[#D4A24E]/45 text-[9px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded shadow-sm shrink-0">
               {cat}
             </span>
           ))}
           {project.tech && project.tech.slice(0, 3).map((tech, idx) => (
-              <span key={`tech-${idx}`} className="bg-[#EEE2DF] text-[#353535] text-[8px] font-medium tracking-wider px-2 py-1 rounded border border-[#8A897C]/30 flex items-center shrink-0">
+              <span key={`tech-${idx}`} className="bg-[#140E10]/85 text-[#D8C6B6] font-mono text-[8px] tracking-wider px-2 py-1 rounded border border-[#D4A24E]/20 flex items-center shrink-0">
                 {getTechIcon(tech)}
                 {tech}
               </span>
@@ -87,36 +87,36 @@ const ProjectCard = ({ project, onClick }) => {
       </div>
 
       {/* Content */}
-      <div className="px-6 pb-6 pt-8 md:px-6 md:pb-6 md:pt-10 flex flex-col flex-grow bg-[#F5EFED]">
+      <div className="px-6 pb-6 pt-8 md:px-6 md:pb-6 md:pt-10 flex flex-col flex-grow bg-[#1C1417]">
         <div className="flex justify-between items-start mb-3">
-          <h3 className="text-lg md:text-xl font-cinzel text-[#353535] uppercase tracking-wide group-hover:text-[#415D43] transition-colors duration-200 pr-4 leading-snug">
+          <h3 className="text-lg md:text-xl font-cinzel text-[#F5EBDD] uppercase tracking-wide group-hover:text-[#D4A24E] transition-colors duration-200 pr-4 leading-snug font-bold">
             {title}
           </h3>
 
           {formattedDate && (
-            <span className="text-[10px] text-[#8A897C] tracking-widest font-medium uppercase mt-1 shrink-0 whitespace-nowrap">
+            <span className="text-[10px] font-mono text-[#D4A24E]/90 tracking-wider font-semibold uppercase mt-1 shrink-0 whitespace-nowrap">
               {formattedDate.toUpperCase()}
             </span>
           )}
         </div>
 
-        <p className="text-[13px] md:text-[14px] text-[#353535]/80 leading-relaxed mb-6 line-clamp-3 font-serif">
+        <p className="text-[13px] md:text-[14px] text-[#D8C6B6] leading-relaxed mb-6 line-clamp-3 font-sans">
           {description}
         </p>
 
         <div className="mt-auto">
-          <div className="pt-4 border-t border-[#8A897C]/20 flex items-center justify-between">
-            <span className="text-xs font-medium text-[#415D43] group-hover:text-[#2E4330] flex items-center transition-colors uppercase tracking-widest">
+          <div className="pt-4 border-t border-[#D4A24E]/20 flex items-center justify-between">
+            <span className="text-xs font-bold font-cinzel text-[#D4A24E] group-hover:text-[#F5EBDD] flex items-center transition-colors uppercase tracking-widest">
               {language === 'fr' ? 'Découvrir' : 'Explore'}
               <svg className="w-3.5 h-3.5 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </span>
             
-            {/* Quick Links inside Card (stops propagation to not trigger modal) */}
+            {/* Quick Links inside Card */}
             <div className="flex gap-2" onClick={e => e.stopPropagation()}>
               {project.project_url && (
-                <a href={project.project_url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-white/40 hover:text-white hover:bg-white/10 rounded-md transition-colors" aria-label="Demo">
+                <a href={project.project_url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-[#D4A24E] hover:text-[#F5EBDD] hover:bg-white/10 rounded-md transition-colors" aria-label="Demo">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </a>
               )}

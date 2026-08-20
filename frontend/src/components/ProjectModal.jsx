@@ -39,7 +39,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/85 backdrop-blur-md"
         onClick={onClose}
         role="dialog"
         aria-modal="true"
@@ -50,13 +50,13 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="bg-[#1e1d1b] border border-[#8A897C]/30 w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl flex flex-col relative shadow-2xl"
+          className="bg-[#2B0F14] border border-[#D4A24E]/30 w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-2xl flex flex-col relative shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/60 text-[#EEE2DF] hover:bg-[#415D43] transition-colors border border-white/10 backdrop-blur-md"
+            className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-black/60 text-[#F5EBDD] hover:bg-[#A6303B] transition-colors border border-white/10 backdrop-blur-md cursor-pointer"
             aria-label="Fermer"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
@@ -69,38 +69,38 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             {image && (
               <div className="relative w-full h-64 md:h-80 lg:h-96 shrink-0 border-b border-white/10 bg-black">
                 <img src={image} alt={title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1e1d1b] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2B0F14] via-transparent to-transparent" />
                 <div className="absolute bottom-8 left-8 right-8">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {project.tech && project.tech.map(t => (
-                      <span key={t} className="bg-black/60 backdrop-blur-md border border-[#8A897C]/40 text-[#EEE2DF] text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                      <span key={t} className="bg-[#140E10]/95 backdrop-blur-md border border-[#D4A24E]/45 text-[#D8C6B6] font-mono text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
                         {t}
                       </span>
                     ))}
                   </div>
-                  <h2 id="modal-title" className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] mb-2">{title}</h2>
+                  <h2 id="modal-title" className="text-3xl md:text-5xl font-cinzel font-bold text-[#F5EBDD] mb-2">{title}</h2>
                 </div>
               </div>
             )}
 
             {/* Content Body */}
-            <div className="p-8 md:p-12 text-[#EEE2DF]/90 space-y-10">
+            <div className="p-8 md:p-12 text-[#F5EBDD]/90 space-y-10">
               <section>
-                <h3 className="text-xl font-cinzel font-bold text-[#EEE2DF] mb-4 flex items-center gap-3">
-                  <span className="w-6 h-[2px] bg-[#415D43]"></span>
+                <h3 className="text-xl font-cinzel font-bold text-[#F5EBDD] mb-4 flex items-center gap-3">
+                  <span className="w-6 h-[2px] bg-[#D4A24E]"></span>
                   {language === 'fr' ? 'Vue d\'ensemble' : 'Overview'}
                 </h3>
-                <p className="text-[15px] leading-relaxed mb-4 text-[#EEE2DF]/80 font-serif">{description}</p>
-                {detailedDesc && <p className="text-[15px] leading-relaxed text-[#EEE2DF] font-serif">{detailedDesc}</p>}
+                <p className="text-[15px] leading-relaxed mb-4 text-[#D8C6B6] font-sans">{description}</p>
+                {detailedDesc && <p className="text-[15px] leading-relaxed text-[#F5EBDD] font-sans">{detailedDesc}</p>}
               </section>
 
               {architecture && (
                 <section>
-                  <h3 className="text-xl font-cinzel font-bold text-[#EEE2DF] mb-4 flex items-center gap-3">
-                    <span className="w-6 h-[2px] bg-[#415D43]"></span>
+                  <h3 className="text-xl font-cinzel font-bold text-[#F5EBDD] mb-4 flex items-center gap-3">
+                    <span className="w-6 h-[2px] bg-[#D4A24E]"></span>
                     {language === 'fr' ? 'Architecture' : 'Architecture'}
                   </h3>
-                  <p className="text-[14px] leading-relaxed text-[#EEE2DF]/90 bg-[#15100c] p-6 rounded-xl border border-[#8A897C]/30 font-mono">
+                  <p className="text-[14px] leading-relaxed text-[#F5EBDD] bg-[#140E10] p-6 rounded-xl border border-[#D4A24E]/25 font-mono">
                     {architecture}
                   </p>
                 </section>
@@ -108,11 +108,11 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
               {project.video && (
                 <section>
-                  <h3 className="text-xl font-cinzel font-bold text-[#EEE2DF] mb-4 flex items-center gap-3">
-                    <span className="w-6 h-[2px] bg-[#D4AF37]"></span>
+                  <h3 className="text-xl font-cinzel font-bold text-[#F5EBDD] mb-4 flex items-center gap-3">
+                    <span className="w-6 h-[2px] bg-[#D4A24E]"></span>
                     {language === 'fr' ? 'Démonstration Vidéo' : 'Video Demonstration'}
                   </h3>
-                  <div className="rounded-xl overflow-hidden border border-[#8A897C]/30 bg-black shadow-2xl relative">
+                  <div className="rounded-xl overflow-hidden border border-[#D4A24E]/25 bg-black shadow-2xl relative">
                     <video 
                       src={project.video} 
                       controls
@@ -128,17 +128,17 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
               {challenges && challenges.length > 0 && (
                 <section>
-                  <h3 className="text-xl font-cinzel font-bold text-[#EEE2DF] mb-4 flex items-center gap-3">
-                    <span className="w-6 h-[2px] bg-[#415D43]"></span>
+                  <h3 className="text-xl font-cinzel font-bold text-[#F5EBDD] mb-4 flex items-center gap-3">
+                    <span className="w-6 h-[2px] bg-[#3C6E71]"></span>
                     {language === 'fr' ? 'Défis & Solutions' : 'Challenges & Solutions'}
                   </h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {challenges.map((c, i) => (
-                      <li key={i} className="flex items-start p-4 rounded-xl bg-[#15100c] border border-[#8A897C]/30">
-                        <svg className="w-5 h-5 text-[#D4AF37] shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <li key={i} className="flex items-start p-4 rounded-xl bg-[#140E10] border border-[#D4A24E]/20">
+                        <svg className="w-5 h-5 text-[#D4A24E] shrink-0 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
-                        <span className="text-[13px] leading-relaxed text-[#EEE2DF]/80">{getLocalized(c)}</span>
+                        <span className="text-[13px] leading-relaxed text-[#D8C6B6]">{getLocalized(c)}</span>
                       </li>
                     ))}
                   </ul>
@@ -146,11 +146,11 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               )}
 
               {/* Action Footer */}
-              <div className="pt-6 border-t border-[#8A897C]/30 flex flex-wrap gap-4 items-center">
+              <div className="pt-6 border-t border-[#D4A24E]/25 flex flex-wrap gap-4 items-center">
                 {project.project_url && (
                   <a 
                     href={project.project_url} target="_blank" rel="noopener noreferrer" 
-                    className="px-6 py-3 bg-[#415D43] hover:bg-[#2E4330] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2"
+                    className="px-6 py-3 bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
                   >
                     <span>{language === 'fr' ? 'Voir le projet en direct' : 'View Live Project'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,15 +161,18 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 {project.github_url && (
                   <a 
                     href={project.github_url} target="_blank" rel="noopener noreferrer" 
-                    className="px-6 py-3 border border-[#8A897C] hover:border-[#EEE2DF] text-[#EEE2DF] font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all"
+                    className="px-6 py-3 border border-[#D4A24E]/50 hover:border-[#D4A24E] hover:text-[#D4A24E] hover:bg-[#D4A24E]/10 text-[#F5EBDD] font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all inline-flex items-center gap-2 cursor-pointer"
                   >
-                    GitHub
+                    <span>GitHub</span>
+                    <svg className="w-4 h-4 text-[#D4A24E]" fill="currentColor" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                    </svg>
                   </a>
                 )}
                 {project.document && (
                   <a 
                     href={project.document} target="_blank" rel="noopener noreferrer" 
-                    className="px-6 py-3 bg-[#B36A5E] hover:bg-[#8A4C43] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2"
+                    className="px-6 py-3 bg-[#3C6E71] hover:bg-[#2C5356] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
                   >
                     <span>{language === 'fr' ? 'Consulter le Document PDF' : 'View PDF Document'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

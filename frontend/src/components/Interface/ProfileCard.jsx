@@ -26,16 +26,16 @@ const ProfileCard = ({ isOpen, onClose }) => {
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
                         transition={{ type: "spring", duration: 0.5 }}
                         style={{
-                            background: 'rgba(21, 16, 12, 0.85)',
+                            background: 'rgba(43, 15, 20, 0.96)',
                             backdropFilter: 'blur(15px)',
-                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            border: '1px solid rgba(212, 162, 78, 0.35)',
                             borderRadius: '20px',
                             padding: '40px',
                             maxWidth: '400px',
                             width: '90%',
-                            color: 'white',
+                            color: '#F5EBDD',
                             textAlign: 'center',
-                            boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+                            boxShadow: '0 10px 40px rgba(0,0,0,0.8)',
                             position: 'relative'
                         }}
                         onClick={(e) => e.stopPropagation()}
@@ -49,7 +49,7 @@ const ProfileCard = ({ isOpen, onClose }) => {
                                 right: '15px',
                                 background: 'transparent',
                                 border: 'none',
-                                color: 'rgba(255,255,255,0.5)',
+                                color: '#D8C6B6',
                                 fontSize: '20px',
                                 cursor: 'pointer'
                             }}
@@ -61,37 +61,37 @@ const ProfileCard = ({ isOpen, onClose }) => {
                             width: '60px',
                             height: '60px',
                             borderRadius: '50%',
-                            background: 'rgba(212, 175, 55, 0.1)',
-                            border: '1px solid #D4B886',
+                            background: 'rgba(212, 162, 78, 0.15)',
+                            border: '1px solid #D4A24E',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             margin: '0 auto 20px auto',
                             fontSize: '30px',
-                            boxShadow: '0 0 20px rgba(212, 175, 55, 0.3)'
+                            boxShadow: '0 0 20px rgba(212, 162, 78, 0.3)'
                         }}>
                             🧭
                         </div>
 
-                        <h2 style={{ fontSize: '24px', margin: '0 0 5px 0', fontFamily: 'Cinzel, serif', color: '#FDF5E6' }}>
+                        <h2 style={{ fontSize: '24px', margin: '0 0 5px 0', fontFamily: 'Cinzel, serif', color: '#F5EBDD' }}>
                             {language === 'fr' ? 'Guide des Archives' : 'Archive Guide'}
                         </h2>
-                        <h3 style={{ fontSize: '14px', color: '#D4B886', margin: '0 0 25px 0', fontWeight: 'normal', fontFamily: 'Cinzel, serif', letterSpacing: '1px', textTransform: 'uppercase' }}>
+                        <h3 style={{ fontSize: '14px', color: '#D4A24E', margin: '0 0 25px 0', fontWeight: 'normal', fontFamily: 'Cinzel, serif', letterSpacing: '1px', textTransform: 'uppercase' }}>
                             {language === 'fr' ? 'Navigation 3D Interactive' : 'Interactive 3D Navigation'}
                         </h3>
 
-                        <div style={{ lineHeight: '1.8', color: 'rgba(255,255,255,0.8)', fontSize: '15px', fontFamily: 'serif', textAlign: 'justify' }}>
+                        <div style={{ lineHeight: '1.8', color: '#D8C6B6', fontSize: '15px', fontFamily: 'sans-serif', textAlign: 'justify' }}>
                             {language === 'fr' ? (
                                 <>
                                     <p style={{ marginBottom: '15px' }}>
                                         Bienvenue dans ma bibliothèque virtuelle. Ce portfolio explore une nouvelle manière de présenter l'information via la 3D.
                                     </p>
-                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#C8B8A6' }}>
+                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#F5EBDD' }}>
                                         <li style={{ marginBottom: '8px' }}><strong>Rotation :</strong> Cliquez et glissez (ou utilisez le tactile) pour tourner la caméra.</li>
                                         <li style={{ marginBottom: '8px' }}><strong>Exploration :</strong> Cliquez sur les rayons dorés pour vous approcher.</li>
                                         <li style={{ marginBottom: '8px' }}><strong>Lecture :</strong> Cliquez sur un livre brillant pour découvrir un projet.</li>
                                     </ul>
-                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#7A614A' }}>
+                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#3C6E71' }}>
                                         Vous pouvez basculer vers le Catalogue 2D classique à l'aide du bouton en haut à gauche.
                                     </p>
                                 </>
@@ -100,12 +100,12 @@ const ProfileCard = ({ isOpen, onClose }) => {
                                     <p style={{ marginBottom: '15px' }}>
                                         Welcome to my virtual library. This portfolio explores a new way to present information through 3D.
                                     </p>
-                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#C8B8A6' }}>
+                                    <ul style={{ paddingLeft: '20px', textAlign: 'left', color: '#F5EBDD' }}>
                                         <li style={{ marginBottom: '8px' }}><strong>Rotation:</strong> Click and drag (or touch) to rotate the camera.</li>
                                         <li style={{ marginBottom: '8px' }}><strong>Exploration:</strong> Click on the golden sections to move closer.</li>
                                         <li style={{ marginBottom: '8px' }}><strong>Reading:</strong> Click on a glowing book to discover a project.</li>
                                     </ul>
-                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#7A614A' }}>
+                                    <p style={{ marginTop: '15px', fontSize: '13px', fontStyle: 'italic', textAlign: 'center', color: '#3C6E71' }}>
                                         You can switch to the classic 2D Catalog using the button on the top left.
                                     </p>
                                 </>

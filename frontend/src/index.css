@@ -9,36 +9,43 @@
 }
 
 @theme {
-  /* ── Palette Bibliothèque Éditoriale ─────────────────────────────── */
-  --color-cream:   #EEE2DF; /* Crème de Papier — fond principal 2D    */
-  --color-graphite:#353535; /* Graphite — texte, structure             */
-  --color-green:   #415D43; /* Vert Bibliothèque — accent principal    */
-  --color-olive:   #8A897C; /* Olive — bordures fines, détails         */
-  --color-bronze:  #B36A5E; /* Bronze — CTA, micro-éléments            */
+  /* ── Palette Bordeaux & Or Mystique ─────────────────────────────── */
+  --color-cream:   #F5EBDD; /* Texte clair — parchemin                 */
+  --color-bg-dark: #2B0F14; /* Fond principal bordeaux quasi-noir      */
+  --color-wine:    #A6303B; /* Accent primaire — rouge vin vif (réservé CTA/hero) */
+  --color-gold:    #D4A24E; /* Accent doré — chic, icônes, survol, badges */
+  --color-teal:    #3C6E71; /* Contraste froid — teal désaturé         */
 
   /* Dérivés utiles */
-  --color-cream-dark:  #D9CCC8;
-  --color-cream-light: #F5EFED;
-  --color-green-dark:  #2E4330;
-  --color-green-light: #5A7D5C;
-  --color-bronze-dark: #8A4C43;
+  --color-bg-subtle:   #1E0A0E; /* Bordeaux plus sombre pour headers/footers */
+  --color-bg-card:     #1C1417; /* Fond neutre sombre noble pour cartes (anti-rouge saturation) */
+  --color-bg-neutral:  #181215; /* Fond neutre bibliothèque 3D */
+  --color-wine-dark:   #801F29;
+  --color-wine-light:  #C74451;
+  --color-teal-dark:   #2C5356;
+  --color-teal-light:  #4E898D;
+  --color-gold-dark:   #B88535;
+  --color-gold-light:  #E8BF73;
+  --color-text-muted:  #D8C6B6;
 
   /* Système générique */
-  --color-bg:       var(--color-cream);
-  --color-primary:  var(--color-graphite);
-  --color-accent:   var(--color-green);
-  --color-muted:    var(--color-olive);
-  --color-cta:      var(--color-bronze);
+  --color-bg:       var(--color-bg-dark);
+  --color-primary:  var(--color-cream);
+  --color-accent:   var(--color-wine);
+  --color-muted:    var(--color-text-muted);
+  --color-cta:      var(--color-wine);
+  --color-cold:     var(--color-teal);
 
-  --shadow-subtle: 0 4px 24px rgba(53,53,53,0.08);
-  --shadow-hover:  0 8px 32px rgba(53,53,53,0.15), 0 0 0 1px rgba(65,93,67,0.2);
-  --border-light:  1px solid rgba(138,137,124,0.25);
-  --border-hover:  1px solid rgba(65,93,67,0.5);
+  --shadow-subtle: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-hover:  0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,162,78,0.4);
+  --border-light:  1px solid rgba(212,162,78,0.2);
+  --border-hover:  1px solid rgba(212,162,78,0.6);
 
   --font-heading: 'Cinzel', serif;
   --font-body:    'Inter', sans-serif;
   --font-display: 'Cinzel', serif;
   --font-cinzel:  'Cinzel', serif;
+  --font-mono:    'JetBrains Mono', monospace;
 
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -62,9 +69,9 @@
 
   /* Universal High Visibility Focus Indicator (WCAG 2.2 AA) */
   :focus-visible {
-    outline: 3px solid #D4AF37 !important;
+    outline: 3px solid #D4A24E !important;
     outline-offset: 3px !important;
-    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.6) !important;
     border-radius: 4px;
   }
 }
@@ -73,53 +80,53 @@
   /* Boutons */
   .btn-outline {
     @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
-    color: var(--color-graphite);
+    color: var(--color-cream);
     background: transparent;
-    border: 1px solid var(--color-olive);
+    border: 1px solid rgba(212, 162, 78, 0.4);
     border-radius: 4px;
   }
   .btn-outline:hover {
-    border-color: var(--color-green);
-    color: var(--color-green);
-    background: rgba(65,93,67,0.06);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    background: rgba(212, 162, 78, 0.1);
   }
 
   .btn-primary {
     @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
     color: #fff;
-    background: var(--color-green);
+    background: var(--color-wine);
     border: 1px solid transparent;
     border-radius: 4px;
   }
   .btn-primary:hover {
-    background: var(--color-green-dark);
+    background: var(--color-wine-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(65,93,67,0.3);
+    box-shadow: 0 4px 16px rgba(166, 48, 59, 0.4);
   }
 
   .btn-cta {
     @apply inline-flex items-center justify-center px-7 py-3 text-sm font-cinzel tracking-widest uppercase transition-all duration-200;
     color: #fff;
-    background: var(--color-bronze);
+    background: var(--color-teal);
     border-radius: 99px;
   }
   .btn-cta:hover {
-    background: var(--color-bronze-dark);
-    box-shadow: 0 4px 16px rgba(179,106,94,0.35);
+    background: var(--color-teal-dark);
+    box-shadow: 0 4px 16px rgba(60, 110, 113, 0.4);
   }
 
   /* Badge / Tag */
   .tag {
     @apply inline-block text-[10px] font-bold uppercase tracking-widest px-2.5 py-1;
-    color: var(--color-green);
-    background: rgba(65,93,67,0.1);
-    border: 1px solid rgba(65,93,67,0.25);
+    color: var(--color-teal-light);
+    background: rgba(60, 110, 113, 0.15);
+    border: 1px solid rgba(60, 110, 113, 0.35);
     border-radius: 3px;
   }
 
   /* Card */
   .card {
-    background: var(--color-cream-light);
+    background: var(--color-bg-card);
     border: var(--border-light);
     border-radius: 8px;
     box-shadow: var(--shadow-subtle);
@@ -132,34 +139,34 @@
 
   /* Scrollbar discrète */
   ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+  ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
   ::-webkit-scrollbar-thumb {
-    background: rgba(138,137,124,0.45);
+    background: rgba(212, 162, 78, 0.35);
     border-radius: 10px;
     border: 2px solid transparent;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(138,137,124,0.75);
+    background: rgba(212, 162, 78, 0.65);
   }
 
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: rgba(212, 175, 55, 0.4) rgba(0, 0, 0, 0.2);
+    scrollbar-color: rgba(212, 162, 78, 0.4) rgba(0, 0, 0, 0.25);
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.25);
     border-radius: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.4);
+    background: rgba(212, 162, 78, 0.4);
     border-radius: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(212, 175, 55, 0.7);
+    background: rgba(212, 162, 78, 0.7);
   }
 }
 
@@ -269,12 +276,12 @@ html.a11y-reduced-motion *::after {
 /* 8. Grand curseur (Large Cursor) */
 html.a11y-large-cursor,
 html.a11y-large-cursor * {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%23D4AF37' stroke='%23000000' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), auto !important;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%23D4A24E' stroke='%23000000' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), auto !important;
 }
 html.a11y-large-cursor button,
 html.a11y-large-cursor a,
 html.a11y-large-cursor [role="button"] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%23415D43' stroke='%23ffffff' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), pointer !important;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 24 24' fill='%23A6303B' stroke='%23ffffff' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), pointer !important;
 }
 
 /* 9. Mode lecture simplifié */
@@ -312,9 +319,9 @@ html.a11y-simplified-reading p {
   overflow: visible;
   clip: auto;
   white-space: normal;
-  background-color: #1e1d1b;
-  color: #D4AF37;
-  border: 2px solid #D4AF37;
+  background-color: #2B0F14;
+  color: #D4A24E;
+  border: 2px solid #D4A24E;
   border-radius: 0.5rem;
   font-family: 'Cinzel', serif;
   font-weight: bold;

@@ -29,35 +29,35 @@ export default function ContactPage() {
     <main 
       id="main-content" 
       tabIndex="-1" 
-      className="min-h-screen bg-[#15100c] text-[#EEE2DF] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden focus:outline-none"
+      className="min-h-screen bg-[#2B0F14] text-[#F5EBDD] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden focus:outline-none"
     >
       {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#415D43]/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#A6303B]/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
 
-      <div className="max-w-2xl w-full bg-[#1e1d1b] border border-[#8A897C]/30 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-md relative z-10">
+      <div className="max-w-2xl w-full bg-[#1E0A0E] border border-[#D4A24E]/30 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-md relative z-10">
         
         {/* Header */}
         <div className="text-center mb-8">
           <nav aria-label={language === 'fr' ? "Navigation de retour" : "Back navigation"} className="flex justify-center gap-4 mb-4 flex-wrap">
             <button 
               onClick={() => navigate('/')}
-              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#8A897C] hover:text-[#EEE2DF] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#8A897C]/30"
+              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#D8C6B6] hover:text-[#F5EBDD] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#D4A24E]/30 cursor-pointer"
             >
               ← {language === 'fr' ? 'Bibliothèque 3D' : '3D Library'}
             </button>
             <button 
               onClick={() => navigate('/projets')}
-              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#415D43] hover:text-[#EEE2DF] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#415D43]/40"
+              className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#A6303B] hover:text-[#F5EBDD] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#A6303B]/40 cursor-pointer"
             >
               {language === 'fr' ? 'Catalogue 2D' : '2D Catalog'} →
             </button>
           </nav>
 
-          <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-3 uppercase">
+          <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#F5EBDD] tracking-wide mb-3 uppercase">
             {language === 'fr' ? 'ME CONTACTER' : 'CONTACT ME'}
           </h1>
-          <div className="w-16 h-[2px] bg-[#415D43] mx-auto mb-4" aria-hidden="true"></div>
-          <p className="text-sm md:text-base text-[#8A897C] max-w-md mx-auto font-serif">
+          <div className="w-16 h-[2px] bg-[#A6303B] mx-auto mb-4" aria-hidden="true"></div>
+          <p className="text-sm md:text-base text-[#D8C6B6] max-w-md mx-auto font-sans">
             {language === 'fr' 
               ? `Envoyez-moi un message direct. Il sera acheminé à ${CONTACT_EMAIL}.`
               : `Send me a direct message. It will be sent to ${CONTACT_EMAIL}.`}
@@ -65,16 +65,16 @@ export default function ContactPage() {
         </div>
 
         {submitted ? (
-          <div role="status" aria-live="polite" className="text-center py-12 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
-            <h2 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
+          <div role="status" aria-live="polite" className="text-center py-12 bg-[#3C6E71]/20 border border-[#3C6E71] rounded-xl p-6">
+            <h2 className="text-xl font-cinzel text-[#D4A24E] mb-2 font-bold">
               {language === 'fr' ? "Message Prêt à l'Envoi !" : "Message Ready to Send!"}
             </h2>
-            <p className="text-sm text-[#EEE2DF]">
+            <p className="text-sm text-[#F5EBDD]">
               {language === 'fr'
                 ? "Votre client de messagerie s'est ouvert. Si ce n'est pas le cas, vous pouvez aussi m'écrire directement à :"
                 : "Your email app has opened. You can also write directly to:"}
             </p>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block mt-3 text-sm font-bold text-[#D4AF37] underline">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block mt-3 text-sm font-bold text-[#D4A24E] underline">
               {CONTACT_EMAIL}
             </a>
           </div>
@@ -82,8 +82,8 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email_address" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'} <span className="text-[#B36A5E]">*</span>
+              <label htmlFor="email_address" className="block text-xs font-cinzel text-[#F5EBDD] mb-2 tracking-widest uppercase font-bold">
+                {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'} <span className="text-[#A6303B]">*</span>
               </label>
               <input
                 type="email"
@@ -92,14 +92,14 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 placeholder="votre.email@exemple.com"
-                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
+                className="w-full bg-[#2B0F14] border border-[#D4A24E]/30 text-[#F5EBDD] rounded-xl px-4 py-3 focus:outline-none focus:border-[#A6303B] transition-all text-sm"
               />
             </div>
 
             {/* Subject Field */}
             <div>
-              <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Objet du Message' : 'Subject'} <span className="text-[#B36A5E]">*</span>
+              <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#F5EBDD] mb-2 tracking-widest uppercase font-bold">
+                {language === 'fr' ? 'Objet du Message' : 'Subject'} <span className="text-[#A6303B]">*</span>
               </label>
               <input
                 type="text"
@@ -108,14 +108,14 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 placeholder={language === 'fr' ? "Opportunité, Projet, Collaboration..." : "Opportunity, Project, Collaboration..."}
-                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
+                className="w-full bg-[#2B0F14] border border-[#D4A24E]/30 text-[#F5EBDD] rounded-xl px-4 py-3 focus:outline-none focus:border-[#A6303B] transition-all text-sm"
               />
             </div>
 
             {/* Message Field */}
             <div>
-              <label htmlFor="form_message" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Votre Message' : 'Your Message'} <span className="text-[#B36A5E]">*</span>
+              <label htmlFor="form_message" className="block text-xs font-cinzel text-[#F5EBDD] mb-2 tracking-widest uppercase font-bold">
+                {language === 'fr' ? 'Votre Message' : 'Your Message'} <span className="text-[#A6303B]">*</span>
               </label>
               <textarea
                 id="form_message"
@@ -124,14 +124,14 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 placeholder={language === 'fr' ? "Rédigez votre message ici..." : "Type your message here..."}
-                className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm resize-y"
+                className="w-full bg-[#2B0F14] border border-[#D4A24E]/30 text-[#F5EBDD] rounded-xl px-4 py-3 focus:outline-none focus:border-[#A6303B] transition-all text-sm resize-y"
               ></textarea>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#415D43] hover:bg-[#2E4330] border border-[#415D43] text-white font-cinzel font-bold tracking-widest uppercase py-4 rounded-xl transition-all shadow-[0_5px_20px_rgba(65,93,67,0.4)] flex justify-center items-center gap-3"
+              className="w-full bg-[#A6303B] hover:bg-[#801F29] border border-[#A6303B] text-white font-cinzel font-bold tracking-widest uppercase py-4 rounded-xl transition-all shadow-[0_5px_20px_rgba(166,48,59,0.4)] flex justify-center items-center gap-3 cursor-pointer"
             >
               <span>{language === 'fr' ? 'Envoyer le Message' : 'Send Message'}</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

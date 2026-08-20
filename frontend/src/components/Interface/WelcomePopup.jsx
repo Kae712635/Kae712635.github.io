@@ -128,7 +128,7 @@ const WelcomePopup = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: isReducedMotion ? 0 : 0.2 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/85 backdrop-blur-sm"
             onClick={closePopup}
           />
 
@@ -139,23 +139,23 @@ const WelcomePopup = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: isReducedMotion ? 0 : 8, scale: isReducedMotion ? 1 : 0.97 }}
             transition={{ duration: isReducedMotion ? 0 : 0.22 }}
-            className="relative w-full max-w-[680px] max-h-[90vh] bg-[#1c1a17] border border-[#D4AF37]/30 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col text-[#EEE2DF] overflow-hidden my-auto"
+            className="relative w-full max-w-[680px] max-h-[90vh] bg-[#2B0F14] border border-[#D4A24E]/30 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col text-[#F5EBDD] overflow-hidden my-auto"
           >
             {/* Header compact */}
-            <header className="relative px-5 pt-5 pb-3 sm:px-6 sm:pt-6 border-b border-[#8A897C]/20 bg-[#14110f]">
+            <header className="relative px-5 pt-5 pb-3 sm:px-6 sm:pt-6 border-b border-[#D4A24E]/20 bg-[#1E0A0E]">
               <div className="pr-10">
-                <span className="text-[11px] font-cinzel font-bold uppercase tracking-[0.18em] text-[#D4AF37] block mb-1">
+                <span className="text-[11px] font-cinzel font-bold uppercase tracking-[0.18em] text-[#D4A24E] block mb-1">
                   Portfolio · Klervi Choblet
                 </span>
                 <h2 
                   id="welcome-modal-title"
-                  className="font-cinzel text-lg sm:text-xl font-bold text-[#EEE2DF] leading-tight"
+                  className="font-cinzel text-lg sm:text-xl font-bold text-[#F5EBDD] leading-tight"
                 >
                   {getTranslation('popupWelcomeTitle', 'Bienvenue sur mon Portfolio')}
                 </h2>
                 <p 
                   id="welcome-modal-desc"
-                  className="text-xs sm:text-sm text-[#D0C7C4] mt-1.5 leading-relaxed font-sans"
+                  className="text-xs sm:text-sm text-[#D8C6B6] mt-1.5 leading-relaxed font-sans"
                 >
                   {getTranslation('popupWelcomeSub', 'Choisissez votre mode d’exploration pour découvrir mes projets et mon parcours.')}
                 </p>
@@ -165,7 +165,7 @@ const WelcomePopup = () => {
               <button
                 ref={closeBtnRef}
                 onClick={closePopup}
-                className="absolute top-4 right-4 p-2.5 rounded-lg text-[#D0C7C4] hover:text-[#EEE2DF] hover:bg-white/10 transition-colors border border-transparent hover:border-[#8A897C]/40 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+                className="absolute top-4 right-4 p-2.5 rounded-lg text-[#D8C6B6] hover:text-[#F5EBDD] hover:bg-white/10 transition-colors border border-transparent hover:border-[#D4A24E]/40 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
                 aria-label={getTranslation('a11yClose', 'Fermer la fenêtre')}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -175,17 +175,17 @@ const WelcomePopup = () => {
               </button>
             </header>
 
-            {/* Interactive Cards - Direct Clicks (No duplicated bottom buttons) */}
+            {/* Interactive Cards - Direct Clicks */}
             <div className="p-4 sm:p-5 overflow-y-auto space-y-3 custom-scrollbar flex-1">
               
-              {/* Option 1: Site Web Classique 2D (Primary / Action principale) */}
+              {/* Option 1: Site Web Classique 2D (Primary / Action principale - Rouge Vin) */}
               <button
                 ref={firstActionRef}
                 type="button"
                 onClick={handleExplore2D}
-                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#415D43]/20 hover:bg-[#415D43]/30 border-2 border-[#415D43] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#A6303B]/20 hover:bg-[#A6303B]/30 border-2 border-[#A6303B] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4A24E] cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-[#415D43] text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform" aria-hidden="true">
+                <div className="w-10 h-10 rounded-lg bg-[#A6303B] text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                     <line x1="3" y1="9" x2="21" y2="9"/>
@@ -194,31 +194,31 @@ const WelcomePopup = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
-                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#EEE2DF] group-hover:text-white transition-colors">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#F5EBDD] group-hover:text-white transition-colors">
                       {getTranslation('popupCard2DTitle', 'Site Web Classique')}
                     </span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#415D43] text-white rounded font-cinzel">
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#A6303B] text-white rounded font-cinzel">
                       {getTranslation('a11yRecommendedBadge', 'Accès direct')}
                     </span>
                   </div>
-                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                  <p className="text-xs text-[#D8C6B6] leading-relaxed font-sans">
                     {getTranslation('popupCard2DDesc', 'Catalogue web 2D rapide. Consultation instantanée des 5 projets phares, compétences et CV.')}
                   </p>
                 </div>
-                <div className="text-[#415D43] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                <div className="text-[#A6303B] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </div>
               </button>
 
-              {/* Option 2: Bibliothèque 3D (Immersive Secondary) */}
+              {/* Option 2: Bibliothèque 3D (Immersive Secondary - Or) */}
               <button
                 type="button"
                 onClick={handleEnter3D}
-                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#14110f] hover:bg-[#D4AF37]/10 border border-[#D4AF37]/40 hover:border-[#D4AF37] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#1E0A0E] hover:bg-[#D4A24E]/10 border border-[#D4A24E]/40 hover:border-[#D4A24E] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4A24E] cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
+                <div className="w-10 h-10 rounded-lg bg-[#D4A24E]/15 text-[#D4A24E] border border-[#D4A24E]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                     <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
@@ -227,28 +227,28 @@ const WelcomePopup = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#D4AF37] group-hover:text-[#F3E5AB] transition-colors">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#D4A24E] group-hover:text-[#F3E5AB] transition-colors">
                       {getTranslation('popupCard3DTitle', 'Bibliothèque 3D')}
                     </span>
                   </div>
-                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                  <p className="text-xs text-[#D8C6B6] leading-relaxed font-sans">
                     {getTranslation('popupCard3DDesc', 'Navigation spatiale immersive. Rayons navigables, livres 3D cliquables et fiches interactives.')}
                   </p>
                 </div>
-                <div className="text-[#D4AF37] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                <div className="text-[#D4A24E] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </div>
               </button>
 
-              {/* Option 3: Me Contacter (Tertiary) */}
+              {/* Option 3: Me Contacter (Tertiary - Contraste Teal) */}
               <button
                 type="button"
                 onClick={handleContact}
-                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#14110f] hover:bg-[#B36A5E]/10 border border-[#B36A5E]/40 hover:border-[#B36A5E] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#1E0A0E] hover:bg-[#3C6E71]/15 border border-[#3C6E71]/40 hover:border-[#3C6E71] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4A24E] cursor-pointer"
               >
-                <div className="w-10 h-10 rounded-lg bg-[#B36A5E]/15 text-[#B36A5E] border border-[#B36A5E]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
+                <div className="w-10 h-10 rounded-lg bg-[#3C6E71]/20 text-[#3C6E71] border border-[#3C6E71]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                     <polyline points="22,6 12,13 2,6"></polyline>
@@ -256,15 +256,15 @@ const WelcomePopup = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#B36A5E] group-hover:text-[#D98E82] transition-colors">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#3C6E71] group-hover:text-[#5E9FA2] transition-colors">
                       {getTranslation('popupCardContactTitle', 'Me Contacter')}
                     </span>
                   </div>
-                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                  <p className="text-xs text-[#D8C6B6] leading-relaxed font-sans">
                     {getTranslation('popupCardContactDesc', 'Échanger sur vos opportunités, projets logiciels ou collaborations techniques.')}
                   </p>
                 </div>
-                <div className="text-[#B36A5E] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                <div className="text-[#3C6E71] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
@@ -274,17 +274,17 @@ const WelcomePopup = () => {
             </div>
 
             {/* Footer with "Don't show again" */}
-            <footer className="px-5 py-3.5 sm:px-6 border-t border-[#8A897C]/20 bg-[#14110f] flex items-center justify-between flex-wrap gap-3">
+            <footer className="px-5 py-3.5 sm:px-6 border-t border-[#D4A24E]/20 bg-[#1E0A0E] flex items-center justify-between flex-wrap gap-3">
               <label 
                 htmlFor="dont-show-welcome"
-                className="flex items-center gap-2.5 cursor-pointer text-xs text-[#D0C7C4] hover:text-[#EEE2DF] transition-colors select-none"
+                className="flex items-center gap-2.5 cursor-pointer text-xs text-[#D8C6B6] hover:text-[#F5EBDD] transition-colors select-none"
               >
                 <input
                   id="dont-show-welcome"
                   type="checkbox"
                   checked={dontShowAgain}
                   onChange={(e) => setDontShowAgain(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#8A897C] text-[#D4AF37] accent-[#D4AF37] cursor-pointer focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+                  className="w-4 h-4 rounded border-[#D4A24E]/50 text-[#A6303B] accent-[#A6303B] cursor-pointer focus-visible:ring-2 focus-visible:ring-[#D4A24E]"
                 />
                 <span>{getTranslation('dontShowAgain', 'Ne plus afficher au démarrage')}</span>
               </label>
@@ -292,7 +292,7 @@ const WelcomePopup = () => {
               <button
                 type="button"
                 onClick={closePopup}
-                className="text-xs font-cinzel text-[#D0C7C4] hover:text-[#EEE2DF] underline underline-offset-4 cursor-pointer py-1 px-2 focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+                className="text-xs font-cinzel text-[#D8C6B6] hover:text-[#F5EBDD] underline underline-offset-4 cursor-pointer py-1 px-2 focus-visible:ring-2 focus-visible:ring-[#D4A24E]"
               >
                 {getTranslation('a11yClose', 'Passer')}
               </button>

@@ -2,14 +2,208 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import { useSpring, animated } from '@react-spring/web';
 
+// Vintage Ornamental Corner Filigrees
+const CornerOrnament = ({ position }) => {
+    const isTop = position.includes('top');
+    const isLeft = position.includes('left');
+    return (
+        <svg 
+            width="22" 
+            height="22" 
+            viewBox="0 0 22 22" 
+            style={{
+                position: 'absolute',
+                top: isTop ? '12px' : 'auto',
+                bottom: !isTop ? '12px' : 'auto',
+                left: isLeft ? '12px' : 'auto',
+                right: !isLeft ? '12px' : 'auto',
+                transform: `${!isTop ? 'scaleY(-1)' : ''} ${!isLeft ? 'scaleX(-1)' : ''}`,
+                pointerEvents: 'none',
+                opacity: 0.55
+            }}
+            aria-hidden="true"
+        >
+            <path d="M2 20 L2 2 L20 2 M6 6 L6 2 M2 6 L6 6 M9 2 L9 9 L2 9" fill="none" stroke="#D4A24E" strokeWidth="1.5" />
+        </svg>
+    );
+};
+
+// Illustrated Engineering Ex-Libris Seal
+const ExLibrisSeal = ({ isCompact = false }) => (
+    <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        padding: isCompact ? '10px 14px' : '14px 18px',
+        border: '1.5px solid rgba(212, 162, 78, 0.45)',
+        borderRadius: '8px',
+        background: 'rgba(212, 162, 78, 0.05)',
+        width: '100%',
+        boxSizing: 'border-box'
+    }}>
+        {/* Heraldic Shield / Engineering Crest Icon */}
+        <svg width="40" height="40" viewBox="0 0 48 48" style={{ marginBottom: '4px' }} aria-hidden="true">
+            <path d="M24 4 L38 10 L38 24 C38 34 24 44 24 44 C24 44 10 34 10 24 L10 10 Z" fill="rgba(166, 48, 59, 0.08)" stroke="#A6303B" strokeWidth="1.8" />
+            <path d="M24 7 L35 12 L35 23 C35 31 24 39 24 39 C24 39 13 31 13 23 L13 12 Z" fill="none" stroke="#D4A24E" strokeWidth="1.0" />
+            <circle cx="24" cy="22" r="5" fill="none" stroke="#D4A24E" strokeWidth="1.2" />
+            <path d="M24 17 L24 27 M19 22 L29 22" stroke="#D4A24E" strokeWidth="1.2" />
+            <path d="M16 28 L24 16 L32 28" fill="none" stroke="#3C6E71" strokeWidth="1.2" />
+        </svg>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', fontWeight: 'bold', color: '#2B0F14', letterSpacing: '2.5px', textTransform: 'uppercase' }}>
+            EX LIBRIS
+        </span>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.82rem', fontWeight: 'bold', color: '#A6303B', letterSpacing: '1px' }}>
+            KLERVI CHOBLET
+        </span>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', color: '#6A564A', fontStyle: 'italic', marginTop: '2px', letterSpacing: '1px' }}>
+            ARCHIVUM DIGITALE • INGENIUM
+        </span>
+    </div>
+);
+
+// Embossed Wax Seal Button
+const WaxSealButton = ({ onClick, children, isBack = false }) => (
+    <button 
+        onClick={onClick}
+        style={{
+            background: isBack 
+                ? 'radial-gradient(circle at 30% 30%, #3C6E71 0%, #244648 70%, #172F31 100%)' 
+                : 'radial-gradient(circle at 30% 30%, #A6303B 0%, #7A1F27 70%, #4D0E15 100%)',
+            border: '1.5px solid #D4A24E',
+            cursor: 'pointer',
+            fontSize: '0.8rem',
+            color: '#F5EBDD',
+            fontFamily: 'Cinzel, serif',
+            fontWeight: 'bold',
+            letterSpacing: '0.08em',
+            padding: '9px 18px',
+            borderRadius: '24px',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.35), inset 0 2px 3px rgba(255, 235, 180, 0.3), inset 0 -2px 3px rgba(0,0,0,0.4)',
+            transition: 'all 0.25s',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px'
+        }}
+        onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-1px) scale(1.03)';
+            e.currentTarget.style.boxShadow = '0 6px 18px rgba(212, 162, 78, 0.4), inset 0 2px 4px rgba(255, 245, 200, 0.4)';
+        }}
+        onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0) scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.35), inset 0 2px 3px rgba(255, 235, 180, 0.3), inset 0 -2px 3px rgba(0,0,0,0.4)';
+        }}
+    >
+        {children}
+    </button>
+);
+
+// First Left Page (Illustrated Heraldic Archive / Table of Contents / Media)
+const FirstPageLeft = ({ category, date, video, image, affiliation, language }) => (
+    <div style={{
+        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+        background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
+        borderRadius: '6px 0 0 6px',
+        padding: '36px', boxSizing: 'border-box',
+        borderRight: '1px solid #D8C6B6',
+        boxShadow: 'inset -26px 0 35px rgba(0,0,0,0.12), inset -4px 0 10px rgba(43,15,20,0.08)',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'
+    }}>
+        <CornerOrnament position="top-left" />
+        <CornerOrnament position="bottom-left" />
+
+        {/* Top Archival Header */}
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #D8C6B6', paddingBottom: '10px' }}>
+            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '2px', color: '#D4A24E', fontFamily: 'Cinzel, serif', fontWeight: 'bold' }}>
+                {category || (language === 'fr' ? 'Archive Numérique' : 'Digital Archive')}
+            </span>
+            <span style={{ fontSize: '0.75rem', color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>
+                {date}
+            </span>
+        </div>
+
+        {/* Content Block: Either Media Display OR Illustrated Table of Contents & Seal */}
+        {video || image ? (
+            <div style={{ width: '100%', flex: 1, margin: '16px 0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {video ? (
+                        <div style={{ width: '100%', maxHeight: '280px', borderRadius: '8px', overflow: 'hidden', border: '1.5px solid #D4A24E', background: '#1E0A0E', boxShadow: '0 6px 20px rgba(0,0,0,0.2)' }}>
+                            <video src={video} controls autoPlay loop muted playsInline style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        </div>
+                    ) : (
+                        <div style={{
+                            width: '100%', height: '240px',
+                            background: `url(${image.startsWith('/') ? image : '/img/' + image}) center/cover no-repeat`,
+                            border: '1.5px solid #D4A24E',
+                            boxShadow: '0 6px 20px rgba(43, 15, 20, 0.2)',
+                            borderRadius: '8px'
+                        }}></div>
+                    )}
+                </div>
+                <ExLibrisSeal isCompact={true} />
+            </div>
+        ) : (
+            /* When no image/video: Rich Illustrated Table of Contents & Heraldic Archive */
+            <div style={{ width: '100%', flex: 1, margin: '14px 0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <ExLibrisSeal isCompact={false} />
+
+                {/* Sommaire / Table of Contents */}
+                <div style={{
+                    padding: '14px',
+                    border: '1px dashed rgba(212, 162, 78, 0.5)',
+                    borderRadius: '6px',
+                    background: 'rgba(212, 162, 78, 0.03)',
+                    margin: '10px 0'
+                }}>
+                    <h3 style={{
+                        fontFamily: 'Cinzel, serif',
+                        fontSize: '0.75rem',
+                        color: '#A6303B',
+                        textTransform: 'uppercase',
+                        letterSpacing: '1.5px',
+                        margin: '0 0 10px 0',
+                        textAlign: 'center',
+                        borderBottom: '1px solid rgba(212, 162, 78, 0.3)',
+                        paddingBottom: '4px'
+                    }}>
+                        {language === 'fr' ? 'Sommaire de l\'Ouvrage' : 'Table of Contents'}
+                    </h3>
+
+                    <div style={{ fontSize: '0.78rem', color: '#2B0F14', fontFamily: "'Playfair Display', 'Lora', serif", display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span>I. {language === 'fr' ? 'Vue d\'Ensemble' : 'Overview'}</span>
+                            <span style={{ color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>p. I</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span>II. {language === 'fr' ? 'Technologies & Méthodes' : 'Technologies & Methods'}</span>
+                            <span style={{ color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>p. II</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span>III. {language === 'fr' ? 'Détails & Références' : 'Details & References'}</span>
+                            <span style={{ color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>p. III</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{ textAlign: 'center', color: '#6A564A', fontStyle: 'italic', fontSize: '0.75rem', letterSpacing: '0.5px' }}>
+                    {affiliation ? `${affiliation} • ` : ''}{date}
+                </div>
+            </div>
+        )}
+
+        <div style={{ textAlign: 'center', color: '#6A564A', fontStyle: 'italic', fontSize: '0.75rem', letterSpacing: '1px', borderTop: '1px solid #D8C6B6', width: '100%', paddingTop: '8px' }}>
+            Fascicule Technique • Klervi Choblet
+        </div>
+    </div>
+);
+
 const ProjectOverlay = ({ project, onClose }) => {
-    const { t, language } = useLanguage();
+    const { language } = useLanguage();
     // 0 = Closed (Cover), 1 = Spread 1 (Title/Desc), 2 = Spread 2 (Details/Tech)
     const [pageState, setPageState] = useState(0);
 
-    // Auto-open book on mount
+    // Optional gentle auto-open after 2.8s, or user can click immediately on the cover
     useEffect(() => {
-        const timer = setTimeout(() => setPageState(1), 400);
+        const timer = setTimeout(() => {
+            setPageState(prev => (prev === 0 ? 1 : prev));
+        }, 2800);
         return () => clearTimeout(timer);
     }, []);
 
@@ -34,48 +228,51 @@ const ProjectOverlay = ({ project, onClose }) => {
     const githubUrl = project.github_url || project.github || null;
     const docUrl = project.document || project.doc || null;
 
+    // Center the cover when closed (-225px), center the open spread when opened (0px)
     const bookStyle = {
-        perspective: '1500px',
+        perspective: '1600px',
         width: '900px',
         height: '600px',
         position: 'relative',
         transformStyle: 'preserve-3d',
+        transform: pageState === 0 ? 'translateX(-225px)' : 'translateX(0px)',
+        transition: 'transform 1.4s cubic-bezier(0.25, 1, 0.45, 1)'
     };
 
-    // Cover Animation
+    // Majestic slow cover animation (heavy antique leather)
     const { coverRotation } = useSpring({
         coverRotation: pageState > 0 ? -180 : 0,
-        config: { mass: 5, tension: 400, friction: 80 }
+        config: { mass: 5, tension: 100, friction: 36 }
     });
 
-    // Leaf 1 Animation
+    // Leaf 1 Animation (smooth slow parchment turn)
     const [leaf1Rotation, setLeaf1Rotation] = useSpring(() => ({ rotateY: 0 }));
 
     useEffect(() => {
-        setLeaf1Rotation({ rotateY: pageState > 1 ? -180 : 0, config: { mass: 2, tension: 300, friction: 60 } });
+        setLeaf1Rotation({ rotateY: pageState > 1 ? -180 : 0, config: { mass: 3, tension: 120, friction: 32 } });
     }, [pageState, setLeaf1Rotation]);
 
     const handleNext = (e) => {
-        e.stopPropagation();
-        setPageState(prev => prev + 1);
+        if (e) e.stopPropagation();
+        setPageState(prev => Math.min(prev + 1, 2));
     };
 
     const handlePrev = (e) => {
-        e.stopPropagation();
-        if (pageState > 1) setPageState(prev => prev - 1);
+        if (e) e.stopPropagation();
+        setPageState(prev => Math.max(prev - 1, 0));
     };
 
     const handleClose = (e) => {
-        e.stopPropagation();
+        if (e) e.stopPropagation();
         setPageState(0);
-        setTimeout(onClose, 600);
+        setTimeout(onClose, 800);
     };
 
     return (
         <div 
             style={{
                 position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-                background: 'rgba(10, 8, 6, 0.85)', backdropFilter: 'blur(10px)',
+                background: 'rgba(26, 8, 12, 0.88)', backdropFilter: 'blur(10px)',
                 display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
             }} 
             onClick={handleClose}
@@ -84,92 +281,67 @@ const ProjectOverlay = ({ project, onClose }) => {
             <div style={bookStyle} onClick={(e) => e.stopPropagation()}>
 
                 {/* LAYER 0: STATIC BACKING COVERS */}
+                {/* Right Backing Cover (Always under right pages) */}
                 <div style={{
                     position: 'absolute', right: 0, width: '450px', height: '600px',
-                    background: 'linear-gradient(135deg, #1e1d1b 0%, #15100c 100%)',
+                    background: 'linear-gradient(135deg, #2B0F14 0%, #1E0A0E 100%)',
                     borderRadius: '0 12px 12px 0',
-                    boxShadow: '20px 20px 50px rgba(0,0,0,0.6)',
-                    border: '1px solid rgba(212, 175, 55, 0.3)',
+                    boxShadow: '20px 20px 50px rgba(0,0,0,0.7)',
+                    border: '1px solid rgba(212, 162, 78, 0.35)',
                     zIndex: 0
                 }}></div>
+                {/* Left Backing Cover (Only visible when book is opened) */}
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
-                    background: 'linear-gradient(135deg, #1e1d1b 0%, #15100c 100%)',
+                    background: 'linear-gradient(135deg, #2B0F14 0%, #1E0A0E 100%)',
                     borderRadius: '12px 0 0 12px',
-                    boxShadow: '-20px 20px 50px rgba(0,0,0,0.6)',
-                    border: '1px solid rgba(212, 175, 55, 0.3)',
-                    zIndex: 0
+                    boxShadow: '-20px 20px 50px rgba(0,0,0,0.7)',
+                    border: '1px solid rgba(212, 162, 78, 0.35)',
+                    zIndex: 0,
+                    opacity: pageState > 0 ? 1 : 0,
+                    pointerEvents: pageState > 0 ? 'auto' : 'none',
+                    transition: 'opacity 0.5s ease-in-out'
                 }}></div>
 
                 {/* LAYER 1: STATIC PAGES (BASE) */}
-                {/* LEFT BASE PAGE (Visual / Media) */}
+                {/* LEFT BASE PAGE (Only visible when book is opened) */}
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
-                    background: '#F5EFED',
                     borderRadius: '6px 0 0 6px',
-                    zIndex: 1, padding: '36px', boxSizing: 'border-box',
-                    borderRight: '1px solid #D9CCC8',
-                    display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'
+                    zIndex: 1,
+                    opacity: pageState > 0 ? 1 : 0,
+                    pointerEvents: pageState > 0 ? 'auto' : 'none',
+                    transition: 'opacity 0.5s ease-in-out'
                 }}>
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #D9CCC8', paddingBottom: '10px' }}>
-                        <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '2px', color: '#415D43', fontFamily: 'Cinzel, serif', fontWeight: 'bold' }}>
-                            {category || (language === 'fr' ? 'Ouvrage' : 'Book')}
-                        </span>
-                        <span style={{ fontSize: '0.75rem', color: '#8A897C', fontFamily: 'Cinzel, serif' }}>
-                            {date}
-                        </span>
-                    </div>
-
-                    {/* Media Block */}
-                    <div style={{ width: '100%', flex: 1, margin: '20px 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                        {video ? (
-                            <div style={{ width: '100%', maxHeight: '300px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #8A897C', background: '#15100c', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-                                <video src={video} controls autoPlay loop muted playsInline style={{ width: '100%', height: 'auto', display: 'block' }} />
-                            </div>
-                        ) : image ? (
-                            <div style={{
-                                width: '100%', height: '280px',
-                                background: `url(${image.startsWith('/') ? image : '/img/' + image}) center/cover no-repeat`,
-                                border: '1px solid #8A897C',
-                                boxShadow: '0 4px 20px rgba(53, 53, 53, 0.12)',
-                                borderRadius: '8px'
-                            }}></div>
-                        ) : (
-                            <div style={{
-                                width: '90%', height: '220px',
-                                border: '2px dashed #8A897C',
-                                borderRadius: '8px',
-                                display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-                                color: '#8A897C', padding: '20px', textAlign: 'center'
-                            }}>
-                                <span style={{ fontSize: '2rem', marginBottom: '8px' }}>📜</span>
-                                <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.85rem', fontWeight: '600' }}>
-                                    {language === 'fr' ? 'Archive Numérique' : 'Digital Archive'}
-                                </span>
-                            </div>
-                        )}
-                    </div>
-
-                    <div style={{ textAlign: 'center', color: '#8A897C', fontStyle: 'italic', fontSize: '0.8rem', letterSpacing: '1px' }}>
-                        Ex Libris • Klervi Choblet
-                    </div>
+                    <FirstPageLeft 
+                        category={category}
+                        date={date}
+                        video={video}
+                        image={image}
+                        affiliation={affiliation}
+                        language={language}
+                    />
                 </div>
 
                 {/* RIGHT BASE PAGE - SPREAD 2 (Technical Details & Links) */}
                 <div style={{
                     position: 'absolute', right: 0, width: '450px', height: '600px',
-                    background: '#F5EFED',
+                    background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
                     borderRadius: '0 6px 6px 0',
                     zIndex: 1, padding: '40px', boxSizing: 'border-box',
-                    borderLeft: '1px solid #D9CCC8',
+                    borderLeft: '1px solid #D8C6B6',
+                    boxShadow: 'inset 26px 0 35px rgba(0,0,0,0.12), inset 4px 0 10px rgba(43,15,20,0.08)',
                     display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                 }}>
+                    <CornerOrnament position="top-right" />
+                    <CornerOrnament position="bottom-right" />
+
                     <div>
                         <h2 style={{
                             fontFamily: 'Cinzel, serif',
-                            color: '#353535',
+                            color: '#2B0F14',
                             margin: '0 0 16px 0',
-                            borderBottom: '2px solid #415D43',
+                            borderBottom: '2px solid #D4A24E',
                             paddingBottom: '8px',
                             fontSize: '1.6rem',
                             fontWeight: 'bold'
@@ -178,20 +350,21 @@ const ProjectOverlay = ({ project, onClose }) => {
                         </h2>
 
                         {affiliation && (
-                            <div style={{ fontSize: '0.85rem', color: '#8A897C', fontStyle: 'italic', marginBottom: '16px' }}>
+                            <div style={{ fontSize: '0.85rem', color: '#6A564A', fontStyle: 'italic', marginBottom: '16px', fontFamily: "'Playfair Display', 'Lora', serif" }}>
                                 {affiliation} {date ? `• ${date}` : ''}
                             </div>
                         )}
 
                         {detailedDesc && (
                             <p style={{
-                                lineHeight: '1.65',
+                                lineHeight: '1.75',
                                 fontSize: '0.9rem',
-                                color: '#353535',
+                                color: '#2B0F14',
                                 textAlign: 'justify',
                                 marginBottom: '20px',
-                                maxHeight: '200px',
-                                overflowY: 'auto'
+                                maxHeight: '190px',
+                                overflowY: 'auto',
+                                fontFamily: "'Playfair Display', 'Lora', serif"
                             }}>
                                 {detailedDesc}
                             </p>
@@ -200,18 +373,19 @@ const ProjectOverlay = ({ project, onClose }) => {
                         {/* Tech stack / highlights tags */}
                         {techStack && techStack.length > 0 && (
                             <div style={{ marginTop: '12px' }}>
-                                <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#415D43', marginBottom: '8px', letterSpacing: '1.5px', fontWeight: 'bold' }}>
+                                <h3 style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#3C6E71', marginBottom: '8px', letterSpacing: '1.5px', fontWeight: 'bold', fontFamily: 'Cinzel, serif' }}>
                                     {language === 'fr' ? 'Compétences & Outils' : 'Skills & Tools'}
                                 </h3>
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                                     {techStack.map((item, idx) => (
                                         <span key={idx} style={{
-                                            background: '#EEE2DF',
-                                            border: '1px solid rgba(138, 137, 124, 0.4)',
+                                            background: '#EAE0D2',
+                                            border: '1px solid rgba(212, 162, 78, 0.45)',
                                             padding: '4px 10px',
                                             borderRadius: '4px',
+                                            fontFamily: 'JetBrains Mono, monospace',
                                             fontSize: '0.75rem',
-                                            color: '#353535',
+                                            color: '#2B0F14',
                                             fontWeight: '600'
                                         }}>
                                             {item}
@@ -224,17 +398,19 @@ const ProjectOverlay = ({ project, onClose }) => {
 
                     {/* Action Links */}
                     <div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '16px' }}>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '14px' }}>
                             {projectUrl && (
                                 <a 
                                     href={projectUrl} target="_blank" rel="noopener noreferrer" 
                                     style={{
                                         display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                        background: '#415D43', color: '#ffffff',
-                                        padding: '8px 16px', borderRadius: '6px',
+                                        background: 'radial-gradient(circle at 30% 30%, #A6303B 0%, #7A1F27 70%, #4D0E15 100%)',
+                                        color: '#ffffff',
+                                        border: '1.5px solid #D4A24E',
+                                        padding: '8px 16px', borderRadius: '20px',
                                         fontFamily: 'Cinzel, serif', fontSize: '0.75rem', fontWeight: 'bold',
                                         textDecoration: 'none', letterSpacing: '0.05em',
-                                        boxShadow: '0 4px 12px rgba(65, 93, 67, 0.3)'
+                                        boxShadow: '0 4px 12px rgba(166, 48, 59, 0.35)'
                                     }}
                                 >
                                     🚀 {language === 'fr' ? 'Consulter le Projet' : 'Visit Project'}
@@ -245,9 +421,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     href={githubUrl} target="_blank" rel="noopener noreferrer" 
                                     style={{
                                         display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                        background: 'transparent', color: '#353535',
-                                        border: '1px solid #8A897C',
-                                        padding: '8px 16px', borderRadius: '6px',
+                                        background: 'transparent', color: '#2B0F14',
+                                        border: '1.5px solid #D4A24E',
+                                        padding: '8px 16px', borderRadius: '20px',
                                         fontFamily: 'Cinzel, serif', fontSize: '0.75rem', fontWeight: 'bold',
                                         textDecoration: 'none', letterSpacing: '0.05em'
                                     }}
@@ -260,29 +436,25 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     href={docUrl} target="_blank" rel="noopener noreferrer" 
                                     style={{
                                         display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                        background: '#B36A5E', color: '#ffffff',
-                                        padding: '8px 16px', borderRadius: '6px',
+                                        background: 'radial-gradient(circle at 30% 30%, #3C6E71 0%, #244648 70%, #172F31 100%)',
+                                        color: '#ffffff',
+                                        border: '1.5px solid #D4A24E',
+                                        padding: '8px 16px', borderRadius: '20px',
                                         fontFamily: 'Cinzel, serif', fontSize: '0.75rem', fontWeight: 'bold',
-                                        textDecoration: 'none', letterSpacing: '0.05em'
+                                        textDecoration: 'none', letterSpacing: '0.05em',
+                                        boxShadow: '0 4px 12px rgba(60, 110, 113, 0.35)'
                                     }}
                                 >
-                                    📄 {language === 'fr' ? 'Consulter Document' : 'View Document'}
+                                    📄 {language === 'fr' ? 'Document PDF' : 'PDF Document'}
                                 </a>
                             )}
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px', paddingTop: '10px', borderTop: '1px solid #D9CCC8' }}>
-                            <button 
-                                onClick={handlePrev} 
-                                style={{
-                                    background: 'none', border: '1px solid #8A897C', borderRadius: '4px',
-                                    color: '#415D43', fontFamily: 'Cinzel, serif', fontSize: '0.75rem', fontWeight: 'bold',
-                                    padding: '6px 12px', cursor: 'pointer'
-                                }}
-                            >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', marginTop: '16px', borderTop: '1px solid #D8C6B6' }}>
+                            <WaxSealButton onClick={handlePrev} isBack={true}>
                                 {language === 'fr' ? '☜ Retour' : '☜ Back'}
-                            </button>
-                            <span style={{ fontSize: '0.75rem', color: '#8A897C' }}>2</span>
+                            </WaxSealButton>
+                            <span style={{ fontSize: '0.75rem', color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>3</span>
                         </div>
                     </div>
                 </div>
@@ -298,26 +470,30 @@ const ProjectOverlay = ({ project, onClose }) => {
                     {/* PAGE 1 (Front) */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#F5EFED',
+                        background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
                         borderRadius: '0 6px 6px 0',
                         backfaceVisibility: 'hidden',
                         padding: '40px', boxSizing: 'border-box',
-                        borderLeft: '1px solid #D9CCC8',
-                        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                        boxShadow: 'inset 10px 0 20px rgba(0,0,0,0.03)'
+                        borderLeft: '1px solid #D8C6B6',
+                        boxShadow: 'inset 26px 0 35px rgba(0,0,0,0.12), inset 4px 0 10px rgba(43,15,20,0.08)',
+                        display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                     }}>
+                        <CornerOrnament position="top-right" />
+                        <CornerOrnament position="bottom-right" />
+
                         <div>
-                            {/* Category Badge */}
-                            <div style={{ marginBottom: '12px' }}>
+                            {/* Category Kicker with breathing room */}
+                            <div style={{ marginBottom: '16px' }}>
                                 <span style={{
                                     fontSize: '0.75rem',
                                     textTransform: 'uppercase',
-                                    color: '#415D43',
+                                    color: '#D4A24E',
                                     letterSpacing: '2.5px',
                                     fontWeight: 'bold',
-                                    borderBottom: '2px solid #415D43',
+                                    borderBottom: '2px solid #D4A24E',
                                     paddingBottom: '3px',
-                                    display: 'inline-block'
+                                    display: 'inline-block',
+                                    fontFamily: 'Cinzel, serif'
                                 }}>
                                     {category}
                                 </span>
@@ -325,11 +501,11 @@ const ProjectOverlay = ({ project, onClose }) => {
 
                             {/* Title */}
                             <h1 style={{
-                                margin: '0 0 12px',
-                                fontSize: '2.2rem',
+                                margin: '0 0 14px',
+                                fontSize: '2.0rem',
                                 fontFamily: 'Cinzel, serif',
-                                color: '#353535',
-                                lineHeight: 1.2,
+                                color: '#2B0F14',
+                                lineHeight: 1.25,
                                 fontWeight: '700'
                             }}>
                                 {title}
@@ -338,52 +514,73 @@ const ProjectOverlay = ({ project, onClose }) => {
                             {/* Subtitle / School / Company */}
                             <div style={{
                                 fontStyle: 'italic',
-                                marginBottom: '20px',
-                                color: '#8A897C',
-                                fontSize: '0.9rem',
-                                borderBottom: '1px solid #D9CCC8',
-                                paddingBottom: '12px'
+                                marginBottom: '18px',
+                                color: '#6A564A',
+                                fontSize: '0.88rem',
+                                borderBottom: '1px solid #D8C6B6',
+                                paddingBottom: '10px',
+                                fontFamily: "'Playfair Display', 'Lora', serif"
                             }}>
                                 {affiliation ? `${affiliation} • ` : ''}{date}
                             </div>
 
-                            {/* Description */}
-                            <div style={{ maxHeight: '250px', overflowY: 'auto', paddingRight: '8px' }}>
+                            {/* Description in Serif Classic Book Font */}
+                            <div style={{ maxHeight: '200px', overflowY: 'auto', paddingRight: '6px' }}>
                                 <p style={{
                                     lineHeight: '1.75',
-                                    fontSize: '0.95rem',
-                                    color: '#353535',
+                                    fontSize: '0.92rem',
+                                    color: '#2B0F14',
                                     textAlign: 'justify',
-                                    margin: 0
+                                    margin: 0,
+                                    fontFamily: "'Playfair Display', 'Lora', serif"
                                 }}>
                                     {description}
                                 </p>
                             </div>
+
+                            {/* Highlights / Points Clés Box (Combles the space harmoniously) */}
+                            {techStack && techStack.length > 0 && (
+                                <div style={{
+                                    marginTop: '16px',
+                                    padding: '10px 14px',
+                                    border: '1px solid rgba(212, 162, 78, 0.35)',
+                                    borderRadius: '6px',
+                                    background: 'rgba(212, 162, 78, 0.04)',
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '6px',
+                                    alignItems: 'center'
+                                }}>
+                                    <span style={{ fontSize: '0.7rem', color: '#A6303B', fontFamily: 'Cinzel, serif', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                        ◆ Repères :
+                                    </span>
+                                    {techStack.slice(0, 4).map((item, idx) => (
+                                        <span key={idx} style={{
+                                            fontSize: '0.72rem',
+                                            fontFamily: 'JetBrains Mono, monospace',
+                                            color: '#2B0F14',
+                                            background: '#EAE0D2',
+                                            padding: '2px 8px',
+                                            borderRadius: '3px',
+                                            border: '1px solid rgba(212,162,78,0.3)'
+                                        }}>
+                                            {item}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
-                        {/* Bottom navigation */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid #D9CCC8' }}>
-                            <span style={{ fontSize: '0.75rem', color: '#8A897C' }}>1</span>
+                        {/* Bottom navigation with Wax Seal Buttons for full bidirectional movement */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '12px', borderTop: '1px solid #D8C6B6' }}>
+                            <WaxSealButton onClick={handlePrev} isBack={true}>
+                                {language === 'fr' ? '☜ Couverture' : '☜ Cover'}
+                            </WaxSealButton>
+                            <span style={{ fontSize: '0.75rem', color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>1</span>
                             {pageState === 1 && (
-                                <button 
-                                    onClick={handleNext} 
-                                    style={{
-                                        background: '#415D43',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        fontSize: '0.8rem',
-                                        color: '#ffffff',
-                                        fontFamily: 'Cinzel, serif',
-                                        fontWeight: 'bold',
-                                        letterSpacing: '0.05em',
-                                        padding: '8px 16px',
-                                        borderRadius: '6px',
-                                        boxShadow: '0 4px 12px rgba(65, 93, 67, 0.3)',
-                                        transition: 'all 0.2s'
-                                    }}
-                                >
+                                <WaxSealButton onClick={handleNext}>
                                     {language === 'fr' ? 'Détails ☞' : 'Details ☞'}
-                                </button>
+                                </WaxSealButton>
                             )}
                         </div>
                     </div>
@@ -391,21 +588,24 @@ const ProjectOverlay = ({ project, onClose }) => {
                     {/* PAGE 2 (Back - Flipped Left) */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#F5EFED',
+                        background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
                         borderRadius: '6px 0 0 6px',
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
                         padding: '40px', boxSizing: 'border-box',
-                        borderRight: '1px solid #D9CCC8',
-                        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                        boxShadow: 'inset -10px 0 20px rgba(0,0,0,0.03)'
+                        borderRight: '1px solid #D8C6B6',
+                        boxShadow: 'inset -26px 0 35px rgba(0,0,0,0.12), inset -4px 0 10px rgba(43,15,20,0.08)',
+                        display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                     }}>
+                        <CornerOrnament position="top-left" />
+                        <CornerOrnament position="bottom-left" />
+
                         <div>
                             <h2 style={{
                                 fontFamily: 'Cinzel, serif',
-                                color: '#353535',
+                                color: '#2B0F14',
                                 marginBottom: '16px',
-                                borderBottom: '2px solid #415D43',
+                                borderBottom: '2px solid #D4A24E',
                                 paddingBottom: '8px',
                                 fontSize: '1.6rem',
                                 fontWeight: 'bold'
@@ -416,12 +616,13 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
                                 {techStack && techStack.map((t, idx) => (
                                     <span key={idx} style={{
-                                        background: '#EEE2DF',
-                                        border: '1px solid rgba(138, 137, 124, 0.5)',
+                                        background: '#EAE0D2',
+                                        border: '1px solid rgba(212, 162, 78, 0.45)',
                                         padding: '6px 12px',
                                         borderRadius: '6px',
+                                        fontFamily: 'JetBrains Mono, monospace',
                                         fontSize: '0.8rem',
-                                        color: '#353535',
+                                        color: '#2B0F14',
                                         fontWeight: '600'
                                     }}>
                                         {t}
@@ -430,8 +631,8 @@ const ProjectOverlay = ({ project, onClose }) => {
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '12px', borderTop: '1px solid #D9CCC8' }}>
-                            <span style={{ fontSize: '0.75rem', color: '#8A897C' }}>2</span>
+                        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '12px', borderTop: '1px solid #D8C6B6' }}>
+                            <span style={{ fontSize: '0.75rem', color: '#6A564A', fontFamily: 'JetBrains Mono, monospace' }}>2</span>
                         </div>
                     </div>
                 </animated.div>
@@ -445,94 +646,104 @@ const ProjectOverlay = ({ project, onClose }) => {
                     rotateY: coverRotation
                 }}>
                     {/* FRONT COVER */}
-                    <div style={{
-                        position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: 'linear-gradient(135deg, #1e1d1b 0%, #15100c 100%)',
-                        borderRadius: '0 12px 12px 0',
-                        backfaceVisibility: 'hidden',
-                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-                        boxShadow: 'inset 5px 0 15px rgba(0,0,0,0.5), -5px 0 20px rgba(0,0,0,0.5)',
-                        border: '1px solid rgba(212, 175, 55, 0.4)',
-                        padding: '36px', boxSizing: 'border-box'
-                    }}>
+                    <div 
+                        onClick={pageState === 0 ? handleNext : undefined}
+                        style={{
+                            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                            background: 'linear-gradient(135deg, #2B0F14 0%, #1E0A0E 100%)',
+                            borderRadius: '0 12px 12px 0',
+                            backfaceVisibility: 'hidden',
+                            display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                            boxShadow: 'inset 5px 0 15px rgba(0,0,0,0.6), -5px 0 20px rgba(0,0,0,0.6)',
+                            border: '1px solid rgba(212, 162, 78, 0.45)',
+                            padding: '36px', boxSizing: 'border-box',
+                            cursor: pageState === 0 ? 'pointer' : 'default'
+                        }}
+                    >
                         <div style={{
-                            border: '1px solid rgba(212, 175, 55, 0.5)',
+                            border: '1px solid rgba(212, 162, 78, 0.5)',
                             padding: '24px',
                             width: '100%',
                             height: '100%',
                             boxSizing: 'border-box',
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'center',
+                            justifyContent: 'space-between',
                             alignItems: 'center',
                             position: 'relative',
-                            background: 'rgba(65, 93, 67, 0.08)',
+                            background: 'rgba(166, 48, 59, 0.12)',
                             borderRadius: '6px'
                         }}>
                             {/* Gold Corners */}
-                            <div style={{ position: 'absolute', top: '8px', left: '8px', width: '20px', height: '20px', borderTop: '2px solid #D4AF37', borderLeft: '2px solid #D4AF37' }}></div>
-                            <div style={{ position: 'absolute', top: '8px', right: '8px', width: '20px', height: '20px', borderTop: '2px solid #D4AF37', borderRight: '2px solid #D4AF37' }}></div>
-                            <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4AF37', borderLeft: '2px solid #D4AF37' }}></div>
-                            <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4AF37', borderRight: '2px solid #D4AF37' }}></div>
+                            <div style={{ position: 'absolute', top: '8px', left: '8px', width: '20px', height: '20px', borderTop: '2px solid #D4A24E', borderLeft: '2px solid #D4A24E' }}></div>
+                            <div style={{ position: 'absolute', top: '8px', right: '8px', width: '20px', height: '20px', borderTop: '2px solid #D4A24E', borderRight: '2px solid #D4A24E' }}></div>
+                            <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4A24E', borderLeft: '2px solid #D4A24E' }}></div>
+                            <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4A24E', borderRight: '2px solid #D4A24E' }}></div>
 
-                            <span style={{
-                                color: '#D4AF37',
-                                textTransform: 'uppercase',
-                                letterSpacing: '3px',
-                                fontSize: '0.8rem',
-                                fontWeight: 'bold',
-                                fontFamily: 'Cinzel, serif',
-                                marginBottom: '16px'
-                            }}>
-                                {category || 'Portfolio'}
-                            </span>
+                            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                                <span style={{
+                                    color: '#D4A24E',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '3px',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 'bold',
+                                    fontFamily: 'Cinzel, serif',
+                                    display: 'block',
+                                    marginBottom: '16px'
+                                }}>
+                                    {category || 'Portfolio'}
+                                </span>
 
-                            <h1 style={{
-                                color: '#EEE2DF',
-                                textAlign: 'center',
-                                fontFamily: '"Cinzel", serif',
-                                fontSize: '2.4rem',
-                                margin: '0',
-                                lineHeight: 1.25,
-                                fontWeight: 'bold'
-                            }}>
-                                {title}
-                            </h1>
+                                <h1 style={{
+                                    color: '#F5EBDD',
+                                    textAlign: 'center',
+                                    fontFamily: '"Cinzel", serif',
+                                    fontSize: '2.3rem',
+                                    margin: '0',
+                                    lineHeight: 1.25,
+                                    fontWeight: 'bold'
+                                }}>
+                                    {title}
+                                </h1>
 
-                            <div style={{ width: '60px', height: '2px', background: '#D4AF37', margin: '24px 0' }}></div>
+                                <div style={{ width: '60px', height: '2px', background: '#D4A24E', margin: '20px auto 16px auto' }}></div>
 
-                            <span style={{
-                                color: '#8A897C',
-                                textTransform: 'uppercase',
-                                letterSpacing: '2px',
-                                fontSize: '0.75rem',
-                                fontFamily: 'Cinzel, serif'
-                            }}>
-                                Klervi Choblet
-                            </span>
+                                <span style={{
+                                    color: '#D8C6B6',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '2px',
+                                    fontSize: '0.75rem',
+                                    fontFamily: 'Cinzel, serif'
+                                }}>
+                                    Klervi Choblet
+                                </span>
+                            </div>
+
+                            {/* Open Action Callout on Cover */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <WaxSealButton onClick={handleNext}>
+                                    {language === 'fr' ? '📖 Ouvrir le Volume ☞' : '📖 Open Book ☞'}
+                                </WaxSealButton>
+                            </div>
                         </div>
                     </div>
 
-                    {/* INSIDE COVER */}
+                    {/* INSIDE COVER (Back of Cover LEAF 0) */}
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                        background: '#F5EFED',
-                        borderRadius: '12px 0 0 12px',
+                        borderRadius: '6px 0 0 6px',
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
-                        boxShadow: 'inset -5px 0 15px rgba(0,0,0,0.05)',
-                        display: 'flex', justifyContent: 'center', alignItems: 'center'
+                        zIndex: 1
                     }}>
-                        <div style={{
-                            width: '85%', height: '85%',
-                            border: '1px solid #D9CCC8',
-                            display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-                            borderRadius: '4px'
-                        }}>
-                            <div style={{ color: '#8A897C', fontFamily: 'Cinzel, serif', fontStyle: 'italic', fontSize: '0.9rem' }}>
-                                Ex Libris • Klervi Choblet
-                            </div>
-                        </div>
+                        <FirstPageLeft 
+                            category={category}
+                            date={date}
+                            video={video}
+                            image={image}
+                            affiliation={affiliation}
+                            language={language}
+                        />
                     </div>
                 </animated.div>
 
@@ -545,9 +756,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                     position: 'absolute',
                     top: '32px',
                     right: '32px',
-                    background: 'rgba(30, 29, 27, 0.8)',
-                    border: '1px solid rgba(238, 226, 223, 0.3)',
-                    color: '#EEE2DF',
+                    background: 'rgba(30, 10, 14, 0.85)',
+                    border: '1px solid rgba(212, 162, 78, 0.4)',
+                    color: '#F5EBDD',
                     width: '48px',
                     height: '48px',
                     borderRadius: '50%',
@@ -558,12 +769,12 @@ const ProjectOverlay = ({ project, onClose }) => {
                     zIndex: 2000
                 }}
                 onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(65, 93, 67, 0.9)';
-                    e.currentTarget.style.borderColor = '#415D43';
+                    e.currentTarget.style.background = 'rgba(166, 48, 59, 0.95)';
+                    e.currentTarget.style.borderColor = '#A6303B';
                 }}
                 onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(30, 29, 27, 0.8)';
-                    e.currentTarget.style.borderColor = 'rgba(238, 226, 223, 0.3)';
+                    e.currentTarget.style.background = 'rgba(30, 10, 14, 0.85)';
+                    e.currentTarget.style.borderColor = 'rgba(212, 162, 78, 0.4)';
                 }}
                 aria-label="Fermer"
             >

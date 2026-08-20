@@ -1,5 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
@@ -80,7 +81,7 @@ const Scene = ({ children }) => {
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
     const { t, language } = useLanguage();
-    const { announce } = useAccessibility();
+    const { announce, isReducedMotion } = useAccessibility();
 
     const handleProjectClick = useCallback((project) => {
         setSelectedProject(project);
@@ -155,20 +156,21 @@ const Scene = ({ children }) => {
                     gl={{
                         antialias: true,
                         toneMapping: THREE.ACESFilmicToneMapping,
-                        toneMappingExposure: 1.15
+                        toneMappingExposure: 1.25
                     }}
                 >
-                    {/* Bright Warm Library Background */}
-                    <color attach="background" args={['#EEE2DF']} />
+                    {/* Deep Atmospheric Night Background & Fog */}
+                    <color attach="background" args={['#0F0B0D']} />
+                    <fog attach="fog" args={['#0F0B0D', 15, 60]} />
 
-                    {/* Ambient Light */}
-                    <ambientLight intensity={0.8} color="#fff8f2" />
+                    {/* Warm Ambient Light to lift deep shadows naturally */}
+                    <ambientLight intensity={1.1} color="#F8EFE6" />
 
-                    {/* Main Architectural Directional Light */}
+                    {/* Main Architectural Directional Key Light */}
                     <directionalLight
-                        position={[-12, 22, 10]}
-                        intensity={1.25}
-                        color="#fff5e8"
+                        position={[-10, 20, 12]}
+                        intensity={1.45}
+                        color="#FFF2DB"
                         castShadow
                         shadow-mapSize-width={2048}
                         shadow-mapSize-height={2048}
@@ -182,12 +184,19 @@ const Scene = ({ children }) => {
                         shadow-camera-bottom={-48}
                     />
 
+                    {/* Soft Nocturnal Teal Fill Light (Balances warm tones and illuminates shadows) */}
+                    <directionalLight
+                        position={[10, 14, -18]}
+                        intensity={0.65}
+                        color="#3C6E71"
+                    />
+
                     {/* Soft Warm Vault Fill Lights along the Corridor */}
-                    <pointLight position={[0, 8, 5]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
-                    <pointLight position={[0, 8, -5]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
-                    <pointLight position={[0, 8, -15]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
-                    <pointLight position={[0, 8, -25]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
-                    <pointLight position={[0, 8, -35]} intensity={0.4} color="#ffe8cc" distance={20} decay={2} />
+                    <pointLight position={[0, 7.5, 5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -15]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -25]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -35]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
 
                     <Suspense fallback={null}>
                         <Library
@@ -198,6 +207,17 @@ const Scene = ({ children }) => {
                         />
                         {children}
                     </Suspense>
+
+                    {/* Cinematic Post-Processing Effects (Bloom for lanterns & oculus, subtle vignette) */}
+                    <EffectComposer disableNormalPass multisampling={4}>
+                        <Bloom 
+                            intensity={0.75} 
+                            luminanceThreshold={0.8} 
+                            luminanceSmoothing={0.35} 
+                            mipmapBlur 
+                        />
+                        <Vignette darkness={0.4} offset={0.35} />
+                    </EffectComposer>
 
                     <CameraController view={view} targetCategory={targetCategory} />
                     <KeyboardControls />
