@@ -1,6 +1,6 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Stars, OrbitControls } from '@react-three/drei';
-import { Suspense, useState, useEffect, useRef } from 'react';
+import { OrbitControls } from '@react-three/drei';
+import { Suspense, useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
 import { damp3 } from 'maath/easing';
@@ -8,21 +8,23 @@ import Library from '../Library/Library';
 import ProjectOverlay from '../Interface/ProjectOverlay';
 import KeyboardControls from './KeyboardControls';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAccessibility } from '../../context/AccessibilityContext';
 
 const CameraController = ({ view, targetCategory }) => {
     const { camera, controls } = useThree();
     const [isAnimating, setIsAnimating] = useState(false);
     const transitionTimeout = useRef(null);
+    const { isReducedMotion } = useAccessibility();
 
     useEffect(() => {
         setIsAnimating(true);
         if (transitionTimeout.current) clearTimeout(transitionTimeout.current);
         transitionTimeout.current = setTimeout(() => {
             setIsAnimating(false);
-        }, 3000);
+        }, isReducedMotion ? 100 : 3000);
 
         return () => clearTimeout(transitionTimeout.current);
-    }, [view, targetCategory]);
+    }, [view, targetCategory, isReducedMotion]);
 
     useFrame((state, delta) => {
         if (!isAnimating) return;
@@ -57,9 +59,15 @@ const CameraController = ({ view, targetCategory }) => {
             targetLookAt = [0, 1.6, z - 4];
         }
 
-        damp3(state.camera.position, targetPos, 0.35, delta);
-        if (controls) {
-            damp3(controls.target, targetLookAt, 0.35, delta);
+        if (isReducedMotion) {
+            state.camera.position.set(...targetPos);
+            if (controls) controls.target.set(...targetLookAt);
+            setIsAnimating(false);
+        } else {
+            damp3(state.camera.position, targetPos, 0.35, delta);
+            if (controls) {
+                damp3(controls.target, targetLookAt, 0.35, delta);
+            }
         }
     });
 
@@ -71,37 +79,71 @@ const Scene = ({ children }) => {
     const [targetCategory, setTargetCategory] = useState(null);
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
-    const { language } = useLanguage();
+    const { t, language } = useLanguage();
+    const { announce } = useAccessibility();
 
-    const handleProjectClick = (project) => {
+    const handleProjectClick = useCallback((project) => {
         setSelectedProject(project);
-    };
+        announce(language === 'fr' ? `Ouverture de l'ouvrage : ${project.title}` : `Opening book: ${project.title}`);
+    }, [announce, language]);
 
-    const handleCloseProject = () => {
+    const handleCloseProject = useCallback(() => {
         setSelectedProject(null);
-    };
+        announce(language === 'fr' ? "Fermeture de l'ouvrage." : "Closed book.");
+    }, [announce, language]);
 
-    const handleCategoryClick = (catName) => {
+    const handleCategoryClick = useCallback((catName) => {
         setTargetCategory(catName);
         setView('section');
-    };
+        announce(language === 'fr' ? `Navigation vers la travée : ${catName}` : `Navigating to bay: ${catName}`);
+    }, [announce, language]);
 
-    const handleBackToEntrance = () => {
+    const handleBackToEntrance = useCallback(() => {
         setView('universe');
         setTargetCategory(null);
-    };
+        announce(language === 'fr' ? "Retour à l'entrée de la bibliothèque." : "Returned to library entrance.");
+    }, [announce, language]);
 
     const is2DPage = location.pathname !== '/';
 
+    // Global keyboard shortcuts for 3D navigation (WCAG 2.2 AA)
+    useEffect(() => {
+        if (is2DPage) return;
+
+        const handleKeyDown = (e) => {
+            // Ignore if typing in an input or textarea
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+            if (selectedProject) return; // Project modal is open
+
+            if (e.key === '1') {
+                handleCategoryClick(language === 'fr' ? 'EXPÉRIENCES PROFESSIONNELLES' : 'WORK EXPERIENCES');
+            } else if (e.key === '2') {
+                handleCategoryClick(language === 'fr' ? 'PROJETS PHARES' : 'FEATURED PROJECTS');
+            } else if (e.key === '3') {
+                handleCategoryClick(language === 'fr' ? 'COMPÉTENCES TECH & LANGUES' : 'TECH SKILLS & LANGUAGES');
+            } else if (e.key === '4') {
+                handleCategoryClick(language === 'fr' ? 'FORMATIONS & DIPLÔMES' : 'EDUCATION & DEGREES');
+            } else if (e.key === '0') {
+                handleBackToEntrance();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [is2DPage, selectedProject, language, handleCategoryClick, handleBackToEntrance]);
+
     return (
-        <div style={{ 
-            width: '100vw', 
-            height: '100vh', 
-            position: 'fixed', 
-            top: 0, 
-            left: 0, 
-            pointerEvents: is2DPage ? 'none' : 'auto'
-        }}>
+        <div 
+            style={{ 
+                width: '100vw', 
+                height: '100vh', 
+                position: 'fixed', 
+                top: 0, 
+                left: 0, 
+                pointerEvents: is2DPage ? 'none' : 'auto'
+            }}
+            aria-hidden={is2DPage}
+        >
             {selectedProject && <ProjectOverlay project={selectedProject} onClose={handleCloseProject} />}
 
             <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: -1 }}>

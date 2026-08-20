@@ -2,18 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAccessibility } from '../../context/AccessibilityContext';
 
 const WelcomePopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
-  const popupRef = useRef(null);
+  const modalRef = useRef(null);
+  const firstActionRef = useRef(null);
+  const closeBtnRef = useRef(null);
   const navigate = useNavigate();
   const { t, language } = useLanguage();
+  const { isReducedMotion } = useAccessibility();
 
   const getTranslation = (key, fallback) => {
     try {
       return typeof t === 'function' ? t(key, fallback) : (t[key] || fallback);
-    } catch (e) {
+    } catch {
       return fallback;
     }
   };
@@ -23,18 +27,66 @@ const WelcomePopup = () => {
     const isClosedSession = sessionStorage.getItem('portfolio_welcome_session');
     
     if (!isClosedLocal && !isClosedSession) {
-      const timer = setTimeout(() => setIsOpen(true), 400);
+      const timer = setTimeout(() => setIsOpen(true), 350);
       return () => clearTimeout(timer);
     }
   }, []);
 
+  // Focus trap, Escape key, and body scroll lock
   useEffect(() => {
+    if (!isOpen) return;
+
+    const prevActiveElement = document.activeElement;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    // Auto-focus the first action button
+    const timer = setTimeout(() => {
+      if (firstActionRef.current) {
+        firstActionRef.current.focus();
+      }
+    }, 100);
+
     const handleKeyDown = (e) => {
-      if (!isOpen) return;
-      if (e.key === 'Escape') closePopup();
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closePopup();
+        return;
+      }
+
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
     };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+      if (prevActiveElement && typeof prevActiveElement.focus === 'function') {
+        prevActiveElement.focus();
+      }
+    };
   }, [isOpen]);
 
   const closePopup = () => {
@@ -46,13 +98,13 @@ const WelcomePopup = () => {
     }
   };
 
-  const handleEnter3D = () => {
-    closePopup();
-  };
-
   const handleExplore2D = () => {
     closePopup();
     navigate('/projets');
+  };
+
+  const handleEnter3D = () => {
+    closePopup();
   };
 
   const handleContact = () => {
@@ -64,295 +116,188 @@ const WelcomePopup = () => {
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6"
-          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="welcome-title"
+          aria-labelledby="welcome-modal-title"
+          aria-describedby="welcome-modal-desc"
         >
-          {/* Overlay with blur */}
+          {/* Backdrop with click to close */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10, 8, 6, 0.85)', backdropFilter: 'blur(12px)' }}
+            transition={{ duration: isReducedMotion ? 0 : 0.2 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
             onClick={closePopup}
           />
 
-          {/* Card Modal */}
+          {/* Modal Container */}
           <motion.div
-            ref={popupRef}
-            initial={{ opacity: 0, y: 15, scale: 0.96 }}
+            ref={modalRef}
+            initial={{ opacity: 0, y: isReducedMotion ? 0 : 12, scale: isReducedMotion ? 1 : 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.96 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            style={{ 
-              position: 'relative',
-              width: '100%',
-              maxWidth: '48rem',
-              background: '#1e1d1b',
-              border: '1px solid rgba(238, 226, 223, 0.18)',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9), 0 0 25px rgba(65, 93, 67, 0.15)',
-              borderRadius: '1.25rem',
-              overflow: 'hidden',
-              color: '#EEE2DF'
-            }}
+            exit={{ opacity: 0, y: isReducedMotion ? 0 : 8, scale: isReducedMotion ? 1 : 0.97 }}
+            transition={{ duration: isReducedMotion ? 0 : 0.22 }}
+            className="relative w-full max-w-[680px] max-h-[90vh] bg-[#1c1a17] border border-[#D4AF37]/30 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col text-[#EEE2DF] overflow-hidden my-auto"
           >
-            {/* Close button */}
-            <button
-              onClick={closePopup}
-              style={{
-                position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none',
-                color: '#8A897C', cursor: 'pointer', padding: '6px', borderRadius: '50%', display: 'flex'
-              }}
-              aria-label="Fermer"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-
-            <div style={{ padding: '2rem 2.25rem' }}>
-              {/* Header */}
-              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: '#D4AF37', fontFamily: 'Cinzel, serif', fontWeight: 'bold' }}>
+            {/* Header compact */}
+            <header className="relative px-5 pt-5 pb-3 sm:px-6 sm:pt-6 border-b border-[#8A897C]/20 bg-[#14110f]">
+              <div className="pr-10">
+                <span className="text-[11px] font-cinzel font-bold uppercase tracking-[0.18em] text-[#D4AF37] block mb-1">
                   Portfolio · Klervi Choblet
                 </span>
                 <h2 
-                  id="welcome-title"
-                  style={{ fontFamily: 'Cinzel, serif', color: '#EEE2DF', fontSize: '1.65rem', margin: '0.35rem 0 0.5rem 0', fontWeight: '700' }}
+                  id="welcome-modal-title"
+                  className="font-cinzel text-lg sm:text-xl font-bold text-[#EEE2DF] leading-tight"
                 >
-                  {getTranslation('popupWelcomeTitle', language === 'fr' ? 'Bienvenue sur mon Portfolio' : 'Welcome to my Portfolio')}
+                  {getTranslation('popupWelcomeTitle', 'Bienvenue sur mon Portfolio')}
                 </h2>
-                <div style={{ width: '4rem', height: '1px', backgroundColor: 'rgba(212, 175, 55, 0.5)', margin: '0.5rem auto' }}></div>
-                <p style={{ fontSize: '0.9rem', color: '#8A897C', lineHeight: 1.5, margin: 0, maxWidth: '32rem', marginLeft: 'auto', marginRight: 'auto' }}>
-                  {getTranslation('popupWelcomeSub', language === 'fr' 
-                    ? "Découvrez mes réalisations d'ingénierie logicielle, mon parcours et mes compétences techniques." 
-                    : 'Discover my software engineering projects, background, and technical capabilities.')}
+                <p 
+                  id="welcome-modal-desc"
+                  className="text-xs sm:text-sm text-[#D0C7C4] mt-1.5 leading-relaxed font-sans"
+                >
+                  {getTranslation('popupWelcomeSub', 'Choisissez votre mode d’exploration pour découvrir mes projets et mon parcours.')}
                 </p>
               </div>
 
-              {/* 3 Purely Descriptive Encadrés / Cards (No redundant individual action buttons) */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
-                
-                {/* 1. Site Web 2D */}
-                <div 
-                  style={{
-                    background: 'rgba(65, 93, 67, 0.1)',
-                    border: '1px solid rgba(65, 93, 67, 0.4)',
-                    borderRadius: '0.75rem',
-                    padding: '1.15rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#415D43" strokeWidth="2">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                      <line x1="3" y1="9" x2="21" y2="9"/>
-                      <line x1="9" y1="21" x2="9" y2="9"/>
-                    </svg>
-                    <h3 style={{ fontFamily: 'Cinzel, serif', color: '#EEE2DF', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
-                      {getTranslation('popupCard2DTitle', language === 'fr' ? 'Site Web (2D)' : 'Website (2D)')}
-                    </h3>
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: '#8A897C', lineHeight: '1.45', margin: 0 }}>
-                    {getTranslation('popupCard2DDesc', language === 'fr' 
-                      ? 'Catalogue direct et fluide. Consultation instantanée des 5 projets phares, compétences et CV synthétique.'
-                      : 'Direct and fast 2D view. Quick access to the 5 core projects, skills breakdown, and downloadable resume.')}
-                  </p>
-                </div>
-
-                {/* 2. Bibliothèque 3D */}
-                <div 
-                  style={{
-                    background: 'rgba(212, 175, 55, 0.08)',
-                    border: '1px solid rgba(212, 175, 55, 0.35)',
-                    borderRadius: '0.75rem',
-                    padding: '1.15rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2">
-                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                      <line x1="12" y1="22.08" x2="12" y2="12"/>
-                    </svg>
-                    <h3 style={{ fontFamily: 'Cinzel, serif', color: '#D4AF37', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
-                      {getTranslation('popupCard3DTitle', language === 'fr' ? 'Bibliothèque 3D' : '3D Library')}
-                    </h3>
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: '#8A897C', lineHeight: '1.45', margin: 0 }}>
-                    {getTranslation('popupCard3DDesc', language === 'fr' 
-                      ? 'Visite spatiale immersive. Rayons navigables, livres 3D cliquables et fiches projets interactives.'
-                      : 'Immersive spatial exploration. Interactive shelves, clickable 3D books, and animated project flipbooks.')}
-                  </p>
-                </div>
-
-                {/* 3. Contact Direct */}
-                <div 
-                  style={{
-                    background: 'rgba(179, 106, 94, 0.1)',
-                    border: '1px solid rgba(179, 106, 94, 0.4)',
-                    borderRadius: '0.75rem',
-                    padding: '1.15rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B36A5E" strokeWidth="2">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <h3 style={{ fontFamily: 'Cinzel, serif', color: '#B36A5E', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
-                      {getTranslation('popupCardContactTitle', language === 'fr' ? 'Contact Direct' : 'Direct Contact')}
-                    </h3>
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: '#8A897C', lineHeight: '1.45', margin: 0 }}>
-                    {getTranslation('popupCardContactDesc', language === 'fr' 
-                      ? 'Formulaire direct pour échanger sur vos opportunités, projets logiciels ou questions techniques.'
-                      : 'Direct form to discuss software opportunities, projects, or technical collaborations.')}
-                  </p>
-                </div>
-
-              </div>
-
-              {/* Unique Recap Action Box with the 3 Distinct Actions */}
-              <div 
-                style={{
-                  background: 'rgba(21, 16, 12, 0.9)',
-                  border: '1px solid rgba(138, 137, 124, 0.3)',
-                  borderRadius: '0.85rem',
-                  padding: '1rem 1.25rem',
-                  marginBottom: '1.5rem',
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '0.75rem'
-                }}
+              {/* Close button */}
+              <button
+                ref={closeBtnRef}
+                onClick={closePopup}
+                className="absolute top-4 right-4 p-2.5 rounded-lg text-[#D0C7C4] hover:text-[#EEE2DF] hover:bg-white/10 transition-colors border border-transparent hover:border-[#8A897C]/40 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+                aria-label={getTranslation('a11yClose', 'Fermer la fenêtre')}
               >
-                {/* Action 1: Site Web */}
-                <button
-                  onClick={handleExplore2D}
-                  style={{
-                    flex: '1 1 180px',
-                    padding: '0.75rem 1rem',
-                    background: '#415D43',
-                    border: 'none',
-                    borderRadius: '0.5rem',
-                    color: '#ffffff',
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                    letterSpacing: '0.05em',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 14px rgba(65, 93, 67, 0.35)',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#2E4330'}
-                  onMouseLeave={e => e.currentTarget.style.background = '#415D43'}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </header>
+
+            {/* Interactive Cards - Direct Clicks (No duplicated bottom buttons) */}
+            <div className="p-4 sm:p-5 overflow-y-auto space-y-3 custom-scrollbar flex-1">
+              
+              {/* Option 1: Site Web Classique 2D (Primary / Action principale) */}
+              <button
+                ref={firstActionRef}
+                type="button"
+                onClick={handleExplore2D}
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#415D43]/20 hover:bg-[#415D43]/30 border-2 border-[#415D43] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-lg bg-[#415D43] text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                     <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
                   </svg>
-                  {getTranslation('popupEnter2D', language === 'fr' ? 'Accéder au Site Web' : 'Enter Website')}
-                </button>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#EEE2DF] group-hover:text-white transition-colors">
+                      {getTranslation('popupCard2DTitle', 'Site Web Classique')}
+                    </span>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 bg-[#415D43] text-white rounded font-cinzel">
+                      {getTranslation('a11yRecommendedBadge', 'Accès direct')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                    {getTranslation('popupCard2DDesc', 'Catalogue web 2D rapide. Consultation instantanée des 5 projets phares, compétences et CV.')}
+                  </p>
+                </div>
+                <div className="text-[#415D43] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </button>
 
-                {/* Action 2: Bibliothèque 3D */}
-                <button
-                  onClick={handleEnter3D}
-                  style={{
-                    flex: '1 1 180px',
-                    padding: '0.75rem 1rem',
-                    background: 'transparent',
-                    border: '1px solid #D4AF37',
-                    borderRadius: '0.5rem',
-                    color: '#D4AF37',
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                    letterSpacing: '0.05em',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(212, 175, 55, 0.15)';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = 'transparent';
-                  }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {/* Option 2: Bibliothèque 3D (Immersive Secondary) */}
+              <button
+                type="button"
+                onClick={handleEnter3D}
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#14110f] hover:bg-[#D4AF37]/10 border border-[#D4AF37]/40 hover:border-[#D4AF37] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-lg bg-[#D4AF37]/15 text-[#D4AF37] border border-[#D4AF37]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" y1="22.08" x2="12" y2="12"/>
                   </svg>
-                  {getTranslation('popupEnter3D', language === 'fr' ? 'Explorer la Bibliothèque 3D' : 'Explore 3D Library')}
-                </button>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#D4AF37] group-hover:text-[#F3E5AB] transition-colors">
+                      {getTranslation('popupCard3DTitle', 'Bibliothèque 3D')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                    {getTranslation('popupCard3DDesc', 'Navigation spatiale immersive. Rayons navigables, livres 3D cliquables et fiches interactives.')}
+                  </p>
+                </div>
+                <div className="text-[#D4AF37] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </button>
 
-                {/* Action 3: Contact */}
-                <button
-                  onClick={handleContact}
-                  style={{
-                    flex: '1 1 160px',
-                    padding: '0.75rem 1rem',
-                    background: '#B36A5E',
-                    border: 'none',
-                    borderRadius: '0.5rem',
-                    color: '#ffffff',
-                    fontFamily: 'Cinzel, serif',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                    letterSpacing: '0.05em',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 14px rgba(179, 106, 94, 0.35)',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = '#8A4C43'}
-                  onMouseLeave={e => e.currentTarget.style.background = '#B36A5E'}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {/* Option 3: Me Contacter (Tertiary) */}
+              <button
+                type="button"
+                onClick={handleContact}
+                className="w-full text-left p-3.5 sm:p-4 rounded-xl bg-[#14110f] hover:bg-[#B36A5E]/10 border border-[#B36A5E]/40 hover:border-[#B36A5E] transition-all group flex items-start gap-3.5 focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
+              >
+                <div className="w-10 h-10 rounded-lg bg-[#B36A5E]/15 text-[#B36A5E] border border-[#B36A5E]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                     <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
-                  {getTranslation('popupEnterContact', language === 'fr' ? 'Me Contacter' : 'Contact Me')}
-                </button>
-              </div>
-
-              {/* Checkbox Don't show again */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.8rem', color: '#8A897C' }}>
-                  <input
-                    type="checkbox"
-                    checked={dontShowAgain}
-                    onChange={(e) => setDontShowAgain(e.target.checked)}
-                    style={{ accentColor: '#D4AF37', cursor: 'pointer' }}
-                  />
-                  <span>{getTranslation('dontShowAgain', language === 'fr' ? 'Ne plus afficher au démarrage' : 'Do not show again on startup')}</span>
-                </label>
-              </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-cinzel font-bold text-sm sm:text-base text-[#B36A5E] group-hover:text-[#D98E82] transition-colors">
+                      {getTranslation('popupCardContactTitle', 'Me Contacter')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#D0C7C4] leading-relaxed font-sans">
+                    {getTranslation('popupCardContactDesc', 'Échanger sur vos opportunités, projets logiciels ou collaborations techniques.')}
+                  </p>
+                </div>
+                <div className="text-[#B36A5E] group-hover:translate-x-1 transition-transform self-center shrink-0 hidden sm:block" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </button>
 
             </div>
+
+            {/* Footer with "Don't show again" */}
+            <footer className="px-5 py-3.5 sm:px-6 border-t border-[#8A897C]/20 bg-[#14110f] flex items-center justify-between flex-wrap gap-3">
+              <label 
+                htmlFor="dont-show-welcome"
+                className="flex items-center gap-2.5 cursor-pointer text-xs text-[#D0C7C4] hover:text-[#EEE2DF] transition-colors select-none"
+              >
+                <input
+                  id="dont-show-welcome"
+                  type="checkbox"
+                  checked={dontShowAgain}
+                  onChange={(e) => setDontShowAgain(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#8A897C] text-[#D4AF37] accent-[#D4AF37] cursor-pointer focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+                />
+                <span>{getTranslation('dontShowAgain', 'Ne plus afficher au démarrage')}</span>
+              </label>
+
+              <button
+                type="button"
+                onClick={closePopup}
+                className="text-xs font-cinzel text-[#D0C7C4] hover:text-[#EEE2DF] underline underline-offset-4 cursor-pointer py-1 px-2 focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+              >
+                {getTranslation('a11yClose', 'Passer')}
+              </button>
+            </footer>
+
           </motion.div>
         </div>
       )}

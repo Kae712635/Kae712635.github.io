@@ -26,15 +26,19 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#15100c] text-[#EEE2DF] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden">
+    <main 
+      id="main-content" 
+      tabIndex="-1" 
+      className="min-h-screen bg-[#15100c] text-[#EEE2DF] pt-24 pb-16 px-6 md:px-12 flex flex-col justify-center items-center relative overflow-hidden focus:outline-none"
+    >
       {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#415D43]/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#415D43]/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
 
       <div className="max-w-2xl w-full bg-[#1e1d1b] border border-[#8A897C]/30 rounded-2xl p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-md relative z-10">
         
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex justify-center gap-4 mb-4 flex-wrap">
+          <nav aria-label={language === 'fr' ? "Navigation de retour" : "Back navigation"} className="flex justify-center gap-4 mb-4 flex-wrap">
             <button 
               onClick={() => navigate('/')}
               className="inline-flex items-center gap-1.5 text-xs font-cinzel text-[#8A897C] hover:text-[#EEE2DF] transition-colors uppercase tracking-widest px-3 py-1.5 rounded-lg border border-[#8A897C]/30"
@@ -47,12 +51,12 @@ export default function ContactPage() {
             >
               {language === 'fr' ? 'Catalogue 2D' : '2D Catalog'} →
             </button>
-          </div>
+          </nav>
 
           <h1 className="text-3xl md:text-5xl font-cinzel font-bold text-[#EEE2DF] tracking-wide mb-3 uppercase">
             {language === 'fr' ? 'ME CONTACTER' : 'CONTACT ME'}
           </h1>
-          <div className="w-16 h-[2px] bg-[#415D43] mx-auto mb-4"></div>
+          <div className="w-16 h-[2px] bg-[#415D43] mx-auto mb-4" aria-hidden="true"></div>
           <p className="text-sm md:text-base text-[#8A897C] max-w-md mx-auto font-serif">
             {language === 'fr' 
               ? `Envoyez-moi un message direct. Il sera acheminé à ${CONTACT_EMAIL}.`
@@ -61,10 +65,10 @@ export default function ContactPage() {
         </div>
 
         {submitted ? (
-          <div className="text-center py-12 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
-            <h3 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
+          <div role="status" aria-live="polite" className="text-center py-12 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
+            <h2 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
               {language === 'fr' ? "Message Prêt à l'Envoi !" : "Message Ready to Send!"}
-            </h3>
+            </h2>
             <p className="text-sm text-[#EEE2DF]">
               {language === 'fr'
                 ? "Votre client de messagerie s'est ouvert. Si ce n'est pas le cas, vous pouvez aussi m'écrire directement à :"
@@ -79,13 +83,14 @@ export default function ContactPage() {
             {/* Email Field */}
             <div>
               <label htmlFor="email_address" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'}
+                {language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address'} <span className="text-[#B36A5E]">*</span>
               </label>
               <input
                 type="email"
                 id="email_address"
                 name="email_address"
                 required
+                aria-required="true"
                 placeholder="votre.email@exemple.com"
                 className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
               />
@@ -94,13 +99,14 @@ export default function ContactPage() {
             {/* Subject Field */}
             <div>
               <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Objet du Message' : 'Subject'}
+                {language === 'fr' ? 'Objet du Message' : 'Subject'} <span className="text-[#B36A5E]">*</span>
               </label>
               <input
                 type="text"
                 id="subject_line"
                 name="subject_line"
                 required
+                aria-required="true"
                 placeholder={language === 'fr' ? "Opportunité, Projet, Collaboration..." : "Opportunity, Project, Collaboration..."}
                 className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm"
               />
@@ -109,13 +115,14 @@ export default function ContactPage() {
             {/* Message Field */}
             <div>
               <label htmlFor="form_message" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                {language === 'fr' ? 'Votre Message' : 'Your Message'}
+                {language === 'fr' ? 'Votre Message' : 'Your Message'} <span className="text-[#B36A5E]">*</span>
               </label>
               <textarea
                 id="form_message"
                 name="form_message"
                 rows="6"
                 required
+                aria-required="true"
                 placeholder={language === 'fr' ? "Rédigez votre message ici..." : "Type your message here..."}
                 className="w-full bg-[#15100c] border border-[#8A897C]/30 text-[#EEE2DF] rounded-xl px-4 py-3 focus:outline-none focus:border-[#415D43] transition-all text-sm resize-y"
               ></textarea>
@@ -127,7 +134,7 @@ export default function ContactPage() {
               className="w-full bg-[#415D43] hover:bg-[#2E4330] border border-[#415D43] text-white font-cinzel font-bold tracking-widest uppercase py-4 rounded-xl transition-all shadow-[0_5px_20px_rgba(65,93,67,0.4)] flex justify-center items-center gap-3"
             >
               <span>{language === 'fr' ? 'Envoyer le Message' : 'Send Message'}</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
               </svg>
@@ -135,6 +142,6 @@ export default function ContactPage() {
           </form>
         )}
       </div>
-    </div>
+    </main>
   );
 }

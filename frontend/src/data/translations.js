@@ -1,5 +1,6 @@
 const translations = {
     fr: {
+        skipToContent: "Aller au contenu principal",
         backToUniverse: "Retour à l'Accueil",
         viewProject: "Consulter l'ouvrage",
         projectsGalaxy: "Projets & Réalisations",
@@ -38,9 +39,9 @@ const translations = {
         heroSubtitle: "Ingénieure Logicielle & Développeuse Fullstack",
         heroTagline: "Conception de systèmes robustes, d'architectures modernes et d'expériences 3D immersives.",
         viewProjects: "Voir les projets",
-        viewResumeOnePage: "Consulter le CV",
+        viewResumeOnePage: "Consulter le CV (1 Page)",
         downloadPdf: "Télécharger PDF",
-        filterAll: "Tout",
+        filterAll: "Tout (5)",
         filterSoftware: "Logiciel",
         filterWeb: "Web & Fullstack",
         filterAI: "IA & Data",
@@ -79,9 +80,98 @@ const translations = {
         navAbout: "À propos / CV",
         navContact: "Contact",
         navLanguage: "FR",
-        languageSwitchTitle: "Switch to English"
+        languageSwitchTitle: "Switch to English",
+
+        /* Module d'Accessibilité (WCAG 2.2 AA) */
+        a11yNavHelpBtn: "Ouvrir l'aide de navigation 3D",
+        a11ySettingsBtn: "Ouvrir les options d'accessibilité",
+        a11yNavHelpTitle: "Aide à la Navigation 3D",
+        a11yNavHelpSubtitle: "Guide complet d'utilisation de la bibliothèque virtuelle et raccourcis clavier.",
+        a11ySettingsTitle: "Options d'Accessibilité (WCAG 2.2 AA)",
+        a11ySettingsSubtitle: "Personnalisez l'affichage, les contrastes, la typographie et les mouvements selon vos besoins.",
+        a11yClose: "Fermer la fenêtre",
+        a11yResetAll: "Réinitialiser toutes les préférences",
+        a11yResetSuccess: "Toutes les préférences d'accessibilité ont été réinitialisées.",
+
+        /* Aide 3D sections */
+        a11yHelpMouseTitle: "Navigation à la Souris & Trackpad",
+        a11yHelpMouseRotate: "Déplacer le curseur pour observer la scène ou faire pivoter l'angle de vue.",
+        a11yHelpMouseZoom: "Utiliser la molette de défilement pour zoomer ou dézoomer.",
+        a11yHelpMouseSelect: "Cliquer directement sur un livre interactif ou une plaque de travée pour l'ouvrir.",
+        
+        a11yHelpKeyboardTitle: "Navigation au Clavier",
+        a11yHelpKey1: "Touche 1 : Sauter à la travée Expériences Professionnelles.",
+        a11yHelpKey2: "Touche 2 : Sauter à la travée Projets Phares.",
+        a11yHelpKey3: "Touche 3 : Sauter à la travée Compétences & Langues.",
+        a11yHelpKey4: "Touche 4 : Sauter à la travée Formations & Diplômes.",
+        a11yHelpKey0: "Touche 0 ou Échap : Revenir à l'entrée de la bibliothèque.",
+        a11yHelpKeyTab: "Touche Tab : Parcourir les éléments interactifs de la page.",
+        a11yHelpKeyEnter: "Touche Entrée / Espace : Activer le bouton ou livre sélectionné.",
+
+        a11yHelpTouchTitle: "Navigation sur Écran Tactile",
+        a11yHelpTouchSwipe: "Glisser avec un doigt pour naviguer et orienter le regard.",
+        a11yHelpTouchPinch: "Pincer / écarter avec deux doigts pour zoomer et dézoomer.",
+        a11yHelpTouchTap: "Toucher un livre ou un panneau pour afficher sa fiche complète.",
+
+        a11yTextVersionBtn: "Consulter la version texte alternative",
+        a11yTextVersionHide: "Masquer la version texte",
+        a11yTextVersionDesc: "Accédez à l'intégralité des informations de la bibliothèque sans manipulation 3D.",
+
+        /* Options d'accessibilité */
+        a11yTextSizeTitle: "Taille du texte",
+        a11yTextSizeDefault: "Normale (100%)",
+        a11yTextSizeMedium: "Grande (115%)",
+        a11yTextSizeLarge: "Très Grande (130%)",
+        a11yTextSizeMax: "Maximale (150%)",
+
+        a11yLineSpacingTitle: "Espacement des lignes",
+        a11yLineSpacingNormal: "Normal",
+        a11yLineSpacingRelaxed: "Aéré (+25%)",
+        a11yLineSpacingLoose: "Très Aéré (+50%)",
+
+        a11yLetterSpacingTitle: "Espacement des lettres",
+        a11yLetterSpacingNormal: "Normal",
+        a11yLetterSpacingWide: "Large",
+        a11yLetterSpacingWider: "Très Large",
+
+        a11yContrastTitle: "Contraste renforcé",
+        a11yContrastDesc: "Augmente les contrastes des textes et bordures à un ratio supérieur à 7:1.",
+
+        a11yGrayscaleTitle: "Mode Niveaux de gris",
+        a11yGrayscaleDesc: "Désature l'ensemble des éléments pour un confort visuel neutre.",
+
+        a11yReadableFontTitle: "Police haute lisibilité",
+        a11yReadableFontDesc: "Remplace les polices sérif stylisées par une typographie sans-serif claire.",
+
+        a11yReduceMotionTitle: "Réduire les animations & mouvements",
+        a11yReduceMotionDesc: "Désactive les transitions, rotations de caméra et effets de mouvement.",
+
+        a11yPauseAnimationsTitle: "Mettre en pause les contenus animés",
+        a11yPauseAnimationsDesc: "Arrête les particules dorées Three.js et les animations continues.",
+
+        a11yLargeCursorTitle: "Afficher un curseur plus grand",
+        a11yLargeCursorDesc: "Agrandit le curseur de la souris pour faciliter le repérage visuel.",
+
+        a11ySimplifiedReadingTitle: "Mode lecture simplifié",
+        a11ySimplifiedReadingDesc: "Épure la mise en page pour concentrer l'attention sur les textes essentiels.",
+
+        a11yAnnounceBayChanged: "Travée active :",
+        a11yAnnounceResetCamera: "Retour à l'entrée de la bibliothèque 3D.",
+
+        /* Nouveaux libellés pour l'accessibilité et les accordéons */
+        a11yActive: "Activé",
+        a11yInactive: "Désactivé",
+        a11yAdvancedSettings: "Réglages avancés d'accessibilité",
+        a11yAdvancedSettingsDesc: "Espacements typographiques, mode monochrome, grand curseur et mise en page épurée.",
+        a11yRecommendedBadge: "Accès direct",
+        a11yMouseSummary: "Déplacer, pivoter et zoomer à la molette",
+        a11yKeyboardSummary: "Touches 0 à 4 pour naviguer entre les travées",
+        a11yTouchSummary: "Glisser et pincer pour explorer",
+        a11yShowDetails: "Voir les détails",
+        a11yHideDetails: "Masquer les détails"
     },
     en: {
+        skipToContent: "Skip to main content",
         backToUniverse: "Back to Home",
         viewProject: "View Book",
         projectsGalaxy: "Projects & Achievements",
@@ -120,9 +210,9 @@ const translations = {
         heroSubtitle: "Software Engineer & Fullstack Developer",
         heroTagline: "Building robust systems, modern architectures, and immersive 3D experiences.",
         viewProjects: "View Projects",
-        viewResumeOnePage: "View Resume",
+        viewResumeOnePage: "View Resume (1 Page)",
         downloadPdf: "Download PDF",
-        filterAll: "All",
+        filterAll: "All (5)",
         filterSoftware: "Software",
         filterWeb: "Web & Fullstack",
         filterAI: "AI & Data",
@@ -161,7 +251,95 @@ const translations = {
         navAbout: "About / Resume",
         navContact: "Contact",
         navLanguage: "EN",
-        languageSwitchTitle: "Passer en Français"
+        languageSwitchTitle: "Passer en Français",
+
+        /* Accessibility Module (WCAG 2.2 AA) */
+        a11yNavHelpBtn: "Open 3D navigation help",
+        a11ySettingsBtn: "Open accessibility options",
+        a11yNavHelpTitle: "3D Navigation Help",
+        a11yNavHelpSubtitle: "Complete guide for virtual library navigation and keyboard shortcuts.",
+        a11ySettingsTitle: "Accessibility Options (WCAG 2.2 AA)",
+        a11ySettingsSubtitle: "Customize display, contrast, typography, and motion to suit your needs.",
+        a11yClose: "Close window",
+        a11yResetAll: "Reset all preferences",
+        a11yResetSuccess: "All accessibility preferences have been reset.",
+
+        /* 3D Help sections */
+        a11yHelpMouseTitle: "Mouse & Trackpad Navigation",
+        a11yHelpMouseRotate: "Move the cursor to look around the scene or adjust the viewing angle.",
+        a11yHelpMouseZoom: "Use the scroll wheel to zoom in or zoom out.",
+        a11yHelpMouseSelect: "Click directly on an interactive book or bay sign to open it.",
+        
+        a11yHelpKeyboardTitle: "Keyboard Navigation",
+        a11yHelpKey1: "Key 1: Jump directly to Work Experiences bay.",
+        a11yHelpKey2: "Key 2: Jump directly to Featured Projects bay.",
+        a11yHelpKey3: "Key 3: Jump directly to Tech Skills & Languages bay.",
+        a11yHelpKey4: "Key 4: Jump directly to Education & Degrees bay.",
+        a11yHelpKey0: "Key 0 or Esc: Return to library entrance.",
+        a11yHelpKeyTab: "Tab key: Navigate through interactive elements on the page.",
+        a11yHelpKeyEnter: "Enter / Space: Activate the selected button or book.",
+
+        a11yHelpTouchTitle: "Touchscreen Navigation",
+        a11yHelpTouchSwipe: "Drag with one finger to pan and look around.",
+        a11yHelpTouchPinch: "Pinch or spread with two fingers to zoom in and out.",
+        a11yHelpTouchTap: "Tap any book or plaque to view its complete record.",
+
+        a11yTextVersionBtn: "View text alternative version",
+        a11yTextVersionHide: "Hide text version",
+        a11yTextVersionDesc: "Access all library content without requiring 3D manipulation.",
+
+        /* Accessibility options */
+        a11yTextSizeTitle: "Text size",
+        a11yTextSizeDefault: "Default (100%)",
+        a11yTextSizeMedium: "Large (115%)",
+        a11yTextSizeLarge: "Very Large (130%)",
+        a11yTextSizeMax: "Maximum (150%)",
+
+        a11yLineSpacingTitle: "Line spacing",
+        a11yLineSpacingNormal: "Default",
+        a11yLineSpacingRelaxed: "Relaxed (+25%)",
+        a11yLineSpacingLoose: "Loose (+50%)",
+
+        a11yLetterSpacingTitle: "Letter spacing",
+        a11yLetterSpacingNormal: "Default",
+        a11yLetterSpacingWide: "Wide",
+        a11yLetterSpacingWider: "Extra Wide",
+
+        a11yContrastTitle: "Enhanced Contrast",
+        a11yContrastDesc: "Increases contrast of texts and borders to exceed 7:1 ratio.",
+
+        a11yGrayscaleTitle: "Grayscale Mode",
+        a11yGrayscaleDesc: "Desaturates all visual elements for neutral visual comfort.",
+
+        a11yReadableFontTitle: "High-Legibility Font",
+        a11yReadableFontDesc: "Replaces stylized serif fonts with clean, high-clarity sans-serif typography.",
+
+        a11yReduceMotionTitle: "Reduce Motion & Animations",
+        a11yReduceMotionDesc: "Disables transitions, camera rotations, and motion effects.",
+
+        a11yPauseAnimationsTitle: "Pause Animated Content",
+        a11yPauseAnimationsDesc: "Stops Three.js golden sparkles and continuous animations.",
+
+        a11yLargeCursorTitle: "Large Cursor",
+        a11yLargeCursorDesc: "Enlarges the mouse cursor for better visibility.",
+
+        a11ySimplifiedReadingTitle: "Simplified Reading Mode",
+        a11ySimplifiedReadingDesc: "Streamlines the layout to focus attention on essential text.",
+
+        a11yAnnounceBayChanged: "Active bay:",
+        a11yAnnounceResetCamera: "Returned to 3D library entrance.",
+
+        /* New labels for accessibility and accordions */
+        a11yActive: "Active",
+        a11yInactive: "Inactive",
+        a11yAdvancedSettings: "Advanced Accessibility Settings",
+        a11yAdvancedSettingsDesc: "Typography spacing, grayscale mode, large cursor, and simplified layout.",
+        a11yRecommendedBadge: "Direct Access",
+        a11yMouseSummary: "Move, rotate, and zoom with scroll wheel",
+        a11yKeyboardSummary: "Keys 0 to 4 to navigate between bays",
+        a11yTouchSummary: "Drag and pinch to explore",
+        a11yShowDetails: "Show details",
+        a11yHideDetails: "Hide details"
     }
 };
 

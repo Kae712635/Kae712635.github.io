@@ -26,7 +26,7 @@ export default function ProjetsPage() {
   const getTranslation = (key, fallback) => {
     try {
       return typeof t === 'function' ? t(key, fallback) : (t[key] || fallback);
-    } catch (e) {
+    } catch {
       return fallback;
     }
   };
@@ -95,9 +95,13 @@ export default function ProjetsPage() {
   ], [language]);
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#1e1d1b]">
+    <main 
+      id="main-content" 
+      tabIndex="-1" 
+      className="relative min-h-screen overflow-hidden bg-[#1e1d1b] focus:outline-none"
+    >
       {/* Subtle Dark Background Texture */}
-      <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" aria-hidden="true"></div>
 
       <div className="max-w-7xl mx-auto relative z-10 pt-28 pb-16 px-6 md:px-12 flex flex-col items-center">
         
@@ -148,16 +152,20 @@ export default function ProjetsPage() {
         </header>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center items-center mb-12 relative z-20 w-full">
+        <nav 
+          aria-label={language === 'fr' ? "Sections du catalogue" : "Catalog sections"}
+          className="flex justify-center items-center mb-12 relative z-20 w-full"
+        >
           <div className="bg-[#1e1d1b]/90 border border-[#8A897C]/30 rounded-full p-1.5 backdrop-blur-md flex gap-2 shadow-lg">
             {[
-              { id: 'projets', label: getTranslation('navProjects', language === 'fr' ? 'Projets' : 'Projects'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> },
-              { id: 'apropos', label: getTranslation('navAbout', language === 'fr' ? 'À propos / CV' : 'About / Resume'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
-              { id: 'contact', label: getTranslation('navContact', 'Contact'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> }
+              { id: 'projets', label: getTranslation('navProjects', language === 'fr' ? 'Projets' : 'Projects'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> },
+              { id: 'apropos', label: getTranslation('navAbout', language === 'fr' ? 'À propos / CV' : 'About / Resume'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
+              { id: 'contact', label: getTranslation('navContact', 'Contact'), icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                aria-current={activeTab === tab.id ? 'page' : undefined}
                 className={`px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-cinzel tracking-widest transition-all duration-200 flex items-center gap-2 ${
                   activeTab === tab.id 
                     ? tab.id === 'contact'
@@ -173,19 +181,18 @@ export default function ProjetsPage() {
               </button>
             ))}
           </div>
-        </div>
+        </nav>
 
         {/* PROJETS TAB */}
         {activeTab === 'projets' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+          <section 
+            aria-label={language === 'fr' ? "Liste des projets phares" : "Featured projects list"}
             className="w-full"
           >
             {loading ? (
-              <div className="flex justify-center items-center py-32">
+              <div className="flex justify-center items-center py-32" role="status">
                 <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+                <span className="sr-only">Chargement des projets...</span>
               </div>
             ) : (
               <>
@@ -224,28 +231,26 @@ export default function ProjetsPage() {
                 )}
               </>
             )}
-          </motion.div>
+          </section>
         )}
 
         {/* CV / À PROPOS TAB */}
         {activeTab === 'apropos' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+          <section
+            aria-labelledby="about-section-heading"
             className="pb-24 w-full"
           >
             <header className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-cinzel text-[#EEE2DF] tracking-wide mb-4 uppercase">
+              <h2 id="about-section-heading" className="text-4xl md:text-5xl font-cinzel text-[#EEE2DF] tracking-wide mb-4 uppercase">
                 {language === 'fr' ? 'À PROPOS & CV' : 'ABOUT & RESUME'}
               </h2>
-              <div className="w-16 h-[2px] bg-[#415D43] mx-auto"></div>
+              <div className="w-16 h-[2px] bg-[#415D43] mx-auto" aria-hidden="true"></div>
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left">
                 <div className="w-48 h-48 rounded-full border-4 border-[#415D43] overflow-hidden mb-8 shadow-[0_0_30px_rgba(65,93,67,0.3)]">
-                  <img src="/media/photo_identité.png" alt="Klervi Choblet" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+                  <img src="/media/photo_identité.png" alt="Portrait de Klervi Choblet, Ingénieure Software" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
                 </div>
                 <p className="text-lg text-[#EEE2DF]/90 font-serif leading-relaxed mb-6">
                   {language === 'fr' 
@@ -257,7 +262,7 @@ export default function ProjetsPage() {
                     onClick={() => setShowCvModal(true)}
                     className="px-6 py-3 bg-[#415D43] hover:bg-[#2E4330] text-white rounded-full font-cinzel tracking-widest uppercase text-xs font-bold transition-all shadow-md"
                   >
-                    {getTranslation('viewResumeOnePage', language === 'fr' ? 'Consulter le CV' : 'View Resume')}
+                    {getTranslation('viewResumeOnePage', language === 'fr' ? 'Consulter le CV (1 Page)' : 'View Resume (1 Page)')}
                   </button>
                   <a 
                     href={CV_PATH}
@@ -266,7 +271,7 @@ export default function ProjetsPage() {
                     rel="noopener noreferrer"
                     className="px-6 py-3 border border-[#8A897C] text-[#EEE2DF] hover:bg-[#8A897C]/15 rounded-full font-cinzel tracking-widest uppercase text-xs transition-all flex items-center gap-2 justify-center"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     {getTranslation('downloadPdf', language === 'fr' ? 'Télécharger PDF' : 'Download PDF')}
                   </a>
                 </div>
@@ -276,37 +281,35 @@ export default function ProjetsPage() {
                 {skillCategories.map((cat, i) => (
                   <div key={i} className="bg-[#15100C]/80 border border-[#8A897C]/20 p-6 rounded-xl backdrop-blur-sm hover:border-[#415D43] transition-colors">
                     <h3 className="text-[#EEE2DF] font-cinzel text-lg mb-4 flex items-center gap-2 font-bold">
-                      <span className="w-4 h-[1px] bg-[#415D43]"></span>
+                      <span className="w-4 h-[1px] bg-[#415D43]" aria-hidden="true"></span>
                       {cat.title}
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <ul className="flex flex-wrap gap-2 list-none p-0 m-0">
                       {cat.skills.map(skill => (
-                        <span key={skill} className="bg-[#2c2b28] text-[#EEE2DF] text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-[#8A897C]/30 shadow-sm">
+                        <li key={skill} className="bg-[#2c2b28] text-[#EEE2DF] text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border border-[#8A897C]/30 shadow-sm">
                           {skill}
-                        </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </div>
                 ))}
               </div>
             </div>
-          </motion.div>
+          </section>
         )}
 
         {/* CONTACT TAB */}
         {activeTab === 'contact' && (
-          <motion.div
+          <section
             id="contact-section"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
+            aria-labelledby="contact-heading"
             className="pb-24 scroll-mt-32 w-full"
           >
             <header className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-cinzel text-[#EEE2DF] tracking-wide mb-4 uppercase">
+              <h2 id="contact-heading" className="text-4xl md:text-5xl font-cinzel text-[#EEE2DF] tracking-wide mb-4 uppercase">
                 {getTranslation('contactTitle', language === 'fr' ? 'ME CONTACTER' : 'CONTACT ME')}
               </h2>
-              <div className="w-16 h-[2px] bg-[#B36A5E] mx-auto mb-6"></div>
+              <div className="w-16 h-[2px] bg-[#B36A5E] mx-auto mb-6" aria-hidden="true"></div>
               <p className="text-base md:text-lg text-[#8A897C] font-serif leading-relaxed max-w-2xl mx-auto">
                 {getTranslation('contactSub', language === 'fr' 
                   ? `Vous avez un projet ou une opportunité à me proposer ? Écrivez-moi directement via ce formulaire ou à ${CONTACT_EMAIL}`
@@ -316,7 +319,7 @@ export default function ProjetsPage() {
 
             <div className="max-w-2xl mx-auto bg-[#15100C]/95 border border-[#8A897C]/30 rounded-xl p-8 md:p-12 backdrop-blur-md shadow-2xl">
               {contactSuccess ? (
-                <div className="text-center py-8 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
+                <div role="status" aria-live="polite" className="text-center py-8 bg-[#415D43]/20 border border-[#415D43] rounded-xl p-6">
                   <h3 className="text-xl font-cinzel text-[#D4AF37] mb-2 font-bold">
                     {getTranslation('contactSuccessTitle', language === 'fr' ? "Message Prêt à l'Envoi !" : "Message Ready to Send!")}
                   </h3>
@@ -333,39 +336,42 @@ export default function ProjetsPage() {
                 <form onSubmit={handleContactSubmit} className="space-y-6">
                   <div>
                     <label htmlFor="email_address" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                      {getTranslation('contactEmailLabel', language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address')}
+                      {getTranslation('contactEmailLabel', language === 'fr' ? 'Votre Adresse Email' : 'Your Email Address')} <span className="text-[#B36A5E]">*</span>
                     </label>
                     <input
                       type="email"
                       id="email_address"
                       name="email_address"
                       required
+                      aria-required="true"
                       placeholder="votre.email@exemple.com"
                       className="w-full bg-[#2c2b28] border border-[#8A897C]/30 text-[#EEE2DF] rounded-lg px-4 py-3 focus:outline-none focus:border-[#415D43] transition-colors text-sm"
                     />
                   </div>
                   <div>
                     <label htmlFor="subject_line" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                      {getTranslation('contactSubjectLabel', language === 'fr' ? 'Objet du Message' : 'Subject')}
+                      {getTranslation('contactSubjectLabel', language === 'fr' ? 'Objet du Message' : 'Subject')} <span className="text-[#B36A5E]">*</span>
                     </label>
                     <input
                       type="text"
                       id="subject_line"
                       name="subject_line"
                       required
+                      aria-required="true"
                       placeholder={language === 'fr' ? "Opportunité, Projet, Collaboration..." : "Opportunity, Project, Collaboration..."}
                       className="w-full bg-[#2c2b28] border border-[#8A897C]/30 text-[#EEE2DF] rounded-lg px-4 py-3 focus:outline-none focus:border-[#415D43] transition-colors text-sm"
                     />
                   </div>
                   <div>
                     <label htmlFor="form_message" className="block text-xs font-cinzel text-[#EEE2DF] mb-2 tracking-widest uppercase font-bold">
-                      {getTranslation('contactMessageLabel', language === 'fr' ? 'Votre Message' : 'Your Message')}
+                      {getTranslation('contactMessageLabel', language === 'fr' ? 'Votre Message' : 'Your Message')} <span className="text-[#B36A5E]">*</span>
                     </label>
                     <textarea
                       id="form_message"
                       name="form_message"
                       rows="5"
                       required
+                      aria-required="true"
                       placeholder={language === 'fr' ? "Rédigez votre message ici..." : "Type your message here..."}
                       className="w-full bg-[#2c2b28] border border-[#8A897C]/30 text-[#EEE2DF] rounded-lg px-4 py-3 focus:outline-none focus:border-[#415D43] transition-colors text-sm resize-y"
                     ></textarea>
@@ -375,30 +381,35 @@ export default function ProjetsPage() {
                     className="w-full bg-[#415D43] hover:bg-[#2E4330] text-white font-cinzel font-bold tracking-widest uppercase py-4 rounded-lg transition-all shadow-lg flex justify-center items-center gap-3"
                   >
                     <span>{getTranslation('contactSendBtn', language === 'fr' ? 'Envoyer le Message' : 'Send Message')}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                   </button>
                 </form>
               )}
             </div>
-          </motion.div>
+          </section>
         )}
       </div>
 
       {/* SINGLE PAGE CV MODAL */}
       {showCvModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cv-modal-title"
+        >
           <div className="bg-[#1e1d1b] border border-[#8A897C]/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl text-[#EEE2DF]">
             <button
               onClick={() => setShowCvModal(false)}
-              className="absolute top-4 right-4 text-[#8A897C] hover:text-white text-xl font-bold"
-              aria-label="Fermer"
+              className="absolute top-4 right-4 text-[#8A897C] hover:text-white text-xl font-bold p-2"
+              aria-label="Fermer le CV"
             >
               ✕
             </button>
 
             <div className="border border-[#8A897C]/30 p-6 rounded-xl bg-[#15100c]">
               <div className="border-b border-[#8A897C]/30 pb-4 mb-6 text-center">
-                <h2 className="text-3xl font-cinzel font-bold text-[#EEE2DF]">KLERVI CHOBLET</h2>
+                <h2 id="cv-modal-title" className="text-3xl font-cinzel font-bold text-[#EEE2DF]">KLERVI CHOBLET</h2>
                 <p className="text-sm font-cinzel text-[#415D43] font-bold mt-1">{cvData.profile.title[language] || cvData.profile.title.fr}</p>
                 <p className="text-xs text-[#8A897C] mt-1">{cvData.profile.email} • {cvData.profile.github}</p>
               </div>
@@ -470,6 +481,6 @@ export default function ProjetsPage() {
         isOpen={!!selectedProject} 
         onClose={() => setSelectedProject(null)} 
       />
-    </section>
+    </main>
   );
 }

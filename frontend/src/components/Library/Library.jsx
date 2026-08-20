@@ -3,11 +3,13 @@ import { Float, Text, useTexture, Sparkles } from '@react-three/drei';
 import Bookshelf from './Bookshelf';
 import { useProjects } from '../../hooks/useProjects';
 import { useLanguage } from '../../context/LanguageContext';
+import { useAccessibility } from '../../context/AccessibilityContext';
 import cvData from '../../data/cvData';
 import * as THREE from 'three';
 
 const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => {
     const { t, language } = useLanguage();
+    const { isAnimationsPaused } = useAccessibility();
     const { projects: allProjects } = useProjects();
 
     const avatarTexture = useTexture('/media/photo_identité.png');
@@ -96,16 +98,18 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
     return (
         <group>
-            {/* Gold Dust Particles */}
-            <Sparkles
-                count={160}
-                scale={[20, 14, 50]}
-                size={3.5}
-                speed={0.3}
-                opacity={0.55}
-                color="#ffd700"
-                position={[0, 4, -15]}
-            />
+            {/* Gold Dust Particles (Respects Accessibility Pause Animations setting) */}
+            {!isAnimationsPaused && (
+                <Sparkles
+                    count={160}
+                    scale={[20, 14, 50]}
+                    size={3.5}
+                    speed={0.3}
+                    opacity={0.55}
+                    color="#ffd700"
+                    position={[0, 4, -15]}
+                />
+            )}
 
             {/* --- ARCHITECTURE --- */}
 
@@ -212,8 +216,6 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                 </group>
             </group>
 
-            {/* Note: Language desk at Entrance Right has been completely removed in accordance with Requirement #7 */}
-
             {/* --- BAYS & PLAQUES & SHELVES --- */}
             {bays.map((bay) => (
                 <group key={`bay-${bay.id}`} position={[0, 0, bay.z]}>
@@ -245,7 +247,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         </Text>
                     </group>
 
-                    {/* Left Shelves (Grounded, Facing +Z) */}
+                    {/* Left Shelves */}
                     <group position={[-6.8, 1.25, 0]} rotation={[0, 0, 0]}>
                         <Bookshelf
                             name={bay.label}
@@ -255,7 +257,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         />
                     </group>
 
-                    {/* Right Shelves (Grounded, Facing +Z) */}
+                    {/* Right Shelves */}
                     <group position={[6.8, 1.25, 0]} rotation={[0, 0, 0]}>
                         <Bookshelf
                             name={bay.label}
