@@ -1,0 +1,211 @@
+[
+  {
+    "id": "ing2-opengl-projet",
+    "title": "OpenGL",
+    "category": ["Logiciel", "Systèmes & 3D"],
+    "tech": [
+      "C++",
+      "OpenGL",
+      "GLSL",
+      "Shaders",
+      "3D Real-time"
+    ],
+    "description": {
+      "fr": "Scène 3D interactive et moteur de rendu temps réel développé en C++ et OpenGL moderne avec shaders GLSL.",
+      "en": "Interactive real-time 3D scene and rendering engine developed in C++ and modern OpenGL with GLSL shaders."
+    },
+    "date": "2026-06-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
+    "detailed_description": {
+      "fr": "Conception d'un moteur de rendu 3D temps réel en C++ et OpenGL moderne. Implémentation de pipeline graphique complet : maillages polygonaux, gestion des caméras orbitales/FPS, illumination de Phong et shaders d'eau animés.",
+      "en": "Design of a real-time 3D rendering engine in C++ and modern OpenGL. Full graphics pipeline implementation: polygonal meshes, orbital/FPS cameras, Phong illumination, and animated water shaders."
+    },
+    "architecture": {
+      "fr": "Pipeline programmable OpenGL 4.x, vertex & fragment shaders en GLSL, gestion matricielle MVP (Model-View-Projection), chargement de modèles OBJ et buffers VBO/VAO/EBO optimisés.",
+      "en": "Programmable OpenGL 4.x pipeline, GLSL vertex & fragment shaders, MVP matrix transformations, OBJ model loader, and optimized VBO/VAO/EBO buffers."
+    },
+    "challenges": [
+      {
+        "fr": "Optimisation des performances de rendu et gestion précise du frame rate.",
+        "en": "Rendering performance optimization and frame rate management."
+      },
+      {
+        "fr": "Calcul mathématique des normales et réfraction de la lumière sur les surfaces animées.",
+        "en": "Mathematical normal calculations and light refraction on dynamic surfaces."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/OpenGL.png"
+    ],
+    "image": "/img/projets/OpenGL.png",
+    "video": "/documents/animation_peche_rendu_cartoon.mp4"
+  },
+  {
+    "id": "ing2-isim-projet",
+    "title": "ISIM",
+    "category": ["Intelligence Artificielle", "Simulation"],
+    "tech": [
+      "Python",
+      "Modélisation",
+      "Simulation",
+      "Visualisation"
+    ],
+    "description": {
+      "fr": "Modélisation et simulation dynamique de propagation de feux de forêt avec visualisations avancées.",
+      "en": "Dynamic modeling and simulation system for forest fire propagation with advanced visual analytics."
+    },
+    "date": "2026-01-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
+    "detailed_description": {
+      "fr": "Projet d'ingénierie et de modélisation mathématique simulant la propagation de feux de forêt en fonction des conditions environnementales (vent, humidité, relief, types de végétation).",
+      "en": "Engineering and mathematical modeling project simulating forest fire spreading based on environmental parameters (wind, humidity, elevation, vegetation types)."
+    },
+    "architecture": {
+      "fr": "Automates cellulaires et équations différentielles discrétisées pour le front de flamme, couplés à une interface de visualisation graphique animée en Python.",
+      "en": "Cellular automata and discretized differential equations for flame fronts, coupled with animated Python graphical visualizations."
+    },
+    "challenges": [
+      {
+        "fr": "Équilibrage de la complexité algorithmique pour permettre une simulation fluide à grande échelle.",
+        "en": "Algorithmic complexity balancing for smooth large-scale real-time simulations."
+      },
+      {
+        "fr": "Validation des modèles physiques par rapport à des données réelles.",
+        "en": "Physical model validation against realistic empirical data."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/Isim_fire.png"
+    ],
+    "image": "/img/projets/Isim_fire.png",
+    "video": "/documents/ISIM_fire.mp4"
+  },
+  {
+    "id": "ing2-neuro",
+    "title": "Medviz (Neurovolumetry)",
+    "category": ["Systèmes & 3D", "Logiciel"],
+    "tech": [
+      "C++",
+      "Visualisation 3D",
+      "Imagerie Médicale",
+      "VTK",
+      "ITK"
+    ],
+    "description": {
+      "fr": "Plateforme de traitement, segmentation et reconstruction volumique 3D d'IRM et scans cérébraux.",
+      "en": "3D volumetric reconstruction, segmentation, and processing platform for MRI and brain scans."
+    },
+    "date": "2026-05-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
+    "detailed_description": {
+      "fr": "Outil spécialisé dans le traitement et la visualisation tridimensionnelle de données médicales volumiques. Permet l'analyse anatomique, le calcul volumétrique de structures cérébrales et le rendu direct par ray-casting.",
+      "en": "Specialized tool for 3D medical volume processing and visualization. Enables anatomical analysis, volumetric quantification of brain structures, and direct volume ray-casting rendering."
+    },
+    "architecture": {
+      "fr": "Pipeline de traitement ITK pour le filtrage et la segmentation, combiné à VTK pour le rendu volumique GPU et l'interaction temps réel.",
+      "en": "ITK processing pipeline for filtering and segmentation, combined with VTK for GPU volume rendering and real-time slice interaction."
+    },
+    "challenges": [
+      {
+        "fr": "Gestion de volumes de données massifs (fichiers DICOM / NIfTI) sans latence.",
+        "en": "Handling massive data volumes (DICOM / NIfTI files) with zero latency."
+      },
+      {
+        "fr": "Précision de la segmentation automatique des zones d'intérêt médical.",
+        "en": "High precision in automated segmentation of regions of clinical interest."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/neuroVolumetry.png"
+    ],
+    "image": "/img/projets/neuroVolumetry.png"
+  },
+  {
+    "id": "ing1-ping",
+    "title": "Ping",
+    "category": ["Infrastructure & Systèmes", "Réseau"],
+    "tech": [
+      "C",
+      "Réseaux",
+      "Sockets Raw",
+      "Protocole ICMP"
+    ],
+    "description": {
+      "fr": "Implémentation bas niveau de l'utilitaire réseau ICMP Ping en C avec analyse détaillée de latence.",
+      "en": "Low-level implementation of the ICMP Ping network utility in C with detailed latency analytics."
+    },
+    "date": "2025-01-01",
+    "project_url": "https://github.com/Kae712635/",
+    "github_url": "https://github.com/Kae712635/",
+    "document": "/documents/PING_Presentation.pdf",
+    "detailed_description": {
+      "fr": "Développement complet en C sous UNIX de l'utilitaire Ping utilisant des raw sockets pour forger et décoder des paquets ICMP Echo Request / Echo Reply.",
+      "en": "Full UNIX C development of the Ping utility using raw sockets to craft and parse ICMP Echo Request / Echo Reply packets."
+    },
+    "architecture": {
+      "fr": "Communication par sockets bruts (SOCK_RAW), calcul de checksum IP/ICMP en binaire, gestion des signaux POSIX et calcul précis des RTT (Round Trip Time).",
+      "en": "Raw socket communication (SOCK_RAW), binary IP/ICMP checksum computations, POSIX signal handling, and precise sub-millisecond RTT statistics."
+    },
+    "challenges": [
+      {
+        "fr": "Gestion des privilèges système et des paquets corrompus / timeouts réseau.",
+        "en": "System permission handling and management of corrupted packets / network timeouts."
+      },
+      {
+        "fr": "Précision nanoseconde du calcul des temps aller-retour.",
+        "en": "Nanosecond accuracy for round-trip time measurements."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/background.png"
+    ],
+    "image": "/img/projets/background.png"
+  },
+  {
+    "id": "front-2",
+    "title": "Howea",
+    "category": ["Application Web", "Fullstack"],
+    "tech": [
+      "React",
+      "Accessibilité (a11y)",
+      "Vercel",
+      "API REST"
+    ],
+    "description": {
+      "fr": "Application web de puzzles conçue pour stimuler la cognition des personnes atteintes de la maladie à corps de Lewy.",
+      "en": "Cognitive puzzle web application designed to stimulate attention for people living with Lewy body dementia."
+    },
+    "project_url": "https://howea.vercel.app",
+    "github_url": "https://github.com/Kae712635/",
+    "date": "2026-02-01",
+    "details": {
+      "fr": "Application web full-stack dédiée aux personnes atteintes de la maladie à corps de Lewy. Les puzzles sont conçus pour stimuler la cognition de façon adaptée, avec une attention maximale portée à l'ergonomie et l'accessibilité.",
+      "en": "Full-stack web application dedicated to individuals with Lewy body dementia. Puzzles are tailored to stimulate cognitive faculties with maximum care for accessibility and ergonomic clarity."
+    },
+    "detailed_description": {
+      "fr": "Conception et déploiement d'une plateforme web inclusive. Ergonomie douce, contrastes adaptés (normes WCAG AA/AAA), feedbacks haptiques et sonores bienveillants pour accompagner les utilisateurs dans des exercices de mémoire et de repérage visuel.",
+      "en": "Design and deployment of an inclusive web platform. Gentle ergonomics, adapted contrasts (WCAG AA/AAA standards), and considerate sensory feedbacks assisting users in memory and visual orientation exercises."
+    },
+    "architecture": {
+      "fr": "Front-end moderne en React, animations fluides non intrusives, persistance des progrès locaux sécurisée et déploiement continu sur Vercel.",
+      "en": "Modern React frontend, gentle non-intrusive animations, secure local progress persistence, and continuous deployment on Vercel."
+    },
+    "challenges": [
+      {
+        "fr": "Conception UX/UI hautement inclusive répondant aux contraintes neurologiques spécifiques.",
+        "en": "Highly inclusive UX/UI design addressing specific neurological requirements."
+      },
+      {
+        "fr": "Garantie d'une réactivité instantanée et d'une navigation sans friction.",
+        "en": "Guaranteeing instant responsiveness and zero-friction navigation."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/howea.png"
+    ],
+    "image": "/img/projets/howea.png"
+  }
+]

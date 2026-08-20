@@ -3,16 +3,21 @@ const fs = require('fs');
 const path = require('path');
 
 const port = process.env.PORT || 3001;
-const jsonPath = path.resolve(__dirname, '../frontend/src/data/projects.json');
-
 const getProjectsData = () => {
-  try {
-    if (fs.existsSync(jsonPath)) {
-      const rawData = fs.readFileSync(jsonPath);
-      return rawData;
+  const possiblePaths = [
+    path.resolve(__dirname, '../frontend/src/data/projects.json'),
+    path.resolve(__dirname, './projects.json'),
+    path.resolve(__dirname, './data/projects.json')
+  ];
+
+  for (const p of possiblePaths) {
+    try {
+      if (fs.existsSync(p)) {
+        return fs.readFileSync(p, 'utf-8');
+      }
+    } catch (err) {
+      console.error(`Erreur de lecture du JSON à ${p}:`, err);
     }
-  } catch (err) {
-    console.error("Erreur de lecture du JSON:", err);
   }
   return "[]";
 };
