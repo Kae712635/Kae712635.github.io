@@ -99,10 +99,10 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: isReducedMotion ? 1 : 0.96, y: isReducedMotion ? 0 : 8 }}
           transition={{ duration: isReducedMotion ? 0 : 0.2 }}
-          className="relative w-full max-w-[540px] bg-[#2B0F14] border border-[#D4A24E]/35 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col text-[#F5EBDD] overflow-hidden my-auto"
+          className="relative w-full max-w-[560px] bg-[#2B0F14] border border-[#D4A24E]/35 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex flex-col text-[#F5EBDD] overflow-hidden my-auto"
         >
           {/* Centered Header */}
-          <header className="relative px-5 py-4 border-b border-[#D4A24E]/20 bg-[#1E0A0E] text-center shrink-0">
+          <header className="relative px-5 py-3.5 sm:py-4 border-b border-[#D4A24E]/20 bg-[#1E0A0E] text-center shrink-0">
             <h2 id="nav-help-title" className="font-cinzel text-base sm:text-lg font-bold uppercase tracking-[0.15em] text-[#D4A24E] leading-tight">
               {getTranslation('a11yNavHelpTitle', 'Aide à la Navigation 3D')}
             </h2>
@@ -120,73 +120,103 @@ export default function NavigationHelpModal({ isOpen, onClose, triggerRef }) {
             </button>
           </header>
 
-          {/* Body Content: 3 Real Active Controls */}
-          <div className="p-4 sm:p-5 space-y-3 flex-1 text-sm font-sans">
+          {/* Body Content: 3 Realistic Visual Cards */}
+          <div className="p-4 sm:p-5 flex-1 text-sm font-sans">
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               
-              {/* 1. Se déplacer (Touches ZQSD / Flèches) */}
-              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center text-center">
-                <div className="w-9 h-9 rounded-lg bg-[#D4A24E]/15 text-[#D4A24E] border border-[#D4A24E]/30 flex items-center justify-center mb-2 shadow-sm">
-                  {/* Directional keys icon */}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="12 3 15 7 9 7 12 3"/>
-                    <polygon points="12 21 9 17 15 17 12 21"/>
-                    <polygon points="3 12 7 9 7 15 3 12"/>
-                    <polygon points="21 12 17 15 17 9 21 12"/>
-                  </svg>
+              {/* 1. SE DÉPLACER (Visual ZQSD Keycaps) */}
+              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center justify-between text-center min-h-[170px]">
+                {/* ZQSD Keycaps Layout */}
+                <div className="h-16 flex flex-col items-center justify-center gap-1">
+                  <div className="w-7 h-7 rounded-md bg-[#2B0F14] border border-[#D4A24E]/60 shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center text-xs font-mono font-bold text-[#D4A24E]">
+                    Z
+                  </div>
+                  <div className="flex gap-1">
+                    <div className="w-7 h-7 rounded-md bg-[#2B0F14] border border-[#D4A24E]/60 shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center text-xs font-mono font-bold text-[#D4A24E]">
+                      Q
+                    </div>
+                    <div className="w-7 h-7 rounded-md bg-[#2B0F14] border border-[#D4A24E]/60 shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center text-xs font-mono font-bold text-[#D4A24E]">
+                      S
+                    </div>
+                    <div className="w-7 h-7 rounded-md bg-[#2B0F14] border border-[#D4A24E]/60 shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center text-xs font-mono font-bold text-[#D4A24E]">
+                      D
+                    </div>
+                  </div>
                 </div>
-                <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] mb-1 block leading-tight">
-                  {language === 'fr' ? 'Se déplacer' : 'Move'}
-                </span>
-                <span className="inline-block font-mono text-[11px] font-bold px-2 py-0.5 bg-[#2B0F14] text-[#D4A24E] border border-[#D4A24E]/30 rounded mb-1">
-                  ZQSD / Flèches
-                </span>
-                <span className="text-[11px] text-[#D8C6B6] leading-tight">
-                  {language === 'fr' ? 'Marcher dans l’allée' : 'Walk in the hall'}
-                </span>
+
+                <div>
+                  <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] block leading-tight mb-1">
+                    {language === 'fr' ? 'Se déplacer' : 'Move'}
+                  </span>
+                  <span className="text-[11px] text-[#D8C6B6] leading-tight block">
+                    {language === 'fr' ? 'Marcher dans l’allée' : 'Walk in the hall'}
+                  </span>
+                </div>
               </div>
 
-              {/* 2. Accès rapide aux travées (Touches 1 à 5) */}
-              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center text-center">
-                <div className="w-9 h-9 rounded-lg bg-[#D4A24E]/15 text-[#D4A24E] border border-[#D4A24E]/30 flex items-center justify-center mb-2 shadow-sm">
-                  {/* Quick jump icon */}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                  </svg>
+              {/* 2. ALLER AUX Allées (Visual 1 to 5 Numbered Strip) */}
+              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center justify-between text-center min-h-[170px]">
+                {/* 1-5 Number Keys Strip */}
+                <div className="h-16 flex flex-col items-center justify-center gap-1.5">
+                  <div className="flex items-center gap-1">
+                    {['1', '2', '3', '4', '5'].map((num) => (
+                      <div 
+                        key={num} 
+                        className={`w-6 h-7 sm:w-6.5 sm:h-7 rounded-md border shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center justify-center text-xs font-mono font-bold ${
+                          num === '1' 
+                            ? 'bg-[#A6303B]/30 border-[#A6303B] text-[#F5EBDD]' 
+                            : 'bg-[#2B0F14] border-[#D4A24E]/60 text-[#D4A24E]'
+                        }`}
+                      >
+                        {num}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-[#D4A24E] font-cinzel font-bold tracking-wider">
+                    {language === 'fr' ? '1-5 Allées' : '1-5 Aisles'}
+                  </span>
                 </div>
-                <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] mb-1 block leading-tight">
-                  {language === 'fr' ? 'Aller aux travées' : 'Jump to bays'}
-                </span>
-                <span className="inline-block font-mono text-[11px] font-bold px-2 py-0.5 bg-[#2B0F14] text-[#D4A24E] border border-[#D4A24E]/30 rounded mb-1">
-                  Touches 1 à 5
-                </span>
-                <span className="text-[11px] text-[#D8C6B6] leading-tight">
-                  {language === 'fr' ? '1: Entrée · 2-5: Travées' : '1: Entry · 2-5: Bays'}
-                </span>
+
+                <div>
+                  <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] block leading-tight mb-1">
+                    {language === 'fr' ? 'Aller aux allées' : 'Jump to bays'}
+                  </span>
+                  <span className="text-[11px] text-[#D8C6B6] leading-tight block">
+                    {language === 'fr' ? 'Téléportation directe' : 'Instant teleport'}
+                  </span>
+                </div>
               </div>
 
-              {/* 3. Ouvrir un livre (Clic direct souris) */}
-              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center text-center">
-                <div className="w-9 h-9 rounded-lg bg-[#D4A24E]/15 text-[#D4A24E] border border-[#D4A24E]/30 flex items-center justify-center mb-2 shadow-sm">
-                  {/* Open book icon */}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              {/* 3. OUVRIR UN LIVRE (Visual Mouse with highlighted Left-Click) */}
+              <div className="p-3.5 bg-[#1E0A0E] border border-[#D4A24E]/25 rounded-xl flex flex-col items-center justify-between text-center min-h-[170px]">
+                {/* Illustrated Mouse + Click Target */}
+                <div className="h-16 flex items-center justify-center gap-2">
+                  <svg width="26" height="38" viewBox="0 0 28 42" fill="none" className="shrink-0 drop-shadow">
+                    <rect x="1" y="1" width="26" height="40" rx="13" stroke="#D4A24E" strokeWidth="1.5" fill="#1E0A0E" />
+                    {/* Highlighted Left Click Button */}
+                    <path d="M1 14C1 7.37258 6.37258 2 13 2V18H1V14Z" fill="#D4A24E" fillOpacity="0.9" stroke="#FFF1C2" strokeWidth="1" />
+                    {/* Dimmed Right Click Button */}
+                    <path d="M15 2C21.6274 2 27 7.37258 27 14V18H15V2Z" fill="#2B0F14" stroke="#D4A24E" strokeOpacity="0.3" strokeWidth="1" />
+                    {/* Scroll Wheel */}
+                    <rect x="12.5" y="8" width="3" height="7" rx="1.5" fill="#F5EBDD" />
                   </svg>
+                  <div className="w-8 h-8 rounded-lg bg-[#D4A24E]/15 border border-[#D4A24E]/40 flex items-center justify-center text-[#D4A24E] shrink-0">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    </svg>
+                  </div>
                 </div>
-                <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] mb-1 block leading-tight">
-                  {language === 'fr' ? 'Ouvrir un projet' : 'Open project'}
-                </span>
-                <span className="inline-block font-cinzel text-[11px] font-bold px-2 py-0.5 bg-[#2B0F14] text-[#D4A24E] border border-[#D4A24E]/30 rounded mb-1">
-                  {language === 'fr' ? 'Clic gauche' : 'Left click'}
-                </span>
-                <span className="text-[11px] text-[#D8C6B6] leading-tight">
-                  {language === 'fr' ? 'Directement sur un livre' : 'Directly on a 3D book'}
-                </span>
+
+                <div>
+                  <span className="font-cinzel font-bold text-xs sm:text-sm text-[#F5EBDD] block leading-tight mb-1">
+                    {language === 'fr' ? 'Ouvrir un projet' : 'Open project'}
+                  </span>
+                  <span className="text-[11px] text-[#D8C6B6] leading-tight block">
+                    {language === 'fr' ? 'Clic gauche sur un livre' : 'Left-click on a book'}
+                  </span>
+                </div>
               </div>
 
             </div>
