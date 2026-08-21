@@ -257,19 +257,17 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
     return (
         <group>
-            {/* Clustered Golden Magic Dust Particles floating along the central aisle */}
+            {/* Ambient Golden Magic Dust Particles floating high in the ceiling vaults (clear of camera path) */}
             {!isAnimationsPaused && (
-                <>
-                    <Sparkles
-                        count={70}
-                        scale={[6, 8, 48]}
-                        size={3.0}
-                        speed={0.25}
-                        opacity={0.65}
-                        color="#FFD700"
-                        position={[0, 3, -14]}
-                    />
-                </>
+                <Sparkles
+                    count={45}
+                    scale={[6, 3.5, 48]}
+                    size={1.4}
+                    speed={0.2}
+                    opacity={0.35}
+                    color="#D4A24E"
+                    position={[0, 6.5, -14]}
+                />
             )}
 
             {/* --- ARCHITECTURE --- */}
@@ -514,16 +512,16 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <circleGeometry args={[2.2, 32]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
-                        {/* Targeted Sparkle Cluster */}
+                        {/* Targeted Soft Ambient Glow */}
                         {!isAnimationsPaused && (
                             <Sparkles
-                                count={14}
-                                scale={[1.5, 2.0, 1.5]}
-                                size={2.5}
-                                speed={0.4}
-                                opacity={0.75}
-                                color="#FFD700"
-                                position={[0, 2.3, 0]}
+                                count={10}
+                                scale={[1.2, 1.2, 1.2]}
+                                size={1.4}
+                                speed={0.3}
+                                opacity={0.4}
+                                color="#D4A24E"
+                                position={[0, 2.2, 0]}
                             />
                         )}
                     </group>
@@ -562,16 +560,16 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <circleGeometry args={[2.2, 32]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
-                        {/* Targeted Sparkle Cluster */}
+                        {/* Targeted Soft Ambient Glow */}
                         {!isAnimationsPaused && (
                             <Sparkles
-                                count={14}
-                                scale={[1.5, 2.0, 1.5]}
-                                size={2.5}
-                                speed={0.4}
-                                opacity={0.75}
-                                color="#FFD700"
-                                position={[0, 2.3, 0]}
+                                count={10}
+                                scale={[1.2, 1.2, 1.2]}
+                                size={1.4}
+                                speed={0.3}
+                                opacity={0.4}
+                                color="#D4A24E"
+                                position={[0, 2.2, 0]}
                             />
                         )}
                     </group>
