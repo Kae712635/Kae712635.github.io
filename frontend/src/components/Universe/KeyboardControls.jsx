@@ -168,9 +168,11 @@ const KeyboardControls = () => {
         camera.position.z = THREE.MathUtils.clamp(camera.position.z, MIN_Z, MAX_Z);
         camera.position.y = EYE_Y;
 
-        // Keep look target aligned
-        controls.target.copy(camera.position).add(offset);
-        camera.lookAt(controls.target);
+        // Keep look target aligned only during active keyboard locomotion
+        if (forward || backward || left || right) {
+            controls.target.copy(camera.position).add(offset);
+            camera.lookAt(controls.target);
+        }
     });
 
     return null;

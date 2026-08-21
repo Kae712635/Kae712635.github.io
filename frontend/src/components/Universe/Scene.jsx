@@ -11,7 +11,7 @@ import KeyboardControls from './KeyboardControls';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAccessibility } from '../../context/AccessibilityContext';
 
-const CameraController = ({ view, targetCategory }) => {
+const CameraController = ({ view, targetCategory, navTrigger }) => {
     const { camera, controls } = useThree();
     const [isAnimating, setIsAnimating] = useState(false);
     const transitionTimeout = useRef(null);
@@ -25,7 +25,7 @@ const CameraController = ({ view, targetCategory }) => {
         }, isReducedMotion ? 100 : 3000);
 
         return () => clearTimeout(transitionTimeout.current);
-    }, [view, targetCategory, isReducedMotion]);
+    }, [view, targetCategory, navTrigger, isReducedMotion]);
 
     useFrame((state, delta) => {
         if (!isAnimating) return;
@@ -78,6 +78,7 @@ const CameraController = ({ view, targetCategory }) => {
 const Scene = ({ children }) => {
     const [view, setView] = useState('universe');
     const [targetCategory, setTargetCategory] = useState(null);
+    const [navTrigger, setNavTrigger] = useState(0);
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
     const { t, language } = useLanguage();
@@ -96,36 +97,46 @@ const Scene = ({ children }) => {
     const handleCategoryClick = useCallback((catName) => {
         setTargetCategory(catName);
         setView('section');
+        setNavTrigger(prev => prev + 1);
         announce(language === 'fr' ? `Navigation vers la travée : ${catName}` : `Navigating to bay: ${catName}`);
     }, [announce, language]);
 
     const handleBackToEntrance = useCallback(() => {
         setView('universe');
         setTargetCategory(null);
+        setNavTrigger(prev => prev + 1);
         announce(language === 'fr' ? "Retour à l'entrée de la bibliothèque." : "Returned to library entrance.");
     }, [announce, language]);
 
     const is2DPage = location.pathname !== '/';
 
-    // Global keyboard shortcuts for 3D navigation (WCAG 2.2 AA)
+    // Global keyboard shortcuts for 3D navigation (1: Entrance, 2-5: Bays)
     useEffect(() => {
         if (is2DPage) return;
 
         const handleKeyDown = (e) => {
             // Ignore if typing in an input or textarea
-            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target?.tagName)) return;
             if (selectedProject) return; // Project modal is open
 
-            if (e.key === '1') {
-                handleCategoryClick(language === 'fr' ? 'EXPÉRIENCES PROFESSIONNELLES' : 'WORK EXPERIENCES');
-            } else if (e.key === '2') {
-                handleCategoryClick(language === 'fr' ? 'PROJETS PHARES' : 'FEATURED PROJECTS');
-            } else if (e.key === '3') {
-                handleCategoryClick(language === 'fr' ? 'COMPÉTENCES TECH & LANGUES' : 'TECH SKILLS & LANGUAGES');
-            } else if (e.key === '4') {
-                handleCategoryClick(language === 'fr' ? 'FORMATIONS & DIPLÔMES' : 'EDUCATION & DEGREES');
-            } else if (e.key === '0') {
+            const code = e.code;
+            const key = e.key;
+
+            if (code === 'Digit1' || code === 'Numpad1' || key === '1' || key === '&' || key === 'Escape') {
+                e.preventDefault();
                 handleBackToEntrance();
+            } else if (code === 'Digit2' || code === 'Numpad2' || key === '2' || key === 'é') {
+                e.preventDefault();
+                handleCategoryClick(language === 'fr' ? 'EXPÉRIENCES PROFESSIONNELLES' : 'WORK EXPERIENCES');
+            } else if (code === 'Digit3' || code === 'Numpad3' || key === '3' || key === '"') {
+                e.preventDefault();
+                handleCategoryClick(language === 'fr' ? 'PROJETS PHARES' : 'FEATURED PROJECTS');
+            } else if (code === 'Digit4' || code === 'Numpad4' || key === '4' || key === "'") {
+                e.preventDefault();
+                handleCategoryClick(language === 'fr' ? 'COMPÉTENCES TECH & LANGUES' : 'TECH SKILLS & LANGUAGES');
+            } else if (code === 'Digit5' || code === 'Numpad5' || key === '5' || key === '(') {
+                e.preventDefault();
+                handleCategoryClick(language === 'fr' ? 'FORMATIONS & DIPLÔMES' : 'EDUCATION & DEGREES');
             }
         };
 
@@ -219,7 +230,7 @@ const Scene = ({ children }) => {
                         <Vignette darkness={0.4} offset={0.35} />
                     </EffectComposer>
 
-                    <CameraController view={view} targetCategory={targetCategory} />
+                    <CameraController view={view} targetCategory={targetCategory} navTrigger={navTrigger} />
                     <KeyboardControls />
                     <OrbitControls
                         makeDefault
