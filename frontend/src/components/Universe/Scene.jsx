@@ -30,11 +30,14 @@ const CameraController = ({ view, targetCategory, navTrigger }) => {
     useFrame((state, delta) => {
         if (!isAnimating) return;
 
-        let targetPos = [0, 1.6, 9]; // Library Entrance
+        const isMobilePortrait = typeof window !== 'undefined' && window.innerWidth < 640 && window.innerHeight > window.innerWidth;
+        const zOffset = isMobilePortrait ? 2.5 : 0;
+
+        let targetPos = [0, 1.6, 9 + zOffset]; // Library Entrance
         let targetLookAt = [0, 1.6, -10];
 
         if (view === 'contact') {
-            targetPos = [-2, 1.6, 7];
+            targetPos = [-2, 1.6, 7 + zOffset];
             targetLookAt = [-4, 1.4, 6];
         } else if (targetCategory) {
             const zMap = {
@@ -56,7 +59,7 @@ const CameraController = ({ view, targetCategory, navTrigger }) => {
                 'Education & Degrees': -32,
             };
             const z = zMap[targetCategory] || -14;
-            targetPos = [0, 1.6, z + 5];
+            targetPos = [0, 1.6, z + 5 + (isMobilePortrait ? 1.5 : 0)];
             targetLookAt = [0, 1.6, z - 4];
         }
 

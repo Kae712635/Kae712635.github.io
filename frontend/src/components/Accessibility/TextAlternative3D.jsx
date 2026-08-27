@@ -82,7 +82,7 @@ export default function TextAlternative3D({ onSelectProject }) {
               <article key={exp.id} className="p-3 bg-[#2B0F14] border border-[#D4A24E]/20 rounded-lg">
                 <div className="flex justify-between items-baseline flex-wrap gap-2 mb-1">
                   <h6 className="font-bold text-xs text-[#F5EBDD] font-sans">{getLocalized(exp.role)}</h6>
-                  <span className="text-[11px] text-[#D4A24E] font-mono">{exp.company} • {exp.period}</span>
+                  <span className="text-[11px] text-[#D4A24E] font-mono">{exp.company} • {getLocalized(exp.period)}</span>
                 </div>
                 <p className="text-xs text-[#D8C6B6] mb-2 leading-relaxed">{getLocalized(exp.description)}</p>
                 {exp.highlights && (
@@ -126,11 +126,6 @@ export default function TextAlternative3D({ onSelectProject }) {
                         {language === 'fr' ? 'Démo ↗' : 'Live ↗'}
                       </a>
                     )}
-                    {p.github_url && (
-                      <a href={p.github_url} target="_blank" rel="noopener noreferrer" className="text-[#D8C6B6] hover:text-[#F5EBDD] hover:underline">
-                        GitHub ↗
-                      </a>
-                    )}
                   </div>
                 </article>
               ))}
@@ -142,7 +137,7 @@ export default function TextAlternative3D({ onSelectProject }) {
         {activeBay === 'bay-3' && (
           <div id="panel-bay-3" role="tabpanel" aria-labelledby="tab-bay-3" className="space-y-3">
             <h5 className="font-cinzel text-xs font-bold text-[#D4A24E] uppercase tracking-wider mb-2">
-              {language === 'fr' ? 'Travée 3 : Compétences Techniques & Langues' : 'Bay 3: Technical Skills & Languages'}
+              {language === 'fr' ? 'Travée 3 : Compétences (CV) & Langues' : 'Bay 3: Resume Skills & Languages'}
             </h5>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {cvData.skills.map((s, idx) => (
@@ -160,6 +155,19 @@ export default function TextAlternative3D({ onSelectProject }) {
                   </ul>
                 </div>
               ))}
+              <div className="p-3 bg-[#2B0F14] border border-[#D4A24E]/20 rounded-lg">
+                <h6 className="font-bold text-[11px] text-[#D4A24E] uppercase tracking-wider mb-1.5 font-cinzel">
+                  {language === 'fr' ? 'Langues' : 'Languages'}
+                </h6>
+                <ul className="text-xs text-[#D8C6B6] space-y-0.5">
+                  {cvData.languages.map((l, i) => (
+                    <li key={i} className="flex items-center gap-1.5">
+                      <span className="w-1 h-1 bg-[#D4A24E] rounded-full shrink-0" aria-hidden="true"></span>
+                      <span>{getLocalized(l.name)} ({getLocalized(l.level)})</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         )}
@@ -174,7 +182,7 @@ export default function TextAlternative3D({ onSelectProject }) {
               {cvData.education.map((edu) => (
                 <div key={edu.id} className="p-3 bg-[#2B0F14] border border-[#D4A24E]/20 rounded-lg">
                   <h6 className="font-bold text-xs text-[#F5EBDD] font-sans">{getLocalized(edu.title)}</h6>
-                  <p className="text-[11px] text-[#D4A24E] mb-1 font-mono">{edu.school} • {edu.period}</p>
+                  <p className="text-[11px] text-[#D4A24E] mb-1 font-mono">{edu.school} • {getLocalized(edu.period)}</p>
                   <p className="text-xs text-[#D8C6B6]">{getLocalized(edu.details)}</p>
                 </div>
               ))}

@@ -2,37 +2,38 @@
   {
     "id": "ing2-opengl-projet",
     "title": "OpenGL",
-    "category": ["Logiciel", "Systèmes & 3D"],
+    "category": ["Systèmes & 3D", "Graphisme"],
     "tech": [
       "C++",
-      "OpenGL",
-      "GLSL",
-      "Shaders",
-      "3D Real-time"
+      "OpenGL 4.x",
+      "GLSL Shaders",
+      "Cel-Shading",
+      "Hull Outline",
+      "Déformation Procédurale",
+      "GLFW"
     ],
     "description": {
-      "fr": "Scène 3D interactive et moteur de rendu temps réel développé en C++ et OpenGL moderne avec shaders GLSL.",
-      "en": "Interactive real-time 3D scene and rendering engine developed in C++ and modern OpenGL with GLSL shaders."
+      "fr": "Moteur de rendu 3D temps réel en C++ / OpenGL 4.x avec Cel-Shading en 4 bandes, contour géométrique Hull Outline 2-passes et déformations organiques procédurales dans les shaders (sans armature).",
+      "en": "Real-time 3D rendering engine in C++ / OpenGL 4.x featuring 4-band Cel-Shading, 2-pass Hull Outline contours, and shader-driven procedural deformations without skeletal rigging."
     },
     "date": "2026-06-01",
-    "project_url": "https://github.com/Kae712635/",
-    "github_url": "https://github.com/Kae712635/",
+    "company": "EPITA • Thomas Graveline-Mercier & Klervi Choblet",
     "detailed_description": {
-      "fr": "Conception d'un moteur de rendu 3D temps réel en C++ et OpenGL moderne. Implémentation de pipeline graphique complet : maillages polygonaux, gestion des caméras orbitales/FPS, illumination de Phong et shaders d'eau animés.",
-      "en": "Design of a real-time 3D rendering engine in C++ and modern OpenGL. Full graphics pipeline implementation: polygonal meshes, orbital/FPS cameras, Phong illumination, and animated water shaders."
+      "fr": "◆ Équipe : Thomas Graveline-Mercier & Klervi Choblet\n\n◆ Objectif : Concevoir un moteur graphique 3D complet avec rendu stylisé 'Cartoon' et animation procédurale.\n\n◆ Rendu & Shaders : Cel-Shading découpant la lumière de Lambert en 4 paliers d'intensité ; contours 'Hull Outline' générés en temps réel via double passe (Frontface Culling inversé et extrusion des sommets le long des normales dans le vertex shader).\n\n◆ Animation Procédurale : Torsion mathématique des vertices dans les shaders (pivots Y-Z pondérés par la hauteur) pour courber la canne à pêche et fléchir le dos sans squelette ; simulation d'ondes d'eau réactives (ripples) avec écume dynamique.\n\n◆ Production & Outils : Cycle d'animation 12s, capture directe du framebuffer GPU (glReadPixels vers PPM) et encodage vidéo fluide à 60 FPS constants via FFmpeg.",
+      "en": "◆ Team: Thomas Graveline-Mercier & Klervi Choblet\n\n◆ Objective: Build a standalone 3D graphics engine with cartoon shading and procedural animation.\n\n◆ Shaders & Rendering: 4-step Lambertian Cel-Shading; real-time 2-pass Hull Outline via inverted frontface culling and vertex normal extrusion.\n\n◆ Procedural Motion: Math-based vertex rotation in GLSL shaders (Y-Z pivots weighted by height) bending the fishing rod and character without skeletal rigging; reactive water ripples with dynamic foam.\n\n◆ Production Pipeline: 12s procedural sequence, GPU framebuffer capture (glReadPixels to PPM), and constant 60 FPS video export via FFmpeg."
     },
     "architecture": {
-      "fr": "Pipeline programmable OpenGL 4.x, vertex & fragment shaders en GLSL, gestion matricielle MVP (Model-View-Projection), chargement de modèles OBJ et buffers VBO/VAO/EBO optimisés.",
-      "en": "Programmable OpenGL 4.x pipeline, GLSL vertex & fragment shaders, MVP matrix transformations, OBJ model loader, and optimized VBO/VAO/EBO buffers."
+      "fr": "Pipeline programmable OpenGL 4.x (Vertex & Fragment Shaders GLSL), double passe de rendu pour l'outline, déformations procédurales GPU sans squelette, et outil d'enregistrement GPU direct (glReadPixels -> PPM -> FFmpeg 60 FPS constant).",
+      "en": "Programmable OpenGL 4.x pipeline (GLSL Vertex & Fragment Shaders), dual-pass rendering for outlines, GPU-driven procedural deformations without skeletal rigs, and direct GPU framebuffer capture (glReadPixels -> PPM -> constant 60 FPS FFmpeg video encoding)."
     },
     "challenges": [
       {
-        "fr": "Optimisation des performances de rendu et gestion précise du frame rate.",
-        "en": "Rendering performance optimization and frame rate management."
+        "fr": "Déformation organique fluide (cintrage canne & flexion du dos) entièrement calculée dans les shaders sans armature squelettique.",
+        "en": "Smooth organic mesh deformations (rod bending & posture flexing) entirely calculated in shaders without skeletal armatures."
       },
       {
-        "fr": "Calcul mathématique des normales et réfraction de la lumière sur les surfaces animées.",
-        "en": "Mathematical normal calculations and light refraction on dynamic surfaces."
+        "fr": "Génération en temps réel de contours nets (Hull Outline) avec inversion de culling et extrusion de normales sans artefacts géométriques.",
+        "en": "Real-time clean Hull Outline generation using inverted culling and normal expansion without geometric artifacts."
       }
     ],
     "screenshots": [
@@ -44,36 +45,38 @@
   {
     "id": "ing2-isim-projet",
     "title": "ISIM",
-    "category": ["Intelligence Artificielle", "Simulation"],
+    "category": ["Systèmes & 3D", "Simulation & Rendu"],
     "tech": [
-      "Python",
-      "Modélisation",
-      "Simulation",
-      "Visualisation"
+      "C++17",
+      "Path Tracing",
+      "Intel OIDN",
+      "TinyGLTF",
+      "OpenMP",
+      "FBM",
+      "FFmpeg"
     ],
     "description": {
-      "fr": "Modélisation et simulation dynamique de propagation de feux de forêt avec visualisations avancées.",
-      "en": "Dynamic modeling and simulation system for forest fire propagation with advanced visual analytics."
+      "fr": "Moteur de rendu photoréaliste par Path Tracing from scratch en C++17 avec simulation physique de feu par Fractal Brownian Motion (FBM), accélération spatiale BVH et débruitage IA Intel OIDN.",
+      "en": "From-scratch photorealistic Path Tracing renderer in C++17 featuring procedural fire simulation via Fractal Brownian Motion (FBM), BVH spatial acceleration, and Intel OIDN AI denoising."
     },
     "date": "2026-01-01",
-    "project_url": "https://github.com/Kae712635/",
-    "github_url": "https://github.com/Kae712635/",
+    "company": "EPITA • Klervi Choblet & Thomas Graveline-Mercier",
     "detailed_description": {
-      "fr": "Projet d'ingénierie et de modélisation mathématique simulant la propagation de feux de forêt en fonction des conditions environnementales (vent, humidité, relief, types de végétation).",
-      "en": "Engineering and mathematical modeling project simulating forest fire spreading based on environmental parameters (wind, humidity, elevation, vegetation types)."
+      "fr": "◆ Équipe : Klervi Choblet & Thomas Graveline-Mercier\n\n◆ Objectif : Développer un moteur de rendu photoréaliste from scratch en C++17 et simuler l'illumination dynamique d'un feu procédural dans une scène 3D.\n\n◆ Simulation du Feu : Génération procédurale par Fractal Brownian Motion (FBM) superposant des couches de bruit, distorsion UV (turbulence thermique), défilement temporel et corps noir (dégradé Orange-Jaune-Blanc) sur un proxy géométrique émissif (>60.0).\n\n◆ Moteur de Path Tracing : Équation de rendu physique (Monte Carlo), récursion jusqu'à 5 rebonds (illumination globale indirecte), roulette russe (rebond diffus vs spéculaire) et anti-aliasing stochastique SSAA (8 samples/px).\n\n◆ Optimisations & Pipeline : Arbre d'accélération BVH réduisant les intersections à O(log n), parallélisation OpenMP, débruitage par réseau de neurones Intel OIDN (8 spp au lieu de ~1000 spp) et encodage MP4 1080p via pipe Unix FFmpeg.",
+      "en": "◆ Team: Klervi Choblet & Thomas Graveline-Mercier\n\n◆ Objective: Develop a from-scratch C++17 photorealistic renderer simulating dynamic light transport of procedural fire.\n\n◆ Fire Simulation: Fractal Brownian Motion (FBM) noise layering, UV thermal distortion, temporal movement, and blackbody radiation mapping (Orange-Yellow-White) on an emissive geometry proxy (>60.0).\n\n◆ Path Tracing Engine: Monte Carlo physical rendering equation, 5-bounce global indirect illumination, Russian roulette, and stochastic SSAA anti-aliasing (8 samples/px).\n\n◆ Optimizations: BVH acceleration tree (O(log n) ray intersections), OpenMP CPU parallelization, Intel OIDN neural network denoising (8 spp vs ~1000 spp), and 1080p FFmpeg Unix pipe encoding."
     },
     "architecture": {
-      "fr": "Automates cellulaires et équations différentielles discrétisées pour le front de flamme, couplés à une interface de visualisation graphique animée en Python.",
-      "en": "Cellular automata and discretized differential equations for flame fronts, coupled with animated Python graphical visualizations."
+      "fr": "Renderer Path Tracing C++17 pur sans moteur tiers, structure d'accélération BVH (Bounding Volume Hierarchy), parsing de scènes GLTF via TinyGLTF, parallélisation CPU OpenMP, débruitage par réseau de neurones Intel OIDN et encodage MP4 frame par frame par pipe Unix FFmpeg.",
+      "en": "Pure C++17 Path Tracer built without external engines, BVH acceleration trees, GLTF binary scene loading via TinyGLTF, OpenMP dynamic scheduling, Intel OIDN neural denoising, and frame-by-frame Unix pipe FFmpeg encoding."
     },
     "challenges": [
       {
-        "fr": "Équilibrage de la complexité algorithmique pour permettre une simulation fluide à grande échelle.",
-        "en": "Algorithmic complexity balancing for smooth large-scale real-time simulations."
+        "fr": "Simulation réaliste d'une source lumineuse émissive dynamique et calcul de l'illumination globale indirecte sans explosion du temps de calcul.",
+        "en": "Realistic dynamic emissive light source simulation and global indirect illumination calculation without computational explosion."
       },
       {
-        "fr": "Validation des modèles physiques par rapport à des données réelles.",
-        "en": "Physical model validation against realistic empirical data."
+        "fr": "Intégration d'une structure BVH et d'Intel OIDN permettant un rendu photoréaliste débruité en 8 spp.",
+        "en": "Integrating BVH spatial hierarchy and Intel OIDN enabling clean photorealistic rendering at only 8 spp."
       }
     ],
     "screenshots": [
@@ -84,38 +87,40 @@
   },
   {
     "id": "ing2-neuro",
-    "title": "Medviz (Neurovolumetry)",
-    "category": ["Systèmes & 3D", "Logiciel"],
+    "title": "NeuroVolumetry",
+    "category": ["Imagerie Médicale & IA", "Fullstack & Cloud"],
     "tech": [
-      "C++",
-      "Visualisation 3D",
-      "Imagerie Médicale",
-      "VTK",
-      "ITK"
+      "Python",
+      "FastAPI",
+      "React",
+      "Atlas HarP",
+      "Redis",
+      "MinIO",
+      "PostgreSQL",
+      "IRM T1 (NIfTI)"
     ],
     "description": {
-      "fr": "Plateforme de traitement, segmentation et reconstruction volumique 3D d'IRM et scans cérébraux.",
-      "en": "3D volumetric reconstruction, segmentation, and processing platform for MRI and brain scans."
+      "fr": "Plateforme d'analyse volumétrique de l'hippocampe sur IRM cérébrale T1 pour l'aide au diagnostic précoce de la maladie d'Alzheimer, combinant pipeline scientifique automatisé (Atlas HarP) et architecture cloud distribuée.",
+      "en": "Hippocampal volumetric analysis platform on T1 brain MRI for early Alzheimer's disease diagnosis assistance, combining an automated scientific pipeline (HarP Atlas) and distributed cloud architecture."
     },
     "date": "2026-05-01",
-    "project_url": "https://github.com/Kae712635/",
-    "github_url": "https://github.com/Kae712635/",
+    "company": "EPITA • Zahra Ben Akremi, Axel Gil, Akram Ridou, Erwan Doussin, Klervi Choblet",
     "detailed_description": {
-      "fr": "Outil spécialisé dans le traitement et la visualisation tridimensionnelle de données médicales volumiques. Permet l'analyse anatomique, le calcul volumétrique de structures cérébrales et le rendu direct par ray-casting.",
-      "en": "Specialized tool for 3D medical volume processing and visualization. Enables anatomical analysis, volumetric quantification of brain structures, and direct volume ray-casting rendering."
+      "fr": "◆ Équipe : Zahra Ben Akremi, Axel Gil, Akram Ridou, Erwan Doussin & Klervi Choblet (Référente Pilotage & Conception UI/UX)\n\n◆ Objectif : Automatiser la morphométrie cérébrale de l'hippocampe (biomarqueur clé d'Alzheimer) pour fournir aux radiologues et cliniciens une aide au diagnostic fiable et reproductible.\n\n◆ Rôles assumés : Référente Pilotage de projet (suivi des livrables & soutenance), Conception UI/UX (Figma/React) et intégration logicielle.\n\n◆ Pipeline Scientifique : Ingestion d'IRM T1 (.nii / DICOM), prétraitement, recalage spatial affine (sans GPU), application de l'atlas hippocampique certifié HarP (seuil 0.3 conservateur capturant l'atrophie périphérique, ROI réduite à ~40x30x25 voxels), segmentation fine et calcul volumétrique (cm³).\n\n◆ Indicateurs Cliniques : Volume hippocampique (sain ~3.0-3.5 cm³ vs Alzheimer ~1.8-2.5 cm³) et Index d'asymétrie gauche/droite (seuil pathologique > 10%). Validé sur ADNI et OASIS-3.\n\n◆ Architecture Logicielle : API REST FastAPI (Python), frontend React multi-vues (axiale, sagittale, coronale), file de tâches Redis, stockage d'objets MinIO et base PostgreSQL.",
+      "en": "◆ Team: Zahra Ben Akremi, Axel Gil, Akram Ridou, Erwan Doussin & Klervi Choblet (Project Lead & UI/UX Designer)\n\n◆ Objective: Automate hippocampal brain morphometry (key Alzheimer's biomarker) to provide radiologists with reproducible diagnostic decision support.\n\n◆ Roles Assumed: Project Lead (milestones & defense), UI/UX Designer (Figma/React), and Software Production.\n\n◆ Scientific Pipeline: T1 MRI ingestion (.nii / DICOM), preprocessing, affine registration (GPU-free), HarP certified atlas mapping (conservative 0.3 thresholding, ROI reduction to ~40x30x25 voxels), fine segmentation, and volumetric measurement (cm³).\n\n◆ Clinical Metrics: Hippocampal volume (healthy ~3.0-3.5 cm³ vs AD ~1.8-2.5 cm³) and Left/Right asymmetry index (> 10% pathological threshold). Validated on ADNI & OASIS-3.\n\n◆ System Architecture: FastAPI REST API (Python), multi-planar React frontend (axial, sagittal, coronal), Redis task queue, MinIO object storage, and PostgreSQL database."
     },
     "architecture": {
-      "fr": "Pipeline de traitement ITK pour le filtrage et la segmentation, combiné à VTK pour le rendu volumique GPU et l'interaction temps réel.",
-      "en": "ITK processing pipeline for filtering and segmentation, combined with VTK for GPU volume rendering and real-time slice interaction."
+      "fr": "Architecture micro-services distribuée : API REST Python (FastAPI), frontend React avec affichage multi-coupes (axiale, sagittale, coronale) et export de rapports, file de messages Redis pour les workers de traitement, stockage d'objets MinIO (IRM & rapports) et base de données PostgreSQL.",
+      "en": "Distributed microservice architecture: Python REST API (FastAPI), React frontend with multi-planar view (axial, sagittal, coronal) and report export, Redis task queue for processing workers, MinIO object storage (MRIs & reports), and PostgreSQL database."
     },
     "challenges": [
       {
-        "fr": "Gestion de volumes de données massifs (fichiers DICOM / NIfTI) sans latence.",
-        "en": "Handling massive data volumes (DICOM / NIfTI files) with zero latency."
+        "fr": "Précision d'extraction de l'hippocampe via l'atlas HarP avec préservation des atrophies précoces sur les bordures corticales.",
+        "en": "Accurate hippocampal extraction using the HarP atlas while capturing early atrophies on cortical boundaries."
       },
       {
-        "fr": "Précision de la segmentation automatique des zones d'intérêt médical.",
-        "en": "High precision in automated segmentation of regions of clinical interest."
+        "fr": "Conception d'une architecture distribuée résiliente (FastAPI + Redis + MinIO) capable de traiter des volumes IRM lourds de façon asynchrone.",
+        "en": "Designing a resilient distributed architecture (FastAPI + Redis + MinIO) processing heavy MRI volumes asynchronously."
       }
     ],
     "screenshots": [
@@ -124,83 +129,83 @@
     "image": "/img/projets/neuroVolumetry.png"
   },
   {
-    "id": "ing1-ping",
-    "title": "Ping",
-    "category": ["Infrastructure & Systèmes", "Réseau"],
+    "id": "ing3-reconstruction-3d-bloc",
+    "title": "Reconstruction 3D - Bloc Opératoire",
+    "category": ["Santé & Vision 3D", "Mobile & Gaussian Splatting"],
     "tech": [
-      "C",
-      "Réseaux",
-      "Sockets Raw",
-      "Protocole ICMP"
+      "Swift (iOS)",
+      "Gaussian Splatting",
+      "Structure from Motion (SfM)",
+      "Calibration Caméra",
+      "Architecture Client-Serveur GPU",
+      "Nettoyage & Filtrage 3D",
+      "Visualisation 3D"
     ],
     "description": {
-      "fr": "Implémentation bas niveau de l'utilitaire réseau ICMP Ping en C avec analyse détaillée de latence.",
-      "en": "Low-level implementation of the ICMP Ping network utility in C with detailed latency analytics."
+      "fr": "Prototype d'application mobile iOS et pipeline GPU de reconstruction 3D d'un bloc opératoire par Gaussian Splatting et SfM, conçu comme support pédagogique pour soignants et internes (En cours - Finalisation : fin janvier 2027).",
+      "en": "Mobile iOS app prototype and GPU 3D reconstruction pipeline of an operating room using Gaussian Splatting and SfM, designed as an educational tool for healthcare professionals (In progress - Completion: late January 2027)."
     },
-    "date": "2025-01-01",
-    "project_url": "https://github.com/Kae712635/",
-    "github_url": "https://github.com/Kae712635/",
-    "document": "/documents/PING_Presentation.pdf",
+    "date": "2027-01-31",
+    "company": "EPITA • Klervi Choblet",
     "detailed_description": {
-      "fr": "Développement complet en C sous UNIX de l'utilitaire Ping utilisant des raw sockets pour forger et décoder des paquets ICMP Echo Request / Echo Reply.",
-      "en": "Full UNIX C development of the Ping utility using raw sockets to craft and parse ICMP Echo Request / Echo Reply packets."
+      "fr": "◆ Contexte & Pédagogie : Conception d'un POC (Proof of Concept) exploratoire pour capturer et reconstruire en 3D un bloc opératoire, servant de support pédagogique immersif aux infirmiers, internes et jeunes chirurgiens pour se familiariser avec l'espace et l'organisation chirurgicale (Projet en cours, finalisation prévue fin janvier 2027).\n\n◆ Application iOS de Capture (Swift) : Prise de vue guidée avec consignes en temps réel à l'écran, détection des mouvements trop rapides, assistance au balayage complet de la pièce et acquisition des flux photo/vidéo.\n\n◆ Calibration & Paramètres Caméra : Estimation et extraction des paramètres intrinsèques et extrinsèques du capteur iPhone, complétée par une approche de Structure from Motion (SfM) avec correction des déformations optiques et perspectives.\n\n◆ Moteur de Reconstruction 3D : Pipeline modulaire asynchrone exploitant le 3D Gaussian Splatting pour reconstituer fidèlement la géométrie, les volumes et l'apparence des équipements médicaux.\n\n◆ Filtrage & Nettoyage d'Artefacts : Algorithmes de suppression d'artefacts visuels, réduction du bruit sur les éléments brillants / reflets métalliques des instruments, et comparaison avant/après nettoyage.\n\n◆ Visualisation & Export : Interface 3D interactive (Viewer) avec navigation libre (rotation, zoom, déplacement), inspection des étapes intermédiaires de la pipeline et export du modèle.",
+      "en": "◆ Context & Training: Development of an exploratory Proof of Concept (POC) to capture and 3D-reconstruct an operating suite, providing an immersive training environment for nurses, interns, and young doctors to master surgical room layouts (In progress, scheduled completion: late January 2027).\n\n◆ iOS Capture App (Swift): Real-time guided shooting with on-screen prompts, rapid movement detection, full scene coverage assistance, and high-quality photo/video acquisition.\n\n◆ Camera Calibration: Estimation and extraction of iPhone intrinsic and extrinsic camera parameters, augmented by Structure from Motion (SfM) with optical distortion and perspective correction.\n\n◆ 3D Reconstruction Engine: Asynchronous modular pipeline utilizing 3D Gaussian Splatting to accurately rebuild geometry, volumes, and visual appearance of surgical equipment.\n\n◆ Artifact Cleaning & Denoising: Automated filtering algorithms to remove visual artifacts, handle specular reflections on metallic surgical tools, and enable before/after cleaning comparisons.\n\n◆ 3D Viewer & Export: Interactive 3D visualization viewer with full navigation controls (orbit, zoom, pan), intermediate pipeline inspection, and model export."
     },
     "architecture": {
-      "fr": "Communication par sockets bruts (SOCK_RAW), calcul de checksum IP/ICMP en binaire, gestion des signaux POSIX et calcul précis des RTT (Round Trip Time).",
-      "en": "Raw socket communication (SOCK_RAW), binary IP/ICMP checksum computations, POSIX signal handling, and precise sub-millisecond RTT statistics."
+      "fr": "Architecture client-serveur avec traitement GPU asynchrone : front-end mobile iOS (Swift) pour la capture guidée et viewer 3D pour la navigation, relié à un backend d'ingestion et d'orchestration exécutant le pipeline GPU (SfM + 3D Gaussian Splatting + nettoyage d'artefacts).",
+      "en": "Client-server architecture with asynchronous GPU processing: iOS mobile frontend (Swift) for guided capture and 3D viewer for navigation, connected to an ingestion/orchestration backend running the GPU pipeline (SfM + 3D Gaussian Splatting + artifact filtering)."
     },
     "challenges": [
       {
-        "fr": "Gestion des privilèges système et des paquets corrompus / timeouts réseau.",
-        "en": "System permission handling and management of corrupted packets / network timeouts."
+        "fr": "Gestion des reflets spéculaires intenses sur les instruments chirurgicaux et éclairages du bloc dans des zones hospitalières peu texturées.",
+        "en": "Robust handling of specular reflections on metallic surgical instruments and operating lights in low-texture hospital environments."
       },
       {
-        "fr": "Précision nanoseconde du calcul des temps aller-retour.",
-        "en": "Nanosecond accuracy for round-trip time measurements."
+        "fr": "Orchestration d'une pipeline asynchrone GPU (SfM + Gaussian Splatting) communicant fluidement avec l'application mobile de capture iOS dans le respect des données de santé.",
+        "en": "Orchestrating an asynchronous GPU pipeline (SfM + Gaussian Splatting) interfacing smoothly with the iOS capture client while maintaining health data privacy."
       }
     ],
     "screenshots": [
-      "/img/projets/background.png"
+      "/img/projets/bloc_operatoire.jpg"
     ],
-    "image": "/img/projets/background.png"
+    "image": "/img/projets/bloc_operatoire.jpg"
   },
   {
     "id": "front-2",
     "title": "Howea",
-    "category": ["Application Web", "Fullstack"],
+    "category": ["Web App & Santé", "Accessibilité & Jeux"],
     "tech": [
-      "React",
-      "Accessibilité (a11y)",
-      "Vercel",
-      "API REST"
+      "React 19",
+      "Vite",
+      "Supabase",
+      "WCAG 2.1 AA",
+      "OpenDyslexic",
+      "Multijoueur Temps Réel",
+      "Vercel"
     ],
     "description": {
-      "fr": "Application web de puzzles conçue pour stimuler la cognition des personnes atteintes de la maladie à corps de Lewy.",
-      "en": "Cognitive puzzle web application designed to stimulate attention for people living with Lewy body dementia."
+      "fr": "Plateforme web de jeux et de stimulation cognitive inclusive (Memory visuel/auditif, Puzzles, Sudoku, Simon, Déjà Vu, Bingo, Morpion & Puissance 4 multijoueur) conforme aux normes d'accessibilité WCAG 2.1 AA.",
+      "en": "Inclusive web gaming and cognitive stimulation platform (visual/auditory Memory, Puzzles, Sudoku, Simon, Déjà Vu, Bingo, real-time multiplayer Tic-Tac-Toe & Connect 4) conforming to WCAG 2.1 AA accessibility standards."
     },
     "project_url": "https://howea.vercel.app",
-    "github_url": "https://github.com/Kae712635/",
     "date": "2026-02-01",
-    "details": {
-      "fr": "Application web full-stack dédiée aux personnes atteintes de la maladie à corps de Lewy. Les puzzles sont conçus pour stimuler la cognition de façon adaptée, avec une attention maximale portée à l'ergonomie et l'accessibilité.",
-      "en": "Full-stack web application dedicated to individuals with Lewy body dementia. Puzzles are tailored to stimulate cognitive faculties with maximum care for accessibility and ergonomic clarity."
-    },
+    "company": "Projet Web & Santé • Klervi Choblet",
     "detailed_description": {
-      "fr": "Conception et déploiement d'une plateforme web inclusive. Ergonomie douce, contrastes adaptés (normes WCAG AA/AAA), feedbacks haptiques et sonores bienveillants pour accompagner les utilisateurs dans des exercices de mémoire et de repérage visuel.",
-      "en": "Design and deployment of an inclusive web platform. Gentle ergonomics, adapted contrasts (WCAG AA/AAA standards), and considerate sensory feedbacks assisting users in memory and visual orientation exercises."
+      "fr": "◆ Réalisation & Conception : Klervi Choblet\n\n◆ Objectif : Offrir une plateforme web inclusive, douce et bienveillante pour stimuler les fonctions cognitives (mémoire, attention, repérage spatial) des personnes atteintes de troubles neurodégénératifs (Corps de Lewy, Alzheimer) et des seniors.\n\n◆ Catalogue de 8 Jeux Intégrés : Memory adaptatif (modes visuel et auditif avec thèmes), Puzzles apaisants, Sudoku multi-niveaux, Jeu de Simon sonore, Déjà Vu (mémoire immédiate), Bingo et jeux multijoueurs en temps réel avec salons de code (Morpion & Puissance 4 contre IA ou en ligne).\n\n◆ Moteur d'Accessibilité WCAG 2.1 AA : Panneau complet avec profils préconfigurés (Basse vision, Daltonisme, Dyslexie avec police OpenDyslexic, Handicap moteur, Épilepsie, TDAH) et réglages avancés (contrastes renforcés, espacement textuel, focus clavier, curseur agrandi, arrêt d'animations et traduction FR/EN/ES).\n\n◆ Architecture & Cloud : Frontend moderne en React 19 / Vite, gestion d'états réactifs, backend Supabase (PostgreSQL & Realtime pour le multijoueur), monitoring Vercel Speed Insights et déploiement continu CI/CD sur Vercel.",
+      "en": "◆ Engineering & Design: Klervi Choblet\n\n◆ Objective: Provide an empowering, inclusive web platform tailored to stimulate cognitive faculties (memory, attention, spatial reasoning) for individuals with neurodegenerative conditions (Lewy Body, Alzheimer's) and seniors.\n\n◆ 8 Integrated Games: Adaptive Memory (visual & auditory modes), relaxation Puzzles, multi-difficulty Sudoku, audio Simon, Déjà Vu (short-term recall), Bingo, and real-time room-code multiplayer games (Tic-Tac-Toe & Connect 4 vs AI or online).\n\n◆ WCAG 2.1 AA Accessibility Engine: Comprehensive suite with preset profiles (Low Vision, Colorblindness, Dyslexia via OpenDyslexic, Motor Impairment, Epilepsy, ADHD) and modular controls (high contrast, line/letter spacing, enhanced keyboard focus, large cursor, motion pause, and full FR/EN/ES i18n).\n\n◆ System & Cloud Architecture: Modern React 19 / Vite frontend, Supabase BaaS (PostgreSQL & Realtime for multiplayer sync), Vercel Speed Insights monitoring, and continuous CI/CD deployment on Vercel."
     },
     "architecture": {
-      "fr": "Front-end moderne en React, animations fluides non intrusives, persistance des progrès locaux sécurisée et déploiement continu sur Vercel.",
-      "en": "Modern React frontend, gentle non-intrusive animations, secure local progress persistence, and continuous deployment on Vercel."
+      "fr": "Architecture Single Page Application (React 19 + Vite), synchronisation temps réel Supabase pour les salons multijoueurs, CSS personnalisé avec variables d'accessibilité dynamiques, et déploiement continu Vercel.",
+      "en": "Single Page Application (React 19 + Vite), Supabase Realtime synchronization for multiplayer rooms, custom CSS with dynamic accessibility CSS variables, and continuous Vercel deployment."
     },
     "challenges": [
       {
-        "fr": "Conception UX/UI hautement inclusive répondant aux contraintes neurologiques spécifiques.",
-        "en": "Highly inclusive UX/UI design addressing specific neurological requirements."
+        "fr": "Conception d'une suite de 8 jeux variés garantissant une accessibilité universelle absolue (handicaps visuels, moteurs et cognitifs).",
+        "en": "Designing a suite of 8 diverse games ensuring absolute universal accessibility (visual, motor, and cognitive impairments)."
       },
       {
-        "fr": "Garantie d'une réactivité instantanée et d'une navigation sans friction.",
-        "en": "Guaranteeing instant responsiveness and zero-friction navigation."
+        "fr": "Synchronisation multijoueur fluide et résiliente en temps réel sans latence perçue via Supabase.",
+        "en": "Smooth and resilient real-time multiplayer synchronization with zero perceived latency via Supabase."
       }
     ],
     "screenshots": [

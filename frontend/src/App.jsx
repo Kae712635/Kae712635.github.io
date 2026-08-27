@@ -5,6 +5,7 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { AccessibilityProvider } from "./context/AccessibilityContext";
 import WelcomePopup from "./components/Interface/WelcomePopup";
 import HUD from "./components/Interface/HUD";
+import LibraryHintLegend from "./components/Interface/LibraryHintLegend";
 import SkipToContent from "./components/Accessibility/SkipToContent";
 import FloatingAccessBar from "./components/Accessibility/FloatingAccessBar";
 
@@ -28,68 +29,67 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Détecte si WebGL est disponible
-function isWebGLAvailable() {
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
-  } catch {
-    return false;
-  }
-}
-
-// Bannière mobile affichée sur /projets si redirigée depuis 3D
-function MobileBanner({ onDismiss }) {
-  return (
-    <aside 
-      aria-label="Notification d'affichage mobile"
-      style={{
-        position: 'fixed', bottom: '80px', left: '50%', transform: 'translateX(-50%)',
-        zIndex: 9999, background: 'rgba(30, 10, 14, 0.95)', backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(212, 162, 78, 0.3)', borderRadius: '12px',
-        padding: '14px 20px', maxWidth: '90vw', width: '380px',
-        display: 'flex', alignItems: 'center', gap: '12px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.7)'
-      }}
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4A24E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }} aria-hidden="true">
-        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-        <line x1="12" y1="22.08" x2="12" y2="12"/>
-      </svg>
-      <div style={{ flex: 1 }}>
-        <p style={{ color: '#F5EBDD', fontFamily: 'Cinzel, serif', fontSize: '12px', fontWeight: 'bold', margin: 0, letterSpacing: '0.05em' }}>
-          Mode interactif adapté
-        </p>
-        <p style={{ color: '#D8C6B6', fontSize: '11px', margin: '4px 0 0 0', lineHeight: '1.4' }}>
-          La bibliothèque 3D est optimisée desktop. Voici le catalogue 2D complet.
-        </p>
-      </div>
-      <button onClick={onDismiss} style={{
-        background: 'none', border: 'none', color: '#D8C6B6', cursor: 'pointer',
-        fontSize: '18px', lineHeight: 1, padding: '4px', flexShrink: 0
-      }} aria-label="Fermer la notification">×</button>
-    </aside>
-  );
-}
-
-// Gestion redirection mobile
-function MobileRedirect() {
-  const navigate = useNavigate();
+function MainContent() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const location = useLocation();
-  const [showBanner, setShowBanner] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    const webgl = isWebGLAvailable();
-    if ((isMobile || !webgl) && location.pathname === '/') {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile && location.pathname === '/') {
+        navigate('/projets', { replace: true });
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    if (window.innerWidth < 768 && location.pathname === '/') {
       navigate('/projets', { replace: true });
-      setShowBanner(true);
     }
-  }, []);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [location.pathname, navigate]);
 
-  if (!showBanner) return null;
-  return <MobileBanner onDismiss={() => setShowBanner(false)} />;
+  return (
+    <>
+      {/* Skip link for keyboard and screen reader accessibility */}
+      <SkipToContent />
+
+      {/* Universal Sticky Top Bar across all views */}
+      <HUD />
+      
+      <WelcomePopup />
+      
+      {/* 3D Scene rendered ONLY on Desktop / Laptop (Inaccessible & Unmounted on Mobile) */}
+      {!isMobile && (
+        <Suspense fallback={<LoadingFallback />}>
+          <Scene />
+        </Suspense>
+      )}
+      
+      <Routes>
+        <Route path="/" element={null} />
+        <Route path="projets" element={
+          <Suspense fallback={<LoadingFallback />}>
+            <ProjetsPage />
+          </Suspense>
+        } />
+        <Route path="contact" element={
+          <Suspense fallback={<LoadingFallback />}>
+            <ContactPage />
+          </Suspense>
+        } />
+        <Route path="privacy" element={
+          <Suspense fallback={<LoadingFallback />}>
+            <PrivacyPage />
+          </Suspense>
+        } />
+      </Routes>
+
+      {/* Floating 3D Hints (Desktop only) */}
+      {!isMobile && <LibraryHintLegend />}
+      <FloatingAccessBar />
+    </>
+  );
 }
 
 function App() {
@@ -97,40 +97,7 @@ function App() {
     <LanguageProvider>
       <AccessibilityProvider>
         <BrowserRouter>
-          {/* Skip link for keyboard and screen reader accessibility */}
-          <SkipToContent />
-
-          {/* Universal Sticky Top Bar across all views */}
-          <HUD />
-          
-          <WelcomePopup />
-          <MobileRedirect />
-          
-          <Suspense fallback={<LoadingFallback />}>
-            <Scene />
-          </Suspense>
-          
-          <Routes>
-            <Route path="/" element={null} />
-            <Route path="projets" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <ProjetsPage />
-              </Suspense>
-            } />
-            <Route path="contact" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <ContactPage />
-              </Suspense>
-            } />
-            <Route path="privacy" element={
-              <Suspense fallback={<LoadingFallback />}>
-                <PrivacyPage />
-              </Suspense>
-            } />
-          </Routes>
-
-          {/* Floating Accessibility & 3D Help Controls */}
-          <FloatingAccessBar />
+          <MainContent />
         </BrowserRouter>
       </AccessibilityProvider>
     </LanguageProvider>

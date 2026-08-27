@@ -4,14 +4,16 @@ import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
+import CVConfirmModal from "../components/Interface/CVConfirmModal";
 import { useProjects } from "../hooks/useProjects";
 import cvData from "../data/cvData";
 
-const CV_PATH = "/documents/CV_Klervi_Choblet.pdf";
 const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
 
 export default function ProjetsPage() {
   const { t, language } = useLanguage();
+  const cvFilePath = language === 'en' ? "/documents/CV_Klervi_Choblet_EN.pdf" : "/documents/CV_Klervi_Choblet_FR.pdf";
+  const cvFileName = language === 'en' ? "CV_Klervi_Choblet_EN.pdf" : "CV_Klervi_Choblet_FR.pdf";
   const { projects: allProjects, loading } = useProjects();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -21,6 +23,7 @@ export default function ProjetsPage() {
   const [visibleCount, setVisibleCount] = useState(9);
   const [activeTab, setActiveTab] = useState('projets');
   const [showCvModal, setShowCvModal] = useState(false);
+  const [isCvConfirmOpen, setIsCvConfirmOpen] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
 
   const getTranslation = (key, fallback) => {
@@ -77,20 +80,24 @@ export default function ProjetsPage() {
 
   const skillCategories = useMemo(() => [
     {
-      title: language === 'fr' ? 'Langages Fondamentaux' : 'Core Languages',
-      skills: ['C', 'C++', 'C#', 'Java', 'Python', 'Assembleur', 'Shell']
+      title: language === 'fr' ? 'Langages de Programmation' : 'Programming Languages',
+      skills: ['C', 'C#', 'C++', 'Java', 'Python', 'JavaScript', 'SQL', 'HTML5', 'CSS3', 'Shell']
     },
     {
-      title: language === 'fr' ? 'Ingénierie Web' : 'Web Engineering',
-      skills: ['React', 'Node.js', 'HTML', 'CSS', 'Tailwind CSS', 'API REST', 'Vite', 'Next.js']
+      title: language === 'fr' ? 'Technologies & Frameworks' : 'Technologies & Frameworks',
+      skills: ['ReactJS', 'Angular', 'Spring Boot', 'OpenGL & GLSL', 'VTK / ITK', 'GitLab CI/CD', 'Git & GitHub', 'Tests Unitaires', 'Accessibilité (WCAG)', 'Sockets Raw']
     },
     {
-      title: language === 'fr' ? 'Intelligence & Données' : 'Intelligence & Data',
-      skills: ['Simulation', 'Automates Cellulaires', 'PostgreSQL', 'SQLite', 'Mathématiques', 'Modélisation']
+      title: language === 'fr' ? 'Compétences Humaines & Transversales' : 'Soft & Human Skills',
+      skills: ['Organisation', 'Travail de groupe', 'Communication efficace', 'Rigueur', 'Apprentissage rapide', 'Résolution de problèmes']
     },
     {
-      title: language === 'fr' ? 'Systèmes & Graphismes' : 'Systems & Graphics',
-      skills: ['OpenGL', 'GLSL Shaders', 'Visualisation 3D', 'VTK', 'ITK', 'Sockets Raw', 'Linux/UNIX']
+      title: language === 'fr' ? 'Langues' : 'Languages',
+      skills: [
+        language === 'fr' ? 'Français (Maternelle)' : 'French (Native)',
+        language === 'fr' ? 'Anglais (Professionnel)' : 'English (Professional)',
+        language === 'fr' ? 'Espagnol' : 'Spanish'
+      ]
     }
   ], [language]);
 
@@ -156,17 +163,17 @@ export default function ProjetsPage() {
           aria-label={language === 'fr' ? "Sections du catalogue" : "Catalog sections"}
           className="flex justify-center items-center mb-12 relative z-20 w-full"
         >
-          <div className="bg-[#140E10]/95 border border-[#D4A24E]/30 rounded-full p-1.5 backdrop-blur-md flex gap-2 shadow-2xl">
+          <div className="bg-[#140E10]/95 border border-[#D4A24E]/30 rounded-full p-1 sm:p-1.5 backdrop-blur-md flex gap-1 sm:gap-2 shadow-2xl max-w-full overflow-x-auto">
             {[
               { id: 'projets', label: getTranslation('navProjects', language === 'fr' ? 'Projets' : 'Projects'), icon: <svg className="w-4 h-4 text-[#D4A24E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg> },
-              { id: 'apropos', label: getTranslation('navAbout', language === 'fr' ? 'À propos / CV' : 'About / Resume'), icon: <svg className="w-4 h-4 text-[#D4A24E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
+              { id: 'apropos', label: getTranslation('navAbout', language === 'fr' ? 'À propos' : 'About'), icon: <svg className="w-4 h-4 text-[#D4A24E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> },
               { id: 'contact', label: getTranslation('navContact', 'Contact'), icon: <svg className="w-4 h-4 text-[#D4A24E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> }
             ].map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
-                className={`px-5 sm:px-7 py-2.5 rounded-full text-xs sm:text-sm font-cinzel tracking-widest transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+                className={`px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-cinzel tracking-wider sm:tracking-widest transition-all duration-200 flex items-center gap-1.5 sm:gap-2 cursor-pointer shrink-0 ${
                   activeTab === tab.id 
                     ? 'bg-[#A6303B] text-white font-bold shadow-lg border border-[#A6303B]'
                     : 'text-[#D8C6B6] hover:text-[#D4A24E] border border-transparent hover:border-[#D4A24E]/40 hover:bg-[#D4A24E]/10'
@@ -250,26 +257,23 @@ export default function ProjetsPage() {
                 </div>
                 <p className="text-lg text-[#D8C6B6] font-sans leading-relaxed mb-6">
                   {language === 'fr' 
-                    ? "Ingénieure logicielle passionnée par la conception de systèmes complexes, l'optimisation algorithmique et les interfaces immersives. Je combine une rigueur mathématique avec une créativité technique pour donner vie à des architectures robustes et des expériences visuelles saisissantes."
-                    : "Software engineer passionate about designing complex systems, algorithmic optimization, and immersive interfaces. I combine mathematical rigor with technical creativity to bring robust architectures and striking visual experiences to life."}
+                    ? "Étudiante en 5e année à l'EPITA, je suis une future ingénieure passionnée et réactive. Ma polyvalence, forgée par des expériences associatives et de terrain, booste ma capacité d'apprentissage technique rapide."
+                    : "5th-year student at EPITA, I am a passionate and reactive future engineer. My versatility, forged by associative and field experiences, boosts my rapid technical learning capacity."}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => setShowCvModal(true)}
                     className="px-6 py-3 bg-[#A6303B] hover:bg-[#801F29] text-white rounded-full font-cinzel tracking-widest uppercase text-xs font-bold transition-all shadow-md cursor-pointer"
                   >
-                    {getTranslation('viewResumeOnePage', language === 'fr' ? 'Consulter le CV (1 Page)' : 'View Resume (1 Page)')}
+                    {getTranslation('viewResumeOnePage', language === 'fr' ? 'Consulter le CV' : 'View Resume')}
                   </button>
-                  <a 
-                    href={CV_PATH}
-                    download 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 border border-[#D4A24E]/50 text-[#F5EBDD] hover:border-[#D4A24E] hover:text-[#D4A24E] hover:bg-[#D4A24E]/10 rounded-full font-cinzel tracking-widest uppercase text-xs transition-all flex items-center gap-2 justify-center"
+                  <button 
+                    onClick={() => setIsCvConfirmOpen(true)}
+                    className="px-6 py-3 border border-[#D4A24E]/50 text-[#F5EBDD] hover:border-[#D4A24E] hover:text-[#D4A24E] hover:bg-[#D4A24E]/10 rounded-full font-cinzel tracking-widest uppercase text-xs transition-all flex items-center gap-2 justify-center cursor-pointer"
                   >
                     <svg className="w-4 h-4 text-[#D4A24E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    {getTranslation('downloadPdf', language === 'fr' ? 'Télécharger PDF' : 'Download PDF')}
-                  </a>
+                    {getTranslation('downloadPdf', language === 'fr' ? 'Télécharger PDF (FR)' : 'Download PDF (EN)')}
+                  </button>
                 </div>
               </div>
 
@@ -403,73 +407,168 @@ export default function ProjetsPage() {
               ✕
             </button>
 
-            <div className="border border-[#D4A24E]/30 p-6 rounded-xl bg-[#1C1417]">
-              <div className="border-b border-[#D4A24E]/30 pb-4 mb-6 text-center">
-                <h2 id="cv-modal-title" className="text-3xl font-cinzel font-bold text-[#F5EBDD]">KLERVI CHOBLET</h2>
-                <p className="text-sm font-cinzel text-[#D4A24E] font-bold mt-1">{cvData.profile.title[language] || cvData.profile.title.fr}</p>
-                <p className="text-xs font-mono text-[#D8C6B6] mt-1">{cvData.profile.email} • {cvData.profile.github}</p>
+            <div className="border border-[#D4A24E]/30 p-6 sm:p-8 rounded-xl bg-[#1C1417] shadow-xl">
+              {/* Header */}
+              <div className="border-b border-[#D4A24E]/30 pb-5 mb-6 text-center">
+                <h2 id="cv-modal-title" className="text-3xl sm:text-4xl font-cinzel font-bold text-[#F5EBDD] tracking-wider">
+                  {cvData.profile.name}
+                </h2>
+                <p className="text-sm sm:text-base font-cinzel text-[#FFD700] font-bold mt-1.5 uppercase tracking-wide">
+                  {cvData.profile.title[language] || cvData.profile.title.fr}
+                </p>
+                <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 text-xs font-mono text-[#D8C6B6] mt-3">
+                  <span>📍 {cvData.profile.location}</span>
+                  <span>📞 {cvData.profile.phone}</span>
+                  <span>✉️ {cvData.profile.email}</span>
+                  <span>🔗 {cvData.profile.linkedin}</span>
+                  <span>🌐 {cvData.profile.website}</span>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-sans">
-                <div>
-                  <h3 className="font-cinzel text-[#D4A24E] font-bold border-b border-[#D4A24E]/20 pb-1 mb-3 uppercase">
-                    {language === 'fr' ? 'Expériences Professionnelles' : 'Work Experiences'}
-                  </h3>
-                  {cvData.experiences.map((exp) => (
-                    <div key={exp.id} className="mb-3">
-                      <div className="font-bold text-[#F5EBDD]">{typeof exp.role === 'object' ? (exp.role[language] || exp.role.fr) : exp.role}</div>
-                      <div className="text-[#D4A24E] font-mono text-[10px]">{exp.company} | {exp.period}</div>
-                      <div className="text-[#D8C6B6] text-[11px] mt-1">{typeof exp.description === 'object' ? (exp.description[language] || exp.description.fr) : exp.description}</div>
+              {/* Profil / Summary */}
+              <div className="mb-6 p-4 rounded-lg bg-[#140E10] border border-[#D4A24E]/20">
+                <h3 className="font-cinzel text-[#D4A24E] font-bold text-xs uppercase tracking-widest mb-1.5">
+                  {language === 'fr' ? 'PROFIL' : 'SUMMARY'}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#F5EBDD] leading-relaxed font-sans">
+                  {cvData.profile.summary[language] || cvData.profile.summary.fr}
+                </p>
+              </div>
+
+              {/* Projets */}
+              <div className="mb-6">
+                <h3 className="font-cinzel text-[#D4A24E] font-bold text-sm border-b border-[#D4A24E]/30 pb-1 mb-3 uppercase tracking-wider">
+                  {language === 'fr' ? 'PROJETS' : 'PROJECTS'}
+                </h3>
+                <div className="space-y-4">
+                  {cvData.projects.map((proj) => (
+                    <div key={proj.id} className="bg-[#140E10]/80 p-3.5 rounded-lg border border-[#D4A24E]/20">
+                      <div className="flex flex-wrap justify-between items-baseline gap-2 mb-1">
+                        <span className="font-bold text-[#F5EBDD] text-xs sm:text-sm">
+                          {proj.title[language] || proj.title.fr}
+                        </span>
+                        <span className="text-[#FFD700] font-mono text-[11px] font-semibold">
+                          {proj.period}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap justify-between items-baseline gap-2 text-[11px] font-mono text-[#D4A24E] mb-2">
+                        <span>{proj.tech}</span>
+                        <span className="text-[#D8C6B6] italic">{proj.subtitle[language] || proj.subtitle.fr}</span>
+                      </div>
+                      <ul className="space-y-1 text-xs text-[#D8C6B6] list-disc list-inside">
+                        {(proj.highlights[language] || proj.highlights.fr || []).map((h, idx) => (
+                          <li key={idx} className="leading-snug">{h}</li>
+                        ))}
+                      </ul>
                     </div>
                   ))}
                 </div>
+              </div>
 
+              {/* Expérience */}
+              <div className="mb-6">
+                <h3 className="font-cinzel text-[#D4A24E] font-bold text-sm border-b border-[#D4A24E]/30 pb-1 mb-3 uppercase tracking-wider">
+                  {language === 'fr' ? 'EXPÉRIENCE' : 'EXPERIENCE'}
+                </h3>
+                <div className="space-y-4">
+                  {cvData.experiences.map((exp) => (
+                    <div key={exp.id} className="bg-[#140E10]/80 p-3.5 rounded-lg border border-[#D4A24E]/20">
+                      <div className="flex flex-wrap justify-between items-baseline gap-2 mb-1">
+                        <span className="font-bold text-[#F5EBDD] text-xs sm:text-sm">
+                          {typeof exp.role === 'object' ? (exp.role[language] || exp.role.fr) : exp.role}
+                        </span>
+                        <span className="text-[#FFD700] font-mono text-[11px] font-semibold">
+                          {typeof exp.period === 'object' ? (exp.period[language] || exp.period.fr) : exp.period}
+                        </span>
+                      </div>
+                      <div className="text-[11px] font-mono text-[#D4A24E] mb-2">
+                        {exp.company} {exp.location ? `• ${exp.location}` : ''}
+                      </div>
+                      <ul className="space-y-1 text-xs text-[#D8C6B6] list-disc list-inside">
+                        {(exp.highlights[language] || exp.highlights.fr || []).map((h, idx) => (
+                          <li key={idx} className="leading-snug">{h}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Formations & Compétences (Grid 2 cols) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                {/* Formations */}
                 <div>
-                  <h3 className="font-cinzel text-[#D4A24E] font-bold border-b border-[#D4A24E]/20 pb-1 mb-3 uppercase">
-                    {language === 'fr' ? 'Formations & Diplômes' : 'Education & Degrees'}
+                  <h3 className="font-cinzel text-[#D4A24E] font-bold text-sm border-b border-[#D4A24E]/30 pb-1 mb-3 uppercase tracking-wider">
+                    {language === 'fr' ? 'FORMATION' : 'EDUCATION'}
                   </h3>
-                  {cvData.education.map((edu) => (
-                    <div key={edu.id} className="mb-3">
-                      <div className="font-bold text-[#F5EBDD]">{typeof edu.title === 'object' ? (edu.title[language] || edu.title.fr) : edu.title}</div>
-                      <div className="text-[#D4A24E] font-mono text-[10px]">{edu.school} | {edu.period}</div>
-                    </div>
-                  ))}
+                  <div className="space-y-3">
+                    {cvData.education.map((edu) => (
+                      <div key={edu.id} className="bg-[#140E10]/80 p-3 rounded-lg border border-[#D4A24E]/20">
+                        <div className="font-bold text-[#F5EBDD] text-xs leading-snug">
+                          {typeof edu.title === 'object' ? (edu.title[language] || edu.title.fr) : edu.title}
+                        </div>
+                        <div className="flex justify-between items-center text-[10px] font-mono text-[#D4A24E] mt-1">
+                          <span>{edu.school}</span>
+                          <span className="text-[#FFD700]">{edu.period}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                  <h3 className="font-cinzel text-[#D4A24E] font-bold border-b border-[#D4A24E]/20 pb-1 mb-3 mt-4 uppercase">
-                    {language === 'fr' ? 'Compétences & Langues' : 'Skills & Languages'}
+                {/* Compétences */}
+                <div>
+                  <h3 className="font-cinzel text-[#D4A24E] font-bold text-sm border-b border-[#D4A24E]/30 pb-1 mb-3 uppercase tracking-wider">
+                    {language === 'fr' ? 'COMPÉTENCES' : 'SKILLS'}
                   </h3>
-                  {cvData.skills.map((s, i) => (
-                    <div key={i} className="mb-2">
-                      <div className="font-semibold text-[#F5EBDD] text-[11px]">{typeof s.categoryName === 'object' ? (s.categoryName[language] || s.categoryName.fr) : s.categoryName}</div>
-                      <div className="text-[#D8C6B6] font-mono text-[10px]">{s.items.join(' • ')}</div>
-                    </div>
-                  ))}
-                  <div className="mt-2">
-                    <div className="font-semibold text-[#F5EBDD] text-[11px]">{language === 'fr' ? 'Langues' : 'Languages'}</div>
-                    <div className="text-[#D8C6B6] font-mono text-[10px]">
-                      {cvData.languages.map(l => `${typeof l.name === 'object' ? (l.name[language] || l.name.fr) : l.name} (${typeof l.level === 'object' ? (l.level[language] || l.level.fr) : l.level})`).join(' • ')}
+                  <div className="space-y-3">
+                    {cvData.skills.map((s, i) => (
+                      <div key={i} className="bg-[#140E10]/80 p-3 rounded-lg border border-[#D4A24E]/20">
+                        <div className="font-semibold text-[#FFD700] text-xs mb-1">
+                          {typeof s.categoryName === 'object' ? (s.categoryName[language] || s.categoryName.fr) : s.categoryName} :
+                        </div>
+                        <div className="text-[#D8C6B6] font-mono text-[11px] leading-relaxed">
+                          {s.items.join(' • ')}
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="bg-[#140E10]/80 p-3 rounded-lg border border-[#D4A24E]/20">
+                      <div className="font-semibold text-[#FFD700] text-xs mb-1">
+                        {language === 'fr' ? 'Langues' : 'Languages'} :
+                      </div>
+                      <div className="text-[#D8C6B6] font-mono text-[11px]">
+                        {cvData.languages.map(l => `${typeof l.name === 'object' ? (l.name[language] || l.name.fr) : l.name} (${typeof l.level === 'object' ? (l.level[language] || l.level.fr) : l.level})`).join(' • ')}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#D4A24E]/30 flex justify-between items-center flex-wrap gap-4">
-                <span className="text-[11px] text-[#D8C6B6] font-cinzel">
-                  {getTranslation('cvSyntheticTitle', language === 'fr' ? 'CV Synthétique 1 Page · Klervi Choblet' : '1-Page Synthetic Resume · Klervi Choblet')}
+              {/* Modal Footer */}
+              <div className="mt-8 pt-5 border-t border-[#D4A24E]/30 flex justify-between items-center flex-wrap gap-4">
+                <span className="text-xs text-[#D8C6B6] font-cinzel">
+                  {getTranslation('cvSyntheticTitle', language === 'fr' ? 'CV Complet & Original · Klervi Choblet' : 'Full & Original Resume · Klervi Choblet')}
                 </span>
-                <a
-                  href={CV_PATH}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2 rounded-lg bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase transition-colors shadow-md"
+                <button
+                  onClick={() => setIsCvConfirmOpen(true)}
+                  className="px-6 py-2.5 rounded-lg bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-wider transition-colors shadow-md cursor-pointer flex items-center gap-2"
                 >
-                  {getTranslation('cvOriginalDownload', language === 'fr' ? 'Télécharger le PDF Original' : 'Download Original PDF')}
-                </a>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </svg>
+                  <span>{getTranslation('cvOriginalDownload', language === 'fr' ? 'Télécharger / Ouvrir le PDF' : 'Download / Open PDF')}</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Reusable Permission / Confirmation Dialog for Opening or Downloading CV */}
+      <CVConfirmModal isOpen={isCvConfirmOpen} onClose={() => setIsCvConfirmOpen(false)} />
 
       {/* Project Details Modal */}
       <ProjectModal 

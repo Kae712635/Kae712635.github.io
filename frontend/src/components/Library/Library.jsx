@@ -1,12 +1,116 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Text, useTexture, Sparkles } from '@react-three/drei';
+import { Float, Text } from '@react-three/drei';
 import Bookshelf from './Bookshelf';
 import { useProjects } from '../../hooks/useProjects';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import cvData from '../../data/cvData';
 import * as THREE from 'three';
+
+// Glowing Golden Fireflies: Clearly visible golden particles with bright core + soft transparent halo (0 artifacts)
+const LuminousGoldDust = ({ isAnimationsPaused, count = 180 }) => {
+    const pointsRef = useRef();
+
+    const [geo, material] = useMemo(() => {
+        const positions = new Float32Array(count * 3);
+        const scales = new Float32Array(count);
+        const phases = new Float32Array(count);
+        const speeds = new Float32Array(count * 3);
+
+        for (let i = 0; i < count; i++) {
+            positions[i * 3] = (Math.random() - 0.5) * 16;
+            positions[i * 3 + 1] = 1.0 + Math.random() * 6.5;
+            positions[i * 3 + 2] = -Math.random() * 48 + 5;
+
+            scales[i] = 1.0 + Math.random() * 1.5;
+            phases[i] = Math.random() * Math.PI * 2;
+            speeds[i * 3] = (Math.random() - 0.5) * 0.09;
+            speeds[i * 3 + 1] = 0.07 + Math.random() * 0.14;
+            speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.09;
+        }
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('aScale', new THREE.BufferAttribute(scales, 1));
+        geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+        geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 3));
+
+        const mat = new THREE.ShaderMaterial({
+            uniforms: {
+                uTime: { value: 0 },
+                uColorCore: { value: new THREE.Color('#FFFFFF') },
+                uColorHalo: { value: new THREE.Color('#FFD700') }
+            },
+            vertexShader: `
+                attribute float aScale;
+                attribute float aPhase;
+                varying float vPhase;
+                uniform float uTime;
+
+                void main() {
+                    vPhase = aPhase;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    float pulse = sin(uTime * 2.2 + aPhase) * 0.3 + 1.0;
+                    float zDist = max(1.0, -mvPosition.z);
+                    gl_PointSize = clamp(aScale * pulse * (160.0 / zDist), 4.0, 36.0);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying float vPhase;
+                uniform vec3 uColorCore;
+                uniform vec3 uColorHalo;
+
+                void main() {
+                    vec2 coord = gl_PointCoord - vec2(0.5);
+                    float dist = length(coord) * 2.0;
+                    if (dist > 1.0) discard;
+
+                    // Intense bright core + soft transparent halo
+                    float core = exp(-dist * 4.0);
+                    float halo = exp(-dist * 1.6) * (1.0 - dist);
+                    
+                    vec3 col = mix(uColorHalo, uColorCore, core);
+                    float alpha = clamp(core * 1.1 + halo * 0.55, 0.0, 1.0);
+
+                    gl_FragColor = vec4(col * alpha, alpha);
+                }
+            `,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        return [geometry, mat];
+    }, [count]);
+
+    useFrame((state) => {
+        if (!pointsRef.current) return;
+        const time = isAnimationsPaused ? 0 : state.clock.elapsedTime;
+        material.uniforms.uTime.value = time;
+
+        const posAttr = geo.attributes.position;
+        const speedAttr = geo.attributes.aSpeed;
+        const phaseAttr = geo.attributes.aPhase;
+
+        for (let i = 0; i < count; i++) {
+            let y = posAttr.getY(i) + speedAttr.getY(i) * 0.016;
+            if (y > 7.8) y = 1.0;
+            posAttr.setY(i, y);
+
+            let x = posAttr.getX(i) + Math.sin(time * 0.5 + phaseAttr.getX(i)) * 0.003;
+            let z = posAttr.getZ(i) + Math.cos(time * 0.4 + phaseAttr.getX(i)) * 0.003;
+            posAttr.setX(i, x);
+            posAttr.setZ(i, z);
+        }
+        posAttr.needsUpdate = true;
+    });
+
+    return (
+        <points ref={pointsRef} geometry={geo} material={material} raycast={() => null} />
+    );
+};
 
 // Baroque Gilded Ironwork Volutes Framing the Overhead Arch Plaque
 const BayArchwayOrnament = ({ isAnimationsPaused }) => {
@@ -89,8 +193,6 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
     const { isAnimationsPaused } = useAccessibility();
     const { projects: allProjects } = useProjects();
 
-    const avatarTexture = useTexture('/media/photo_identité.png');
-
     const categories = useMemo(() => [
         { 
             id: 'exp', 
@@ -100,11 +202,20 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                 title: typeof e.role === 'object' ? (e.role[language] || e.role.fr) : e.role, 
                 category: language === 'fr' ? 'Expériences Pro' : 'Work Experiences', 
                 description: e.description, 
-                tech: e.highlights ? (e.highlights[language] || e.highlights.fr || []) : [],
+                detailed_description: {
+                    fr: (e.highlights?.fr || []).map(h => `• ${h}`).join('\n\n'),
+                    en: (e.highlights?.en || []).map(h => `• ${h}`).join('\n\n')
+                },
+                tech: e.id === 'exp-primpromo' ? ['Spring Boot', 'Angular', 'GitLab CI/CD', 'Java'] :
+                      e.id === 'exp-bde' ? ['Événementiel', 'Gestion de projet', 'Relationnel', 'Logistique'] :
+                      e.id === 'exp-animatrice' ? ['Animation', 'Pédagogie', 'Sécurité', 'Gestion de groupe'] :
+                      e.id === 'exp-aub-sante' ? ['Gestion documentaire', 'Comptabilité', 'Inventaire', 'Rigueur'] :
+                      e.id === 'exp-detour-loire' ? ['Relation client', 'Maintenance', 'Itinérance', 'Logistique'] :
+                      ['Contrôle qualité', 'Maintenance', 'Rigueur', 'Terrain'],
                 company: e.company,
-                period: e.period,
+                period: typeof e.period === 'object' ? (e.period[language] || e.period.fr) : e.period,
                 school: e.company,
-                date: e.period
+                date: typeof e.period === 'object' ? (e.period[language] || e.period.fr) : e.period
             })) 
         },
         { 
@@ -114,49 +225,86 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
         },
         { 
             id: 'skills', 
-            label: language === 'fr' ? 'Compétences Tech' : 'Tech Skills', 
+            label: language === 'fr' ? 'Compétences & Langues' : 'Skills & Languages', 
             items: [
-                ...cvData.skills.flatMap(s => s.items.map(item => ({ 
-                    id: `skill-${item}`, 
-                    title: item, 
-                    category: language === 'fr' ? 'Compétences' : 'Skills', 
-                    description: { 
-                        fr: `Domaine d'expertise : ${s.categoryName.fr}. Maîtrise des concepts, bonnes pratiques et mise en application sur des projets complexes.`, 
-                        en: `Area of expertise: ${s.categoryName.en}. Strong proficiency in core concepts, best practices, and production implementations.` 
-                    }, 
-                    tech: [item, s.categoryName[language] || s.categoryName.fr] 
-                }))),
-                ...cvData.languages.map(l => ({
-                    id: l.id,
-                    title: l.name[language] || l.name.fr,
-                    category: language === 'fr' ? 'Langues' : 'Languages',
-                    description: l.description,
-                    tech: [l.level[language] || l.level.fr]
-                }))
+                // 1. Livre unique : Langages de programmation
+                {
+                    id: 'skill-languages-prog',
+                    title: language === 'fr' ? 'Langages de Programmation' : 'Programming Languages',
+                    category: language === 'fr' ? 'Langages' : 'Languages',
+                    description: {
+                        fr: "Maîtrise des langages fondamentaux et de programmation moderne :\n\n• Systèmes & Objet : C, C++, C#, Java\n• Scripting & Data : Python, Shell / Bash\n• Web & Frontend : JavaScript (ES6+), HTML5, CSS3\n• Données & Requêtes : SQL (PostgreSQL, SQLite)\n",
+                        en: "Mastery of fundamental and modern programming languages:\n\n• Systems & OOP: C, C++, C#, Java\n• Scripting & Data: Python, Shell / Bash\n• Web & Frontend: JavaScript (ES6+), HTML5, CSS3\n• Data & Queries: SQL (PostgreSQL, SQLite)\n"
+                    },
+                    tech: ['C / C++', 'C#', 'Java', 'Python', 'JavaScript', 'HTML5 / CSS3', 'SQL', 'Shell'],
+                    company: 'EPITA',
+                    period: 'Langages',
+                    date: 'Compétences'
+                },
+
+                // 2. Livre unique : Compétences Technologies & Frameworks
+                {
+                    id: 'skill-technologies',
+                    title: language === 'fr' ? 'Technologies & Frameworks' : 'Technologies & Frameworks',
+                    category: language === 'fr' ? 'Technologies' : 'Technologies',
+                    description: {
+                        fr: "Écosystèmes, frameworks et outils d'ingénierie logicielle :\n\n• Web & Frontend : ReactJS, Angular, Tailwind CSS\n• Backend & APIs : Spring Boot, Node.js, APIs RESTful\n• 3D & Graphisme : OpenGL, GLSL Shaders, Three.js, WebGL\n• Imagerie Médicale & Calcul : VTK, ITK\n• DevOps & Qualité : GitLab CI/CD, Git, Tests Unitaires, Accessibilité (WCAG 2.2 AA)\n• Systèmes : Sockets Raw, Linux/UNIX",
+                        en: "Ecosystems, frameworks, and software engineering toolsets:\n\n• Web & Frontend: ReactJS, Angular, Tailwind CSS\n• Backend & APIs: Spring Boot, Node.js, RESTful APIs\n• 3D & Graphics: OpenGL, GLSL Shaders, Three.js, WebGL\n• Medical Imaging: VTK, ITK\n• DevOps & Quality: GitLab CI/CD, Git, Unit Testing, Accessibility (WCAG 2.2 AA)\n• Systems: Raw Sockets, Linux/UNIX"
+                    },
+                    tech: ['ReactJS', 'Angular', 'Spring Boot', 'OpenGL & GLSL', 'VTK / ITK', 'GitLab CI/CD', 'Tests Unitaires', 'WCAG'],
+                    company: 'Ingénierie',
+                    period: 'Frameworks',
+                    date: 'Compétences'
+                },
+
+                // 3. Livre unique : Compétences Humaines & Transversales
+                {
+                    id: 'skill-soft-skills',
+                    title: language === 'fr' ? 'Compétences Humaines' : 'Human & Soft Skills',
+                    category: language === 'fr' ? 'Soft Skills' : 'Soft Skills',
+                    description: {
+                        fr: "Aptitudes relationnelles, organisationnelles et managériales forgées sur le terrain :\n\n• Organisation : Structuration des plannings, priorisation et gestion logistique.\n• Travail de groupe : Coordination d'équipe, esprit d'entraide et cohésion collective.\n• Communication efficace : Clarté, écoute active et adaptation aux interlocuteurs.\n• Rigueur : Exigence qualité, précision et respect des procédures confidentielles.\n• Apprentissage rapide : Agilité technique, curiosité et assimilation immédiate.\n• Résolution de problèmes : Démarche analytique, diagnostic et solutions robustes.",
+                        en: "Interpersonal, organizational, and leadership skills forged through experience:\n\n• Organization: Planning, priority structuring, and logistics coordination.\n• Teamwork: Cross-functional collaboration, mutual aid, and team cohesion.\n• Effective Communication: Clarity, active listening, and audience adaptation.\n• Rigor: Quality standards, precision, and adherence to confidential processes.\n• Fast Learning: Technical agility, curiosity, and rapid assimilation.\n• Problem Solving: Analytical mindset, root cause diagnosis, and robust solutions."
+                    },
+                    tech: ['Organisation', 'Travail de groupe', 'Communication', 'Rigueur', 'Apprentissage rapide', 'Résolution de problèmes'],
+                    company: 'Terrain & Pro',
+                    period: 'Soft Skills',
+                    date: 'Compétences'
+                },
+
+                // 4. Livre unique : Langues & International
+                {
+                    id: 'skill-languages',
+                    title: language === 'fr' ? 'Langues' : 'Languages',
+                    category: language === 'fr' ? 'Langues & International' : 'Languages & International',
+                    description: {
+                        fr: "Maîtrise des langues pour la communication et l'ingénierie internationale :\n\n• Français : Langue maternelle — Rédaction technique et communication fluide.\n• Anglais : Courant / Professionnel — Collaboration en contexte international et documentation.\n• Espagnol : Scolaire / Intermédiaire — Compréhension et communication générale.",
+                        en: "Language proficiency for international communication and engineering:\n\n• French: Native — Technical writing and fluent communication.\n• English: Fluent / Professional — International collaboration and technical documentation.\n• Spanish: Intermediate — General reading, listening, and basic communication."
+                    },
+                    tech: [
+                        language === 'fr' ? 'Français (Maternelle)' : 'French (Native)',
+                        language === 'fr' ? 'Anglais (Professionnel)' : 'English (Professional)',
+                        language === 'fr' ? 'Espagnol (Intermédiaire)' : 'Spanish (Intermediate)'
+                    ],
+                    company: 'International',
+                    period: 'Langues',
+                    date: 'Compétences'
+                }
             ]
         },
         { 
             id: 'edu', 
             label: language === 'fr' ? 'Formations & Diplômes' : 'Education & Degrees', 
-            items: [
-                ...cvData.education.map(ed => ({ 
-                    id: ed.id, 
-                    title: typeof ed.title === 'object' ? (ed.title[language] || ed.title.fr) : ed.title, 
-                    category: language === 'fr' ? 'Formations' : 'Education', 
-                    description: ed.details, 
-                    tech: [ed.school, ed.period],
-                    school: ed.school,
-                    period: ed.period,
-                    date: ed.period
-                })),
-                ...cvData.interests.map(it => ({
-                    id: it.id,
-                    title: it.name[language] || it.name.fr,
-                    category: language === 'fr' ? "Centres d'intérêt" : "Interests",
-                    description: it.description,
-                    tech: [language === 'fr' ? 'Passion & Veille' : 'Passion & Research']
-                }))
-            ]
+            items: cvData.education.map(ed => ({ 
+                id: ed.id, 
+                title: typeof ed.title === 'object' ? (ed.title[language] || ed.title.fr) : ed.title, 
+                category: language === 'fr' ? 'Formation & Diplôme' : 'Education & Degree', 
+                description: ed.details, 
+                tech: [ed.school, typeof ed.period === 'object' ? (ed.period[language] || ed.period.fr) : ed.period],
+                school: ed.school,
+                period: typeof ed.period === 'object' ? (ed.period[language] || ed.period.fr) : ed.period,
+                date: typeof ed.period === 'object' ? (ed.period[language] || ed.period.fr) : ed.period
+            }))
         }
     ], [language, allProjects]);
 
@@ -168,7 +316,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
         return [
             { id: 0, z: -5, label: language === 'fr' ? 'EXPÉRIENCES PROFESSIONNELLES' : 'WORK EXPERIENCES', cat: categories[0] },
             { id: 1, z: -14, label: language === 'fr' ? 'PROJETS PHARES' : 'FEATURED PROJECTS', cat: categories[1] },
-            { id: 2, z: -23, label: language === 'fr' ? 'COMPÉTENCES TECH & LANGUES' : 'TECH SKILLS & LANGUAGES', cat: categories[2] },
+            { id: 2, z: -23, label: language === 'fr' ? 'COMPÉTENCES & LANGUES' : 'SKILLS & LANGUAGES', cat: categories[2] },
             { id: 3, z: -32, label: language === 'fr' ? 'FORMATIONS & DIPLÔMES' : 'EDUCATION & DEGREES', cat: categories[3] }
         ];
     }, [language, categories]);
@@ -257,18 +405,8 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
     return (
         <group>
-            {/* Ambient Golden Magic Dust Particles floating high in the ceiling vaults (clear of camera path) */}
-            {!isAnimationsPaused && (
-                <Sparkles
-                    count={45}
-                    scale={[6, 3.5, 48]}
-                    size={1.4}
-                    speed={0.2}
-                    opacity={0.35}
-                    color="#D4A24E"
-                    position={[0, 6.5, -14]}
-                />
-            )}
+            {/* Pure Spherical Golden Light Motes (Zero clipping quad artifacts) */}
+            <LuminousGoldDust isAnimationsPaused={isAnimationsPaused} count={120} />
 
             {/* --- ARCHITECTURE --- */}
 
@@ -285,7 +423,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
             {/* 2. Grand Central Velvet Runner Carpet (Perspective Vanishing Lines) */}
             <group position={[0, -0.08, -13.5]}>
                 {/* Main Velvet Carpet */}
-                <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+                <mesh rotation={[-Math.PI / 2, 0, 0]}>
                     <planeGeometry args={[4.8, ROOM_LENGTH]} />
                     <meshStandardMaterial color="#2B0E14" roughness={0.7} metalness={0.04} />
                 </mesh>
@@ -312,7 +450,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
             {/* Front Wall (#161214) */}
             <group position={[0, 6, 11]}>
-                <mesh receiveShadow castShadow>
+                <mesh receiveShadow>
                     <boxGeometry args={[ROOM_WIDTH, 12, 1]} />
                     <meshStandardMaterial color="#161214" roughness={0.9} metalness={0.0} />
                 </mesh>
@@ -320,7 +458,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
             {/* Back Wall with Grand Luminous Oculus Window */}
             <group position={[0, 6, -38]}>
-                <mesh receiveShadow castShadow>
+                <mesh receiveShadow>
                     <boxGeometry args={[ROOM_WIDTH, 12, 1]} />
                     <meshStandardMaterial color="#100C0E" roughness={0.95} metalness={0.0} />
                 </mesh>
@@ -328,7 +466,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                 {/* Grand Luminous Celestial Oculus Arch / Window */}
                 <group position={[0, 1.2, 0.55]}>
                     {/* Outer Gold Arch Moulding */}
-                    <mesh castShadow>
+                    <mesh>
                         <torusGeometry args={[3.8, 0.18, 16, 64, Math.PI]} rotation={[0, 0, 0]} />
                         <meshStandardMaterial color="#D4A24E" metalness={0.85} roughness={0.2} />
                     </mesh>
@@ -344,13 +482,13 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
             {/* Left Wall & Right Wall with Pilasters */}
             <group position={[-9.5, 6, -13.5]}>
-                <mesh receiveShadow castShadow>
+                <mesh receiveShadow>
                     <boxGeometry args={[1, 12, 50]} />
                     <meshStandardMaterial color="#161214" roughness={0.95} metalness={0.0} />
                 </mesh>
             </group>
             <group position={[9.5, 6, -13.5]}>
-                <mesh receiveShadow castShadow>
+                <mesh receiveShadow>
                     <boxGeometry args={[1, 12, 50]} />
                     <meshStandardMaterial color="#161214" roughness={0.95} metalness={0.0} />
                 </mesh>
@@ -362,61 +500,6 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                     <cylinderGeometry args={[ROOM_WIDTH / 2, ROOM_WIDTH / 2, ROOM_LENGTH, 32, 1, true, Math.PI / 2, Math.PI]} />
                     <meshStandardMaterial color="#141012" side={THREE.DoubleSide} roughness={0.95} metalness={0} />
                 </mesh>
-            </group>
-
-            {/* --- RECEPTION & CONTACT DESK (ENTRANCE LEFT) --- */}
-            <group position={[-4, 0, 7.5]} rotation={[0, Math.PI / 6, 0]}>
-                {/* Desk Base */}
-                <mesh position={[0, 0.9, 0]} castShadow receiveShadow>
-                    <boxGeometry args={[2.8, 1.8, 1.3]} />
-                    <meshStandardMaterial color="#2B0F14" roughness={0.3} metalness={0.1} />
-                </mesh>
-                {/* Gold Trim */}
-                <mesh position={[0, 1.75, 0.66]}>
-                    <boxGeometry args={[2.7, 0.08, 0.05]} />
-                    <meshStandardMaterial color="#D4A24E" metalness={0.9} roughness={0.1} />
-                </mesh>
-
-                {/* Avatar Portrait Frame */}
-                <group position={[0, 2.4, -0.2]}>
-                    <mesh position={[0, 0, 0]} castShadow>
-                        <torusGeometry args={[0.55, 0.06, 16, 64]} />
-                        <meshStandardMaterial color="#D4A24E" metalness={0.9} roughness={0.2} />
-                    </mesh>
-                    <mesh position={[0, 0, 0]} receiveShadow>
-                        <circleGeometry args={[0.5, 64]} />
-                        <meshStandardMaterial map={avatarTexture} side={THREE.DoubleSide} roughness={0.3} metalness={0.1} />
-                    </mesh>
-                    <mesh position={[0, -0.65, 0]} castShadow>
-                        <boxGeometry args={[0.7, 0.05, 0.3]} />
-                        <meshStandardMaterial color="#D4A24E" metalness={0.8} roughness={0.2} />
-                    </mesh>
-                    <Text position={[0, -0.85, 0]} fontSize={0.18} color="#D4A24E" font="/fonts/Cinzel-Regular.woff" anchorX="center">
-                        Klervi Choblet
-                    </Text>
-                    <Text position={[0, -1.08, 0]} fontSize={0.12} color="#F5EBDD" font="/fonts/Cinzel-Regular.woff" anchorX="center">
-                        {language === 'fr' ? 'Ingénieure Logicielle' : 'Software Engineer'}
-                    </Text>
-                </group>
-
-                {/* Interactive Contact Email Button on Desk */}
-                <group 
-                    position={[-0.5, 1.85, 0.2]} 
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        window.location.href = "mailto:klervi.choblet+portfolio@gmail.com";
-                    }}
-                    onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
-                    onPointerOut={() => { document.body.style.cursor = 'auto'; }}
-                >
-                    <mesh rotation={[-Math.PI / 2, 0, 0]} castShadow>
-                        <boxGeometry args={[1.3, 0.45, 0.05]} />
-                        <meshStandardMaterial color="#3C6E71" metalness={0.5} roughness={0.2} />
-                    </mesh>
-                    <Text position={[0, 0.05, 0]} rotation={[-Math.PI / 2, 0, 0]} fontSize={0.12} color="#F5EBDD" font="/fonts/Cinzel-Regular.woff">
-                        {language === 'fr' ? '✉ ME CONTACTER' : '✉ CONTACT ME'}
-                    </Text>
-                </group>
             </group>
 
             {/* --- BAYS & PLAQUES & SHELVES & ILLUMINATING LANTERNS --- */}
@@ -436,7 +519,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         onPointerOver={() => { document.body.style.cursor = 'pointer'; }}
                         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
                     >
-                        <mesh castShadow>
+                        <mesh>
                             <boxGeometry args={[5.2, 0.85, 0.08]} />
                             <meshStandardMaterial color="#A6303B" metalness={0.1} roughness={0.6} />
                         </mesh>
@@ -462,7 +545,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                     <group position={[-6.8, 1.25, 0]} rotation={[0, 0, 0]}>
                         <Bookshelf
                             name={bay.label}
-                            projects={bay.cat.items.slice(0, 12)}
+                            projects={bay.cat.items.slice(0, Math.ceil(bay.cat.items.length / 2))}
                             onProjectClick={onProjectClick}
                             selectedProject={selectedProject}
                         />
@@ -472,7 +555,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                     <group position={[6.8, 1.25, 0]} rotation={[0, 0, 0]}>
                         <Bookshelf
                             name={bay.label}
-                            projects={bay.cat.items.slice(12, 24)}
+                            projects={bay.cat.items.slice(Math.ceil(bay.cat.items.length / 2))}
                             onProjectClick={onProjectClick}
                             selectedProject={selectedProject}
                         />
@@ -512,18 +595,6 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <circleGeometry args={[2.2, 32]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
-                        {/* Targeted Soft Ambient Glow */}
-                        {!isAnimationsPaused && (
-                            <Sparkles
-                                count={10}
-                                scale={[1.2, 1.2, 1.2]}
-                                size={1.4}
-                                speed={0.3}
-                                opacity={0.4}
-                                color="#D4A24E"
-                                position={[0, 2.2, 0]}
-                            />
-                        )}
                     </group>
 
                     {/* Right Illuminating Victorian Lantern Lamp Post */}
@@ -560,18 +631,6 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <circleGeometry args={[2.2, 32]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
-                        {/* Targeted Soft Ambient Glow */}
-                        {!isAnimationsPaused && (
-                            <Sparkles
-                                count={10}
-                                scale={[1.2, 1.2, 1.2]}
-                                size={1.4}
-                                speed={0.3}
-                                opacity={0.4}
-                                color="#D4A24E"
-                                position={[0, 2.2, 0]}
-                            />
-                        )}
                     </group>
                 </group>
             ))}

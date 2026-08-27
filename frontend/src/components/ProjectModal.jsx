@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
   const { language } = useLanguage();
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -91,7 +92,15 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   {language === 'fr' ? 'Vue d\'ensemble' : 'Overview'}
                 </h3>
                 <p className="text-[15px] leading-relaxed mb-4 text-[#D8C6B6] font-sans">{description}</p>
-                {detailedDesc && <p className="text-[15px] leading-relaxed text-[#F5EBDD] font-sans">{detailedDesc}</p>}
+                {detailedDesc && (
+                  <div className="space-y-3">
+                    {detailedDesc.split('\n').filter(line => line.trim() !== '').map((para, idx) => (
+                      <p key={idx} className="text-[14px] leading-relaxed text-[#F5EBDD] font-sans">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                )}
               </section>
 
               {architecture && (
@@ -147,7 +156,18 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
               {/* Action Footer */}
               <div className="pt-6 border-t border-[#D4A24E]/25 flex flex-wrap gap-4 items-center">
-                {project.project_url && (
+                {project.video ? (
+                  <button 
+                    onClick={() => setShowVideoModal(true)}
+                    className="px-6 py-3 bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2 cursor-pointer border border-[#D4A24E]/40"
+                  >
+                    <span>{language === 'fr' ? 'Consulter le projet (Vidéo)' : 'View Project (Video)'}</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                ) : project.project_url ? (
                   <a 
                     href={project.project_url} target="_blank" rel="noopener noreferrer" 
                     className="px-6 py-3 bg-[#A6303B] hover:bg-[#801F29] text-white font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
@@ -157,18 +177,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
                   </a>
-                )}
-                {project.github_url && (
-                  <a 
-                    href={project.github_url} target="_blank" rel="noopener noreferrer" 
-                    className="px-6 py-3 border border-[#D4A24E]/50 hover:border-[#D4A24E] hover:text-[#D4A24E] hover:bg-[#D4A24E]/10 text-[#F5EBDD] font-cinzel font-bold text-xs uppercase tracking-widest rounded-lg transition-all inline-flex items-center gap-2 cursor-pointer"
-                  >
-                    <span>GitHub</span>
-                    <svg className="w-4 h-4 text-[#D4A24E]" fill="currentColor" viewBox="0 0 24 24">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                    </svg>
-                  </a>
-                )}
+                ) : null}
                 {project.document && (
                   <a 
                     href={project.document} target="_blank" rel="noopener noreferrer" 
@@ -184,6 +193,44 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             </div>
           </div>
         </motion.div>
+
+        {/* Video Player Modal Popup */}
+        {showVideoModal && project.video && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-lg"
+            onClick={() => setShowVideoModal(false)}
+          >
+            <div 
+              className="bg-[#180E11] border-2 border-[#D4A24E] w-full max-w-4xl rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.95)] relative flex flex-col"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-4 px-6 border-b border-[#D4A24E]/30 bg-[#2B0F14]/80">
+                <div>
+                  <span className="text-[10px] font-cinzel font-bold text-[#D4A24E] uppercase tracking-widest block">
+                    {language === 'fr' ? 'Démonstration Vidéo' : 'Video Demonstration'}
+                  </span>
+                  <h4 className="text-xl font-cinzel font-bold text-[#F5EBDD]">{title}</h4>
+                </div>
+                <button
+                  onClick={() => setShowVideoModal(false)}
+                  className="w-9 h-9 rounded-full bg-[#A6303B] text-white flex items-center justify-center border border-[#D4A24E] hover:bg-[#801F29] transition-colors cursor-pointer"
+                  aria-label="Fermer la vidéo"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="bg-black flex items-center justify-center">
+                <video 
+                  src={project.video} 
+                  controls 
+                  autoPlay 
+                  playsInline 
+                  className="w-full max-h-[70vh] object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </motion.div>
     </AnimatePresence>
   );

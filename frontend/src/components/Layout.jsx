@@ -28,15 +28,6 @@ export default function Layout() {
             >
               <span className="font-medium">LinkedIn</span>
             </a>
-            <a
-              href="https://github.com/Kae712635"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-cream/80 hover:text-rose transition-colors"
-              aria-label="GitHub"
-            >
-              <span className="font-medium">GitHub</span>
-            </a>
             <Link
               to="/privacy"
               className="text-cream/80 hover:text-rose transition-colors"

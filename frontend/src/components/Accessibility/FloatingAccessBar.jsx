@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import NavigationHelpModal from './NavigationHelpModal';
@@ -7,6 +8,8 @@ import AccessibilityModal from './AccessibilityModal';
 export default function FloatingAccessBar() {
   const { t, language } = useLanguage();
   const { preferences } = useAccessibility();
+  const location = useLocation();
+  const is3DScene = location.pathname === '/';
 
   const [isNavHelpOpen, setIsNavHelpOpen] = useState(false);
   const [isA11yOpen, setIsA11yOpen] = useState(false);
@@ -41,25 +44,27 @@ export default function FloatingAccessBar() {
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[90] flex items-center gap-2.5 sm:gap-3"
       >
         
-        {/* 1. Bouton "Aide à la navigation 3D" */}
-        <button
-          ref={navHelpBtnRef}
-          type="button"
-          onClick={() => setIsNavHelpOpen(true)}
-          aria-label={getTranslation('a11yNavHelpBtn', 'Ouvrir l’aide de navigation 3D')}
-          aria-haspopup="dialog"
-          aria-expanded={isNavHelpOpen}
-          className="h-12 min-w-12 px-3 sm:px-4 rounded-full bg-[#1E0A0E]/95 border border-[#D4A24E]/40 hover:border-[#D4A24E] hover:bg-[#A6303B]/30 text-[#F5EBDD] shadow-[0_8px_25px_rgba(0,0,0,0.7)] backdrop-blur-md transition-all flex items-center justify-center gap-2 text-xs font-cinzel font-bold tracking-wider uppercase group focus-visible:outline-none cursor-pointer"
-        >
-          <svg className="w-5 h-5 text-[#D4A24E] group-hover:scale-110 transition-transform shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-          <span className="hidden md:inline whitespace-nowrap">
-            {language === 'fr' ? 'Aide 3D' : '3D Help'}
-          </span>
-        </button>
+        {/* 1. Bouton "Aide à la navigation 3D" (Visible ONLY on 3D scene '/' on desktop) */}
+        {is3DScene && (
+          <button
+            ref={navHelpBtnRef}
+            type="button"
+            onClick={() => setIsNavHelpOpen(true)}
+            aria-label={getTranslation('a11yNavHelpBtn', 'Ouvrir l’aide de navigation 3D')}
+            aria-haspopup="dialog"
+            aria-expanded={isNavHelpOpen}
+            className="hidden md:flex h-12 min-w-12 px-3 sm:px-4 rounded-full bg-[#1E0A0E]/95 border border-[#D4A24E]/40 hover:border-[#D4A24E] hover:bg-[#A6303B]/30 text-[#F5EBDD] shadow-[0_8px_25px_rgba(0,0,0,0.7)] backdrop-blur-md transition-all items-center justify-center gap-2 text-xs font-cinzel font-bold tracking-wider uppercase group focus-visible:outline-none cursor-pointer"
+          >
+            <svg className="w-5 h-5 text-[#D4A24E] group-hover:scale-110 transition-transform shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span className="hidden md:inline whitespace-nowrap">
+              {language === 'fr' ? 'Aide 3D' : '3D Help'}
+            </span>
+          </button>
+        )}
 
         {/* 2. Bouton "Accessibilité" */}
         <button

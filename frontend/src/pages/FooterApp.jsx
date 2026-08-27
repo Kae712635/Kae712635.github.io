@@ -26,15 +26,6 @@ const FooterApp = () => {
             >
               <i className="fab fa-linkedin"></i>
             </a>
-            <a 
-              href="https://github.com/Kae712635" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary-accent hover:text-secondary-accent transition-colors"
-              aria-label="GitHub Profile"
-            >
-              <i className="fab fa-github-square"></i>
-            </a>
           </div>
           
           <Footer.LinkGroup className="flex justify-center w-full mt-4 space-x-4">
