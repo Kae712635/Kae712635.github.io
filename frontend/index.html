@@ -1,19 +1,115 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' ws: wss: http: https:; img-src 'self' data: https:; worker-src 'self' blob:;" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <link rel="preconnect" href="https://api.github.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Klervi Choblet — Ingénieure Logicielle & Systèmes</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Klervi Choblet – Traitement d'Images Médicales & Génie Logiciel (C / C++ / Java)</title>
+    <meta name="title" content="Klervi Choblet – Traitement d'Images Médicales & Génie Logiciel (C / C++ / Java)" />
+    <meta name="description" content="Portfolio technique de Klervi Choblet, étudiante-ingénieure EPITA spécialisée en traitement d'images médicales (IRM, CT, reconstruction 3D, DICOM) et développement logiciel haute performance en C, C++, Java et Python. Basée en Île-de-France." />
+    <meta name="keywords" content="Klervi Choblet, Klervi, Choblet, traitement d'image médical, imagerie médicale, IRM, DICOM, Gaussian Splatting, 3D reconstruction, segmentation, C, C++, Java, Python, OpenGL, EPITA, ingénieur logiciel santé, MedTech" />
+    <meta name="author" content="Klervi Choblet" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://klervi-choblet.vercel.app/" />
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://klervi-choblet.vercel.app/" />
+    <meta property="og:title" content="Klervi Choblet – Traitement d'Images Médicales & Génie Logiciel" />
+    <meta property="og:description" content="Portfolio de Klervi Choblet : projets de vision par ordinateur médicale, reconstruction 3D par Gaussian Splatting, segmentation d'IRM et algorithmes en C, C++, Java." />
+    <meta property="og:image" content="https://klervi-choblet.vercel.app/media/photo_identit%C3%A9.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="profile:first_name" content="Klervi" />
+    <meta property="profile:last_name" content="Choblet" />
+    <meta property="profile:gender" content="female" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://klervi-choblet.vercel.app/" />
+    <meta name="twitter:title" content="Klervi Choblet – Traitement d'Images Médicales & Génie Logiciel" />
+    <meta name="twitter:description" content="Portfolio de Klervi Choblet, ingénieure logicielle spécialisée en imagerie médicale (C, C++, Java, Python, 3D)." />
+    <meta name="twitter:image" content="https://klervi-choblet.vercel.app/media/photo_identit%C3%A9.png" />
+
+    <!-- Fonts & Performance Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Structured Data (Schema.org JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://klervi-choblet.vercel.app/#person",
+          "name": "Klervi Choblet",
+          "givenName": "Klervi",
+          "familyName": "Choblet",
+          "gender": "Female",
+          "jobTitle": "Ingénieure en Traitement d'Images Médicales",
+          "description": "Étudiante en 5ème année à l'EPITA, spécialisée en traitement d'images médicales, vision par ordinateur et génie logiciel (C, C++, Java, Python, Swift, OpenGL).",
+          "url": "https://klervi-choblet.vercel.app",
+          "image": "https://klervi-choblet.vercel.app/media/photo_identit%C3%A9.png",
+          "email": "mailto:klervi.choblet@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Paris",
+            "addressRegion": "Île-de-France",
+            "addressCountry": "FR"
+          },
+          "alumniOf": [
+            {
+              "@type": "EducationalOrganization",
+              "name": "EPITA - École pour l'Informatique et les Techniques Avancées",
+              "url": "https://www.epita.fr"
+            },
+            {
+              "@type": "EducationalOrganization",
+              "name": "Dorset College Dublin",
+              "url": "https://dorset.ie"
+            }
+          ],
+          "knowsAbout": [
+            "Traitement d'images médicales",
+            "Imagerie par Résonance Magnétique (IRM)",
+            "Tomodensitométrie (Scanner CT)",
+            "Norme DICOM",
+            "3D Gaussian Splatting",
+            "Structure from Motion (SfM)",
+            "C++",
+            "C",
+            "Java",
+            "Python",
+            "Swift",
+            "OpenGL",
+            "GLSL",
+            "VTK / ITK"
+          ],
+          "sameAs": [
+            "https://www.linkedin.com/in/klervi-choblet",
+            "https://github.com/Kae712635"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://klervi-choblet.vercel.app/#website",
+          "url": "https://klervi-choblet.vercel.app",
+          "name": "Klervi Choblet – Traitement d'Images Médicales & Portfolio",
+          "description": "Portfolio professionnel de Klervi Choblet, ingénieure logicielle en imagerie médicale et vision 3D.",
+          "publisher": {
+            "@id": "https://klervi-choblet.vercel.app/#person"
+          },
+          "inLanguage": ["fr-FR", "en-US"]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,5 @@
+# Robots.txt for Klervi Choblet Portfolio
+User-agent: *
+Allow: /
+
+Sitemap: https://klervi-choblet.vercel.app/sitemap.xml

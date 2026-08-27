@@ -130,16 +130,16 @@ export default function ProjetsPage() {
           >
             {language === 'fr' ? (
               <>
-                Ingénieure Logicielle
+                Traitement d'Images Médicales
                 <span className="block text-[#A6303B] mt-1 font-semibold text-2xl sm:text-4xl md:text-5xl">
-                  & Développeuse Fullstack
+                  & Génie Logiciel (C / C++ / Java)
                 </span>
               </>
             ) : (
               <>
-                Software Engineer
+                Medical Image Processing
                 <span className="block text-[#A6303B] mt-1 font-semibold text-2xl sm:text-4xl md:text-5xl">
-                  & Fullstack Developer
+                  & Software Engineering (C / C++ / Java)
                 </span>
               </>
             )}
@@ -153,8 +153,8 @@ export default function ProjetsPage() {
             style={{ width: '100%', wordBreak: 'normal', whiteSpace: 'normal' }}
           >
             {getTranslation('heroTagline', language === 'fr' 
-              ? "Conception de systèmes robustes, d'architectures modernes et d'expériences 3D immersives." 
-              : 'Building robust systems, modern architectures, and immersive 3D experiences.')}
+              ? "Spécialisée en imagerie médicale, vision par ordinateur, algorithmes 3D volumiques et développement logiciel haute performance." 
+              : 'Specialized in medical imaging, computer vision, volumetric 3D algorithms, and high-performance software engineering.')}
           </motion.p>
         </header>
 

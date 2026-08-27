@@ -988,7 +988,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                             {/* Open Action Callout on Cover */}
                             <div style={{ marginBottom: '10px' }}>
                                 <WaxSealButton onClick={handleNext}>
-                                    {language === 'fr' ? '📖 Ouvrir le Volume ☞' : '📖 Open Book ☞'}
+                                    {language === 'fr' ? 'Ouvrir le Volume ☞' : 'Open Book ☞'}
                                 </WaxSealButton>
                             </div>
                         </div>
