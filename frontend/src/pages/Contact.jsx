@@ -28,7 +28,7 @@ const Contact = () => {
             Entrons en contact
           </h2>
           <p className="text-xl leading-relaxed text-gray-300 md:text-2xl">
-            Vous avez un projet à discuter ? Écrivez-moi à {" "}
+            Une idée, un projet ou une collaboration ? Écrivez moi à {" "}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
               className="font-medium text-primary-accent underline underline-offset-4 hover:text-secondary-accent"

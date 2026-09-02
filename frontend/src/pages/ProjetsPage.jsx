@@ -312,8 +312,8 @@ export default function ProjetsPage() {
               <div className="w-16 h-[2px] bg-[#D4A24E] mx-auto mb-6" aria-hidden="true"></div>
               <p className="text-base md:text-lg text-[#D8C6B6] font-sans leading-relaxed max-w-2xl mx-auto">
                 {getTranslation('contactSub', language === 'fr' 
-                  ? `Vous avez un projet ou une opportunité à me proposer ? Écrivez-moi directement via ce formulaire ou à ${CONTACT_EMAIL}`
-                  : `Have a project or opportunity to discuss? Send me a message via this form or email ${CONTACT_EMAIL}`)}
+                  ? `Une idée, un projet ou une collaboration ? Écrivez moi directement via ce formulaire ou à ${CONTACT_EMAIL}`
+                  : `Have a project, opportunity or idea in mind? Reach out via this form or to ${CONTACT_EMAIL}`)}
               </p>
             </header>
 
@@ -393,12 +393,16 @@ export default function ProjetsPage() {
       {/* SINGLE PAGE CV MODAL */}
       {showCvModal && (
         <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md cursor-pointer"
           role="dialog"
           aria-modal="true"
           aria-labelledby="cv-modal-title"
+          onClick={() => setShowCvModal(false)}
         >
-          <div className="bg-[#140E10] border border-[#D4A24E]/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl text-[#F5EBDD] custom-scrollbar">
+          <div 
+            className="bg-[#140E10] border border-[#D4A24E]/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-8 relative shadow-2xl text-[#F5EBDD] custom-scrollbar cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setShowCvModal(false)}
               className="absolute top-4 right-4 text-[#D8C6B6] hover:text-[#D4A24E] text-xl font-bold p-2 cursor-pointer transition-colors"

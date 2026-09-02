@@ -186,31 +186,28 @@ const Scene = ({ children }) => {
                         intensity={1.45}
                         color="#FFF2DB"
                         castShadow
-                        shadow-mapSize-width={2048}
-                        shadow-mapSize-height={2048}
+                        shadow-mapSize-width={1024}
+                        shadow-mapSize-height={1024}
                         shadow-bias={-0.0001}
                         shadow-normalBias={0.035}
                         shadow-camera-near={0.5}
-                        shadow-camera-far={80}
-                        shadow-camera-left={-12}
-                        shadow-camera-right={12}
-                        shadow-camera-top={32}
-                        shadow-camera-bottom={-48}
+                        shadow-camera-far={70}
+                        shadow-camera-left={-10}
+                        shadow-camera-right={10}
+                        shadow-camera-top={25}
+                        shadow-camera-bottom={-40}
                     />
 
-                    {/* Soft Nocturnal Teal Fill Light (Balances warm tones and illuminates shadows) */}
+                    {/* Soft Nocturnal Teal Fill Light */}
                     <directionalLight
                         position={[10, 14, -18]}
                         intensity={0.65}
                         color="#3C6E71"
                     />
 
-                    {/* Soft Warm Vault Fill Lights along the Corridor */}
-                    <pointLight position={[0, 7.5, 5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
-                    <pointLight position={[0, 7.5, -5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
-                    <pointLight position={[0, 7.5, -15]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
-                    <pointLight position={[0, 7.5, -25]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
-                    <pointLight position={[0, 7.5, -35]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    {/* Soft Warm Vault Fill Lights along Corridor */}
+                    <pointLight position={[0, 7.0, 0]} intensity={0.7} color="#FFE0B2" distance={24} decay={2} />
+                    <pointLight position={[0, 7.0, -20]} intensity={0.7} color="#FFE0B2" distance={24} decay={2} />
 
                     <Suspense fallback={null}>
                         <Library
@@ -222,11 +219,11 @@ const Scene = ({ children }) => {
                         {children}
                     </Suspense>
 
-                    {/* Cinematic Post-Processing Effects (Bloom for lanterns & oculus, subtle vignette) */}
-                    <EffectComposer disableNormalPass multisampling={4}>
+                    {/* Cinematic Post-Processing Effects */}
+                    <EffectComposer disableNormalPass multisampling={0}>
                         <Bloom 
-                            intensity={0.75} 
-                            luminanceThreshold={0.8} 
+                            intensity={0.7} 
+                            luminanceThreshold={0.82} 
                             luminanceSmoothing={0.35} 
                             mipmapBlur 
                         />
@@ -234,7 +231,7 @@ const Scene = ({ children }) => {
                     </EffectComposer>
 
                     <CameraController view={view} targetCategory={targetCategory} navTrigger={navTrigger} />
-                    <KeyboardControls />
+                    <KeyboardControls disabled={!!selectedProject} />
                     <OrbitControls
                         makeDefault
                         enableRotate={false}

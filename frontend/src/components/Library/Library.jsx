@@ -8,8 +8,8 @@ import { useAccessibility } from '../../context/AccessibilityContext';
 import cvData from '../../data/cvData';
 import * as THREE from 'three';
 
-// Glowing Golden Fireflies: Clearly visible golden particles with bright core + soft transparent halo (0 artifacts)
-const LuminousGoldDust = ({ isAnimationsPaused, count = 180 }) => {
+// Glowing Golden Fireflies: GPU-driven golden particles with bright core + soft halo (Zero CPU overhead)
+const LuminousGoldDust = ({ isAnimationsPaused, count = 100 }) => {
     const pointsRef = useRef();
 
     const [geo, material] = useMemo(() => {
@@ -26,7 +26,7 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 180 }) => {
             scales[i] = 1.0 + Math.random() * 1.5;
             phases[i] = Math.random() * Math.PI * 2;
             speeds[i * 3] = (Math.random() - 0.5) * 0.09;
-            speeds[i * 3 + 1] = 0.07 + Math.random() * 0.14;
+            speeds[i * 3 + 1] = 0.4 + Math.random() * 0.6;
             speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.09;
         }
 
@@ -45,15 +45,22 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 180 }) => {
             vertexShader: `
                 attribute float aScale;
                 attribute float aPhase;
+                attribute vec3 aSpeed;
                 varying float vPhase;
                 uniform float uTime;
 
                 void main() {
                     vPhase = aPhase;
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    vec3 pos = position;
+                    // GPU-driven drift animation (no CPU attribute updates)
+                    pos.y = mod(pos.y + aSpeed.y * uTime * 0.6 - 1.0, 6.8) + 1.0;
+                    pos.x += sin(uTime * 0.5 + aPhase) * 0.25;
+                    pos.z += cos(uTime * 0.4 + aPhase) * 0.25;
+
+                    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
                     float pulse = sin(uTime * 2.2 + aPhase) * 0.3 + 1.0;
                     float zDist = max(1.0, -mvPosition.z);
-                    gl_PointSize = clamp(aScale * pulse * (160.0 / zDist), 4.0, 36.0);
+                    gl_PointSize = clamp(aScale * pulse * (140.0 / zDist), 3.0, 32.0);
                     gl_Position = projectionMatrix * mvPosition;
                 }
             `,
@@ -87,24 +94,7 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 180 }) => {
 
     useFrame((state) => {
         if (!pointsRef.current) return;
-        const time = isAnimationsPaused ? 0 : state.clock.elapsedTime;
-        material.uniforms.uTime.value = time;
-
-        const posAttr = geo.attributes.position;
-        const speedAttr = geo.attributes.aSpeed;
-        const phaseAttr = geo.attributes.aPhase;
-
-        for (let i = 0; i < count; i++) {
-            let y = posAttr.getY(i) + speedAttr.getY(i) * 0.016;
-            if (y > 7.8) y = 1.0;
-            posAttr.setY(i, y);
-
-            let x = posAttr.getX(i) + Math.sin(time * 0.5 + phaseAttr.getX(i)) * 0.003;
-            let z = posAttr.getZ(i) + Math.cos(time * 0.4 + phaseAttr.getX(i)) * 0.003;
-            posAttr.setX(i, x);
-            posAttr.setZ(i, z);
-        }
-        posAttr.needsUpdate = true;
+        material.uniforms.uTime.value = isAnimationsPaused ? 0 : state.clock.elapsedTime;
     });
 
     return (

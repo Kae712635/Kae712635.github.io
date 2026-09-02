@@ -1,7 +1,7 @@
 [
   {
     "id": "ing2-opengl-projet",
-    "title": "OpenGL",
+    "title": "OpenGL · Animation & Pêche 3D",
     "category": ["Systèmes & 3D", "Graphisme"],
     "tech": [
       "C++",
@@ -44,7 +44,7 @@
   },
   {
     "id": "ing2-isim-projet",
-    "title": "ISIM",
+    "title": "ISIM · Feu 3D & Path Tracing",
     "category": ["Systèmes & 3D", "Simulation & Rendu"],
     "tech": [
       "C++17",

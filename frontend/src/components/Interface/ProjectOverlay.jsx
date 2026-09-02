@@ -488,28 +488,22 @@ const ProjectOverlay = ({ project, onClose }) => {
                     border: '1px solid rgba(212, 162, 78, 0.35)',
                     zIndex: 0
                 }}></div>
-                {/* Left Backing Cover (Only visible when book is opened) */}
+                {/* Left Backing Cover */}
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
                     background: 'linear-gradient(135deg, #2B0F14 0%, #1E0A0E 100%)',
                     borderRadius: '12px 0 0 12px',
                     boxShadow: '-20px 20px 50px rgba(0,0,0,0.7)',
                     border: '1px solid rgba(212, 162, 78, 0.35)',
-                    zIndex: 0,
-                    opacity: pageState > 0 ? 1 : 0,
-                    pointerEvents: pageState > 0 ? 'auto' : 'none',
-                    transition: 'opacity 0.5s ease-in-out'
+                    zIndex: 0
                 }}></div>
 
                 {/* LAYER 1: STATIC PAGES (BASE) */}
-                {/* LEFT BASE PAGE (Only visible when book is opened) */}
+                {/* LEFT BASE PAGE (Illustrated Table of Contents / Media) */}
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
                     borderRadius: '6px 0 0 6px',
-                    zIndex: 1,
-                    opacity: pageState > 0 ? 1 : 0,
-                    pointerEvents: pageState > 0 ? 'auto' : 'none',
-                    transition: 'opacity 0.5s ease-in-out'
+                    zIndex: 1
                 }}>
                     <FirstPageLeft
                         category={category}
@@ -699,6 +693,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                         background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
                         borderRadius: '0 6px 6px 0',
+                        WebkitBackfaceVisibility: 'hidden',
                         backfaceVisibility: 'hidden',
                         padding: '34px 34px 20px 34px', boxSizing: 'border-box',
                         borderLeft: '1px solid #D8C6B6',
@@ -825,8 +820,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                         background: 'linear-gradient(135deg, #FBF4E8 0%, #EFE4D2 60%, #E6D8C3 100%)',
                         borderRadius: '6px 0 0 6px',
+                        WebkitBackfaceVisibility: 'hidden',
                         backfaceVisibility: 'hidden',
-                        transform: 'rotateY(180deg)',
+                        transform: 'rotateY(180deg) translateZ(1px)',
                         padding: '34px 34px 20px 34px', boxSizing: 'border-box',
                         borderRight: '1px solid #D8C6B6',
                         boxShadow: 'inset -26px 0 35px rgba(0,0,0,0.12), inset -4px 0 10px rgba(43,15,20,0.08)',
@@ -928,7 +924,7 @@ const ProjectOverlay = ({ project, onClose }) => {
                     >
                         <div style={{
                             border: '1px solid rgba(212, 162, 78, 0.5)',
-                            padding: '24px',
+                            padding: '20px 24px',
                             width: '100%',
                             height: '100%',
                             boxSizing: 'border-box',
@@ -946,16 +942,16 @@ const ProjectOverlay = ({ project, onClose }) => {
                             <div style={{ position: 'absolute', bottom: '8px', left: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4A24E', borderLeft: '2px solid #D4A24E' }}></div>
                             <div style={{ position: 'absolute', bottom: '8px', right: '8px', width: '20px', height: '20px', borderBottom: '2px solid #D4A24E', borderRight: '2px solid #D4A24E' }}></div>
 
-                            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                            <div style={{ textAlign: 'center', width: '100%' }}>
                                 <span style={{
                                     color: '#D4A24E',
                                     textTransform: 'uppercase',
-                                    letterSpacing: '3px',
-                                    fontSize: '0.8rem',
+                                    letterSpacing: '2.5px',
+                                    fontSize: '0.72rem',
                                     fontWeight: 'bold',
                                     fontFamily: 'Cinzel, serif',
                                     display: 'block',
-                                    marginBottom: '16px'
+                                    marginBottom: '6px'
                                 }}>
                                     {category || 'Portfolio'}
                                 </span>
@@ -964,29 +960,61 @@ const ProjectOverlay = ({ project, onClose }) => {
                                     color: '#F5EBDD',
                                     textAlign: 'center',
                                     fontFamily: '"Cinzel", serif',
-                                    fontSize: '2.3rem',
-                                    margin: '0',
-                                    lineHeight: 1.25,
+                                    fontSize: title.length > 25 ? '1.5rem' : '1.9rem',
+                                    margin: '0 0 6px 0',
+                                    lineHeight: 1.2,
                                     fontWeight: 'bold'
                                 }}>
                                     {title}
                                 </h1>
+                            </div>
 
-                                <div style={{ width: '60px', height: '2px', background: '#D4A24E', margin: '20px auto 16px auto' }}></div>
+                            {/* Project Visual / Thumbnail on Cover */}
+                            {image ? (
+                                <div style={{
+                                    width: '100%',
+                                    maxWidth: '330px',
+                                    height: '170px',
+                                    borderRadius: '8px',
+                                    border: '1.5px solid #D4A24E',
+                                    overflow: 'hidden',
+                                    boxShadow: '0 8px 24px rgba(0,0,0,0.7), 0 0 12px rgba(212,162,78,0.25)',
+                                    position: 'relative',
+                                    margin: '6px 0',
+                                    background: '#1A080C'
+                                }}>
+                                    <img
+                                        src={image.startsWith('/') ? image : '/img/' + image}
+                                        alt={title}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                                    />
+                                    <div style={{
+                                        position: 'absolute',
+                                        inset: 0,
+                                        boxShadow: 'inset 0 0 20px rgba(26, 8, 12, 0.65)',
+                                        pointerEvents: 'none'
+                                    }}></div>
+                                </div>
+                            ) : (
+                                <div style={{ width: '100%', maxWidth: '280px', margin: '4px 0' }}>
+                                    <ExLibrisSeal isCompact={true} />
+                                </div>
+                            )}
 
+                            <div style={{ textAlign: 'center', width: '100%' }}>
                                 <span style={{
                                     color: '#D8C6B6',
                                     textTransform: 'uppercase',
                                     letterSpacing: '2px',
-                                    fontSize: '0.75rem',
-                                    fontFamily: 'Cinzel, serif'
+                                    fontSize: '0.7rem',
+                                    fontFamily: 'Cinzel, serif',
+                                    display: 'block',
+                                    marginBottom: '10px'
                                 }}>
                                     Klervi Choblet
                                 </span>
-                            </div>
 
-                            {/* Open Action Callout on Cover */}
-                            <div style={{ marginBottom: '10px' }}>
+                                {/* Open Action Callout on Cover */}
                                 <WaxSealButton onClick={handleNext}>
                                     {language === 'fr' ? 'Ouvrir le Volume ☞' : 'Open Book ☞'}
                                 </WaxSealButton>
@@ -998,8 +1026,9 @@ const ProjectOverlay = ({ project, onClose }) => {
                     <div style={{
                         position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                         borderRadius: '6px 0 0 6px',
+                        WebkitBackfaceVisibility: 'hidden',
                         backfaceVisibility: 'hidden',
-                        transform: 'rotateY(180deg)',
+                        transform: 'rotateY(180deg) translateZ(1px)',
                         zIndex: 1
                     }}>
                         <FirstPageLeft

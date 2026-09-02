@@ -47,7 +47,7 @@ const translations = {
         filterInfra: "Infrastructure & Systèmes",
         exploreFurther: "Explorer davantage",
         contactTitle: "Me Contacter",
-        contactSub: "Vous avez un projet à me proposer ? Écrivez-moi directement via ce formulaire ou par email.",
+        contactSub: "Une idée, un projet ou une collaboration ? Écrivez moi directement via ce formulaire ou par email.",
         contactEmailLabel: "Votre Adresse Email",
         contactSubjectLabel: "Objet du Message",
         contactMessageLabel: "Votre Message",

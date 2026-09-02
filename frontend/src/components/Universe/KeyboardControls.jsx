@@ -2,7 +2,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-const KeyboardControls = () => {
+const KeyboardControls = ({ disabled = false }) => {
     const { camera, controls } = useThree();
     const keys = useRef({
         forward: false,
@@ -12,7 +12,13 @@ const KeyboardControls = () => {
     });
 
     useEffect(() => {
+        if (disabled) {
+            keys.current = { forward: false, backward: false, left: false, right: false };
+            return;
+        }
+
         const handleKeyDown = (e) => {
+            if (disabled) return;
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
             if (e.repeat) return;
 
@@ -68,7 +74,7 @@ const KeyboardControls = () => {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('keyup', handleKeyUp);
         };
-    }, []);
+    }, [disabled]);
 
     // Room boundaries (strict walls)
     const MIN_X = -7.5;
@@ -78,7 +84,7 @@ const KeyboardControls = () => {
     const EYE_Y = 1.6;
 
     useFrame((state, delta) => {
-        if (!controls) return;
+        if (!controls || disabled) return;
 
         const { forward, backward, left, right } = keys.current;
 
@@ -126,11 +132,7 @@ const KeyboardControls = () => {
                     return (x > cx - halfW && x < cx + halfW && z > cz - halfD && z < cz + halfD);
                 };
 
-                // 2. Reception & Language Desks (Front Entrance)
-                if (inBox(-4, 7.5, 3.2, 2.0)) return true;
-                if (inBox(4, 7.5, 3.2, 2.0)) return true;
-
-                // 3. Bookshelves & Pillars (along left and right aisles)
+                // Bookshelves & Pillars (along left and right aisles)
                 for (let i = 0; i < 5; i++) {
                     const bayZ = -5 - i * 9;
                     if (inBox(-6.8, bayZ, 2.2, 5.5)) return true;

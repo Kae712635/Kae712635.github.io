@@ -67,8 +67,8 @@ export default function LibraryHintLegend() {
               <span className="text-[#D8C6B6] hidden sm:inline">•</span>
               <span className="text-[#F5EBDD] whitespace-nowrap">
                 {language === 'fr'
-                  ? 'Ouvrages interactifs'
-                  : 'Interactive books'}
+                  ? 'Projets & dossiers interactifs (Cliquez pour ouvrir)'
+                  : 'Interactive project files (Click to open)'}
               </span>
               <span className="text-[#D4A24E]/70 text-[10px] hidden md:inline ml-1 tracking-wider">
                 {language === 'fr' ? '(1-5 pour naviguer)' : '(Keys 1-5 to navigate)'}

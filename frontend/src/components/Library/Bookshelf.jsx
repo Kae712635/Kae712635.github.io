@@ -26,29 +26,30 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
             const gap = SHELF_WIDTH / shelfCapacity;
 
             const projectCount = projects?.length || 0;
-            const startIndex = Math.floor((shelfCapacity - projectCount) / 2);
+
+            // Map active projects to spaced out slot indices on the shelf
+            const activeSlots = new Map();
+            if (isProjectShelf && projectCount > 0) {
+                const step = shelfCapacity / (projectCount + 1);
+                for (let p = 0; p < projectCount; p++) {
+                    const slotIdx = Math.min(shelfCapacity - 2, Math.max(1, Math.round(step * (p + 1))));
+                    activeSlots.set(slotIdx, projects[p]);
+                }
+            }
 
             for (let i = 0; i < shelfCapacity; i++) {
                 const x = startX + i * gap;
-                let project = null;
-                let isFiller = true;
-
-                if (isProjectShelf) {
-                    const projectIndex = i - startIndex;
-                    if (projectIndex >= 0 && projectIndex < projectCount) {
-                        project = projects[projectIndex];
-                        isFiller = false;
-                    }
-                }
+                const project = activeSlots.get(i) || null;
+                const isFiller = !project;
 
                 // Pick color for both filler and active books from the rich library palette
                 const colorIndex = (shelfIndex * 100 + i) % BOOK_COLORS.length;
                 const bookColor = BOOK_COLORS[colorIndex];
 
                 // Rotation and depth for realistic placement
-                const depthOffset = isFiller ? (Math.sin(shelfIndex * 10 + i * 7.3) * 0.04 + Math.cos(i * 3.1) * 0.04) : 0.02;
-                const rotationY = isFiller ? (Math.sin(i * 12.3) * 0.08) : 0;
-                const rotationZ = isFiller ? Math.sin((shelfIndex * 100 + i + (name ? name.length * 10 : 0)) * 123.45) * 0.05 : 0;
+                const depthOffset = isFiller ? (Math.sin(shelfIndex * 10 + i * 7.3) * 0.03 + Math.cos(i * 3.1) * 0.03) : 0.05;
+                const rotationY = isFiller ? (Math.sin(i * 12.3) * 0.06) : 0;
+                const rotationZ = isFiller ? Math.sin((shelfIndex * 100 + i + (name ? name.length * 10 : 0)) * 123.45) * 0.04 : 0;
 
                 const pos = [x, shelfY + 0.55, depthOffset];
                 const rot = [0, rotationY, rotationZ];

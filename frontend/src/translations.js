@@ -23,7 +23,7 @@ export const translations = {
     },
     contact: {
       title: "Entrons en contact",
-      intro: "Vous avez un projet à discuter ? Écrivez-moi ou utilisez le formulaire ci-dessous.",
+      intro: "Une idée, un projet ou une collaboration ? Écrivez moi ou utilisez le formulaire ci-dessous.",
       name: "Nom complet",
       email: "Email",
       message: "Votre message",

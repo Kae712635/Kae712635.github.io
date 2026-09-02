@@ -71,7 +71,7 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
                         setHover(false);
                     }}
                 >
-                    <boxGeometry args={[width * 1.6, height * 1.15, depth * 1.3]} />
+                    <boxGeometry args={[width * 1.25, height * 1.05, depth * 1.1]} />
                     <meshBasicMaterial transparent opacity={0} depthWrite={false} />
                 </mesh>
             )}
@@ -173,25 +173,31 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
 
             {/* Tooltip on Hover */}
             {!isFiller && hovered && (
-                <Html position={[0, 0.58, depth / 2 + 0.16]} center distanceFactor={7} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
+                <Html position={[0, 0.62, depth / 2 + 0.18]} center distanceFactor={7} style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}>
                     <div style={{
-                        padding: '6px 14px',
-                        background: 'rgba(43, 15, 20, 0.96)',
+                        padding: '7px 15px',
+                        background: 'rgba(38, 12, 18, 0.97)',
                         color: '#F5EBDD',
-                        border: '1px solid #D4A24E',
-                        borderRadius: '6px',
-                        boxShadow: '0 8px 25px rgba(0,0,0,0.85), 0 0 12px rgba(212,162,78,0.45)',
-                        backdropFilter: 'blur(8px)',
+                        border: '1.5px solid #D4A24E',
+                        borderRadius: '8px',
+                        boxShadow: '0 8px 30px rgba(0,0,0,0.9), 0 0 16px rgba(212,162,78,0.5)',
+                        backdropFilter: 'blur(10px)',
                         fontFamily: 'Cinzel, serif',
                         fontSize: '12px',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '3px',
                         pointerEvents: 'none'
                     }}>
-                        <span style={{ color: '#D4A24E', fontWeight: 'bold' }}>✨</span>
-                        <span style={{ textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: '600' }}>
-                            {project?.title || (language === 'fr' ? 'Ouvrage interactif' : 'Interactive Book')}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ color: '#FFD700', fontWeight: 'bold' }}>📖</span>
+                            <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: '700' }}>
+                                {project?.title || (language === 'fr' ? 'Ouvrage interactif' : 'Interactive Book')}
+                            </span>
+                        </div>
+                        <span style={{ fontSize: '10px', color: '#FFD700', letterSpacing: '0.04em', fontStyle: 'italic' }}>
+                            {language === 'fr' ? '✨ Cliquez pour ouvrir le dossier ☞' : '✨ Click to open project file ☞'}
                         </span>
                     </div>
                 </Html>
