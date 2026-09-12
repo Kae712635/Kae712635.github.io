@@ -167,7 +167,35 @@ const translations = {
         a11yKeyboardSummary: "Touches 0 à 4 pour naviguer entre les travées",
         a11yTouchSummary: "Glisser et pincer pour explorer",
         a11yShowDetails: "Voir les détails",
-        a11yHideDetails: "Masquer les détails"
+        a11yHideDetails: "Masquer les détails",
+
+        /* Mentions Légales & Confidentialité (LCEN, RGPD, ePrivacy) */
+        legalNoticeTitle: "Mentions Légales & Politique de Confidentialité",
+        legalNoticeSubtitle: "Informations réglementaires, hébergement, protection des données personnelles (RGPD) et conditions d'utilisation.",
+        legalShort: "Mentions Légales",
+        legalBackLibrary: "Bibliothèque 3D",
+        legalBackCatalog: "Catalogue 2D",
+        legalBackContact: "Contact",
+        legalEditorTitle: "1. Éditeur du Site",
+        legalEditorText: "Ce site web personnel et portfolio professionnel est édité et administré par Klervi Choblet, étudiante-ingénieure et développeuse logicielle.",
+        legalEditorContact: "Contact : klervi.choblet@gmail.com — Localisation : Paris & Île-de-France, France.",
+        legalDirector: "Directrice de la publication : Klervi Choblet.",
+        legalHostingTitle: "2. Hébergement & Déploiement",
+        legalHostingText: "Le site est hébergé et distribué par la société Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA — vercel.com) et versionné via GitHub Inc. (88 Colin P Kelly Jr St, San Francisco, CA 94107, USA — github.com).",
+        legalIpTitle: "3. Propriété Intellectuelle & Droits d'Auteur",
+        legalIpText: "L'ensemble des contenus, projets, codes sources, architectures, modélisations 3D, textes et éléments visuels créés par l'éditrice sont protégés par les dispositions du Code de la Propriété Intellectuelle et constituent des œuvres de l'esprit. Sauf mention expresse contraire, toute reproduction, adaptation ou diffusion sans accord préalable écrit est formellement interdite.",
+        legalIpThirdParty: "Les marques, frameworks et bibliothèques open source tiers utilisés (Three.js, React, Tailwind CSS, etc.) demeurent la propriété exclusive de leurs auteurs respectifs sous leurs licences libres respectives (notamment MIT et Apache 2.0).",
+        legalRgpdTitle: "4. Données Personnelles (RGPD & CNIL)",
+        legalRgpdController: "Responsable du traitement : Klervi Choblet. Le site ne collecte aucune donnée personnelle à des fins commerciales, publicitaires ou de profilage. Aucune base de données de traçage n'est reliée au site.",
+        legalRgpdForm: "Formulaire de contact : L'envoi de messages via le formulaire s'effectue directement via le protocole 'mailto:' de votre client de messagerie. Les données transmises (adresse email, objet, contenu du message) sont exclusivement destinées à répondre aux prises de contact professionnelles.",
+        legalRgpdRetention: "Durée de conservation : Les échanges par courriel sont conservés le temps du traitement de la demande et archivés pour une durée maximale de 3 ans.",
+        legalRgpdRights: "Droits des personnes : Conformément au RGPD (Règlement UE 2016/679) et à la Loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement et de limitation de vos données. Vous pouvez exercer ce droit par simple email à klervi.choblet@gmail.com. Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (cnil.fr).",
+        legalCookiesTitle: "5. Cookies & Stockage Local (Directive ePrivacy)",
+        legalCookiesText: "Ce site n'utilise aucun cookie traceur, publicitaire ou de mesure d'audience statistique tiers (site exempt de bandeau cookie préalable selon les lignes directrices de la CNIL). Seul un stockage local technique ('localStorage') strictement nécessaire au confort d'utilisation est employé sur votre terminal pour mémoriser : la langue d'affichage ('portfolio_lang'), vos préférences d'accessibilité WCAG ('a11y_*') et le statut de la fenêtre d'accueil.",
+        legalA11ySectionTitle: "6. Accessibilité Numérique (WCAG 2.2 AA / RGAA)",
+        legalA11ySectionText: "Ce portfolio applique les recommandations d'accessibilité numérique : version alternative 2D complète (sans Three.js 3D), contrastes renforcés (> 7:1), typographie sans-serif haute lisibilité, réduction de mouvement, arrêt des animations Three.js et navigation clavier complète (touches 0-4, tabulation, raccourci d'évitement).",
+        legalLawTitle: "7. Droit Applicable & Juridiction",
+        legalLawText: "Le présent site et ses mentions légales sont régis par le droit français. En cas de litige, les tribunaux français compétents seront seuls compétents."
     },
     en: {
         skipToContent: "Skip to main content",
@@ -337,7 +365,35 @@ const translations = {
         a11yKeyboardSummary: "Keys 0 to 4 to navigate between bays",
         a11yTouchSummary: "Drag and pinch to explore",
         a11yShowDetails: "Show details",
-        a11yHideDetails: "Hide details"
+        a11yHideDetails: "Hide details",
+
+        /* Legal Notice & Privacy Policy (LCEN, GDPR, ePrivacy) */
+        legalNoticeTitle: "Legal Notice & Privacy Policy",
+        legalNoticeSubtitle: "Regulatory compliance, hosting, personal data protection (GDPR), and terms of use.",
+        legalShort: "Legal Notice",
+        legalBackLibrary: "3D Library",
+        legalBackCatalog: "2D Catalog",
+        legalBackContact: "Contact",
+        legalEditorTitle: "1. Website Publisher",
+        legalEditorText: "This personal website and portfolio is published and managed by Klervi Choblet, software engineer and developer.",
+        legalEditorContact: "Contact: klervi.choblet@gmail.com — Location: Paris & Île-de-France, France.",
+        legalDirector: "Publication Director: Klervi Choblet.",
+        legalHostingTitle: "2. Hosting & Deployment",
+        legalHostingText: "This website is hosted and distributed by Vercel Inc. (340 S Lemon Ave #4133, Walnut, CA 91789, USA — vercel.com) and versioned via GitHub Inc. (88 Colin P Kelly Jr St, San Francisco, CA 94107, USA — github.com).",
+        legalIpTitle: "3. Intellectual Property & Copyright",
+        legalIpText: "All contents, projects, source codes, architectures, 3D models, texts, and visuals created by the author are protected by applicable intellectual property and copyright laws. Unauthorized reproduction, modification, or distribution is strictly prohibited without prior written consent.",
+        legalIpThirdParty: "Third-party open-source libraries and frameworks used (Three.js, React, Tailwind CSS, etc.) remain the property of their respective creators under their open-source licenses (notably MIT and Apache 2.0).",
+        legalRgpdTitle: "4. Personal Data & Privacy (GDPR)",
+        legalRgpdController: "Data Controller: Klervi Choblet. This website does not collect personal data for commercial, advertising, or profiling purposes. No tracking database is linked to the website.",
+        legalRgpdForm: "Contact Form: Sending messages through the contact form uses the standard 'mailto:' protocol via your email client. Transmitted data (email, subject, message content) is used exclusively to respond to professional inquiries.",
+        legalRgpdRetention: "Data Retention: Exchanged emails are retained as long as required to process the inquiry, up to a maximum duration of 3 years.",
+        legalRgpdRights: "Your Rights: In accordance with GDPR (EU Regulation 2016/679) and applicable data protection laws, you have the right to access, rectify, erase, or restrict the processing of your data. You may exercise this right by emailing klervi.choblet@gmail.com. You also have the right to file a complaint with the French data protection authority (CNIL: cnil.fr).",
+        legalCookiesTitle: "5. Cookies & Local Storage (ePrivacy Directive)",
+        legalCookiesText: "This website uses zero advertising, tracking, or third-party statistical cookies (exempt from prior cookie consent banners under CNIL guidelines). Only strictly necessary technical local storage ('localStorage') is used to preserve your preferences: selected language ('portfolio_lang'), WCAG accessibility options ('a11y_*'), and welcome modal status.",
+        legalA11ySectionTitle: "6. Digital Accessibility (WCAG 2.2 AA / RGAA)",
+        legalA11ySectionText: "This portfolio implements accessibility best practices: full 2D alternative (without Three.js 3D), enhanced contrasts (> 7:1), clear high-legibility typography, reduced motion toggles, animation controls, and full keyboard navigation (keys 0-4, Tab, Skip link).",
+        legalLawTitle: "7. Applicable Law & Jurisdiction",
+        legalLawText: "This website and its legal terms are governed by French law. In the event of any dispute, competent French courts shall have exclusive jurisdiction."
     }
 };
 

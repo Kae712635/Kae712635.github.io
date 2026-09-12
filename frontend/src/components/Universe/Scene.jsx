@@ -12,7 +12,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useAccessibility } from '../../context/AccessibilityContext';
 
 const CameraController = ({ view, targetCategory, navTrigger }) => {
-    const { camera, controls } = useThree();
+    const { controls } = useThree();
     const [isAnimating, setIsAnimating] = useState(false);
     const transitionTimeout = useRef(null);
     const { isReducedMotion } = useAccessibility();
@@ -84,7 +84,7 @@ const Scene = ({ children }) => {
     const [navTrigger, setNavTrigger] = useState(0);
     const [selectedProject, setSelectedProject] = useState(null);
     const location = useLocation();
-    const { t, language } = useLanguage();
+    const { language } = useLanguage();
     const { announce, isReducedMotion } = useAccessibility();
 
     const handleProjectClick = useCallback((project) => {
@@ -155,7 +155,8 @@ const Scene = ({ children }) => {
                 position: 'fixed', 
                 top: 0, 
                 left: 0, 
-                pointerEvents: is2DPage ? 'none' : 'auto'
+                pointerEvents: is2DPage ? 'none' : 'auto',
+                zIndex: selectedProject ? 9999 : 'auto'
             }}
             aria-hidden={is2DPage}
         >
@@ -165,10 +166,12 @@ const Scene = ({ children }) => {
                 <Canvas 
                     shadows={{ type: THREE.PCFSoftShadowMap }}
                     camera={{ position: [0, 1.6, 9], fov: 50 }}
-                    dpr={[1, 1.5]} 
-                    performance={{ min: 0.6 }}
+                    dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 1.25)]} 
+                    performance={{ min: 0.5 }}
                     gl={{
                         antialias: true,
+                        powerPreference: 'high-performance',
+                        stencil: false,
                         toneMapping: THREE.ACESFilmicToneMapping,
                         toneMappingExposure: 1.25
                     }}
@@ -186,8 +189,8 @@ const Scene = ({ children }) => {
                         intensity={1.45}
                         color="#FFF2DB"
                         castShadow
-                        shadow-mapSize-width={1024}
-                        shadow-mapSize-height={1024}
+                        shadow-mapSize-width={512}
+                        shadow-mapSize-height={512}
                         shadow-bias={-0.0001}
                         shadow-normalBias={0.035}
                         shadow-camera-near={0.5}
@@ -219,16 +222,18 @@ const Scene = ({ children }) => {
                         {children}
                     </Suspense>
 
-                    {/* Cinematic Post-Processing Effects */}
-                    <EffectComposer disableNormalPass multisampling={0}>
-                        <Bloom 
-                            intensity={0.7} 
-                            luminanceThreshold={0.82} 
-                            luminanceSmoothing={0.35} 
-                            mipmapBlur 
-                        />
-                        <Vignette darkness={0.4} offset={0.35} />
-                    </EffectComposer>
+                    {/* Cinematic Post-Processing Effects (Optimized & disabled if reduced motion) */}
+                    {!isReducedMotion && (
+                        <EffectComposer disableNormalPass multisampling={0}>
+                            <Bloom 
+                                intensity={0.6} 
+                                luminanceThreshold={0.85} 
+                                luminanceSmoothing={0.3} 
+                                mipmapBlur 
+                            />
+                            <Vignette darkness={0.35} offset={0.35} />
+                        </EffectComposer>
+                    )}
 
                     <CameraController view={view} targetCategory={targetCategory} navTrigger={navTrigger} />
                     <KeyboardControls disabled={!!selectedProject} />

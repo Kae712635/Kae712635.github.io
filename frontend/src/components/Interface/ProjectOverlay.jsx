@@ -29,31 +29,32 @@ const CornerOrnament = ({ position }) => {
 };
 
 // Illustrated Engineering Ex-Libris Seal
-const ExLibrisSeal = ({ isCompact = false }) => (
+const ExLibrisSeal = ({ isCompact = false, isCover = false }) => (
     <div style={{
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         padding: isCompact ? '10px 14px' : '14px 18px',
-        border: '1.5px solid rgba(212, 162, 78, 0.45)',
+        border: isCover ? '1.5px solid rgba(212, 162, 78, 0.55)' : '1.5px solid rgba(212, 162, 78, 0.45)',
         borderRadius: '8px',
-        background: 'rgba(212, 162, 78, 0.05)',
+        background: isCover ? 'rgba(212, 162, 78, 0.08)' : 'rgba(212, 162, 78, 0.05)',
+        boxShadow: isCover ? 'inset 0 0 15px rgba(212, 162, 78, 0.1), 0 4px 12px rgba(0,0,0,0.4)' : 'none',
         width: '100%',
         boxSizing: 'border-box'
     }}>
         {/* Heraldic Shield / Engineering Crest Icon */}
         <svg width="40" height="40" viewBox="0 0 48 48" style={{ marginBottom: '4px' }} aria-hidden="true">
-            <path d="M24 4 L38 10 L38 24 C38 34 24 44 24 44 C24 44 10 34 10 24 L10 10 Z" fill="rgba(166, 48, 59, 0.08)" stroke="#A6303B" strokeWidth="1.8" />
+            <path d="M24 4 L38 10 L38 24 C38 34 24 44 24 44 C24 44 10 34 10 24 L10 10 Z" fill={isCover ? "rgba(212, 162, 78, 0.15)" : "rgba(166, 48, 59, 0.08)"} stroke={isCover ? "#D4A24E" : "#A6303B"} strokeWidth="1.8" />
             <path d="M24 7 L35 12 L35 23 C35 31 24 39 24 39 C24 39 13 31 13 23 L13 12 Z" fill="none" stroke="#D4A24E" strokeWidth="1.0" />
             <circle cx="24" cy="22" r="5" fill="none" stroke="#D4A24E" strokeWidth="1.2" />
             <path d="M24 17 L24 27 M19 22 L29 22" stroke="#D4A24E" strokeWidth="1.2" />
-            <path d="M16 28 L24 16 L32 28" fill="none" stroke="#3C6E71" strokeWidth="1.2" />
+            <path d="M16 28 L24 16 L32 28" fill="none" stroke={isCover ? "#EFE4D2" : "#3C6E71"} strokeWidth="1.2" />
         </svg>
-        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', fontWeight: 'bold', color: '#2B0F14', letterSpacing: '2.5px', textTransform: 'uppercase' }}>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.7rem', fontWeight: 'bold', color: isCover ? '#D4A24E' : '#2B0F14', letterSpacing: '2.5px', textTransform: 'uppercase' }}>
             EX LIBRIS
         </span>
-        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.82rem', fontWeight: 'bold', color: '#A6303B', letterSpacing: '1px' }}>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.82rem', fontWeight: 'bold', color: isCover ? '#F5EBDD' : '#A6303B', letterSpacing: '1px' }}>
             KLERVI CHOBLET
         </span>
-        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', color: '#6A564A', fontStyle: 'italic', marginTop: '2px', letterSpacing: '1px' }}>
+        <span style={{ fontFamily: 'Cinzel, serif', fontSize: '0.62rem', color: isCover ? '#D8C6B6' : '#6A564A', fontStyle: 'italic', marginTop: '2px', letterSpacing: '1px' }}>
             ARCHIVUM DIGITALE • INGENIUM
         </span>
     </div>
@@ -236,28 +237,26 @@ const ProjectOverlay = ({ project, onClose }) => {
         return () => clearTimeout(timer);
     }, []);
 
-    if (!project) return null;
-
     const getLocalized = (field) => {
         if (!field) return "";
         if (typeof field === "string") return field;
         return field[language] || field.fr || field.en || "";
     };
 
-    const title = getLocalized(project.title) || "";
-    const description = getLocalized(project.description) || (language === 'fr' ? "Aucune description disponible." : "No description available.");
-    const detailedDesc = getLocalized(project.detailed_description) || getLocalized(project.details) || null;
-    const category = Array.isArray(project.category) ? project.category.join(' & ') : (getLocalized(project.category) || "");
-    const date = getLocalized(project.date || project.period) || "";
-    const affiliation = getLocalized(project.company || project.school || project.course || project.personal_project) || "";
-    const techStack = project.tech || project.highlights || [];
-    const image = project.image ? (typeof project.image === 'string' ? project.image : project.image[0]) : null;
-    const video = project.video || null;
-    const projectUrl = project.project_url || project.link || null;
-    const docUrl = project.document || project.doc || null;
-    const isExperience = project.id?.startsWith('exp-') || (typeof category === 'string' ? category.toLowerCase().includes('expérience') : false);
-    const isSkill = project.id?.startsWith('skill-') || (typeof category === 'string' ? (category.toLowerCase().includes('compétence') || category.toLowerCase().includes('langage') || category.toLowerCase().includes('langue') || category.toLowerCase().includes('soft skill')) : false);
-    const isEducation = project.id?.startsWith('edu-') || (typeof category === 'string' ? (category.toLowerCase().includes('formation') || category.toLowerCase().includes('diplôme')) : false);
+    const title = getLocalized(project?.title) || "";
+    const description = getLocalized(project?.description) || (language === 'fr' ? "Aucune description disponible." : "No description available.");
+    const detailedDesc = getLocalized(project?.detailed_description) || getLocalized(project?.details) || null;
+    const category = Array.isArray(project?.category) ? project.category.join(' & ') : (getLocalized(project?.category) || "");
+    const date = getLocalized(project?.date || project?.period) || "";
+    const affiliation = getLocalized(project?.company || project?.school || project?.course || project?.personal_project) || "";
+    const techStack = project?.tech || project?.highlights || [];
+    const image = project?.image ? (typeof project.image === 'string' ? project.image : project.image[0]) : null;
+    const video = project?.video || null;
+    const projectUrl = project?.project_url || project?.link || null;
+    const docUrl = project?.document || project?.doc || null;
+    const isExperience = project?.id?.startsWith('exp-') || (typeof category === 'string' ? category.toLowerCase().includes('expérience') : false);
+    const isSkill = project?.id?.startsWith('skill-') || (typeof category === 'string' ? (category.toLowerCase().includes('compétence') || category.toLowerCase().includes('langage') || category.toLowerCase().includes('langue') || category.toLowerCase().includes('soft skill')) : false);
+    const isEducation = project?.id?.startsWith('edu-') || (typeof category === 'string' ? (category.toLowerCase().includes('formation') || category.toLowerCase().includes('diplôme')) : false);
     // Responsive window sizing for seamless Mobile & Tablet support
     const [windowSize, setWindowSize] = useState({
         width: typeof window !== 'undefined' ? window.innerWidth : 1200,
@@ -371,41 +370,54 @@ const ProjectOverlay = ({ project, onClose }) => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
+    if (!project) return null;
+
     return (
         <div
             style={{
                 position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-                background: 'rgba(26, 8, 12, 0.92)', backdropFilter: 'blur(12px)',
-                display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000,
+                background: 'rgba(26, 8, 12, 0.94)', backdropFilter: 'blur(16px)',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999,
                 overflow: 'hidden'
             }}
             onClick={handleClose}
         >
-            {/* Prominent Floating Close Button (Mobile / Tablet / Touch friendly) */}
+            {/* Prominent Floating Close Button */}
             <button
                 onClick={handleClose}
                 style={{
                     position: 'fixed',
-                    top: '16px',
-                    right: '16px',
-                    zIndex: 1100,
-                    width: '42px',
-                    height: '42px',
+                    top: '20px',
+                    right: '24px',
+                    zIndex: 10001,
+                    width: '46px',
+                    height: '46px',
                     borderRadius: '50%',
                     background: 'rgba(30, 10, 14, 0.95)',
                     border: '1.5px solid #D4A24E',
                     color: '#F5EBDD',
-                    fontSize: '18px',
+                    fontSize: '20px',
                     fontWeight: 'bold',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
-                    boxShadow: '0 6px 20px rgba(0,0,0,0.85), 0 0 12px rgba(212,162,78,0.35)',
-                    backdropFilter: 'blur(8px)',
-                    transition: 'all 0.2s'
+                    boxShadow: '0 8px 25px rgba(0,0,0,0.85), 0 0 15px rgba(212,162,78,0.4)',
+                    backdropFilter: 'blur(10px)',
+                    transition: 'all 0.25s'
                 }}
-                aria-label="Fermer le livre"
+                onMouseEnter={e => {
+                    e.currentTarget.style.background = '#A6303B';
+                    e.currentTarget.style.transform = 'scale(1.08)';
+                    e.currentTarget.style.borderColor = '#FFD700';
+                }}
+                onMouseLeave={e => {
+                    e.currentTarget.style.background = 'rgba(30, 10, 14, 0.95)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.borderColor = '#D4A24E';
+                }}
+                aria-label={language === 'fr' ? 'Fermer le livre (Échap)' : 'Close book (Esc)'}
+                title={language === 'fr' ? 'Fermer (Échap)' : 'Close (Esc)'}
             >
                 ✕
             </button>
@@ -495,7 +507,10 @@ const ProjectOverlay = ({ project, onClose }) => {
                     borderRadius: '12px 0 0 12px',
                     boxShadow: '-20px 20px 50px rgba(0,0,0,0.7)',
                     border: '1px solid rgba(212, 162, 78, 0.35)',
-                    zIndex: 0
+                    zIndex: 0,
+                    opacity: pageState === 0 ? 0 : 1,
+                    pointerEvents: pageState === 0 ? 'none' : 'auto',
+                    transition: 'opacity 0.4s ease'
                 }}></div>
 
                 {/* LAYER 1: STATIC PAGES (BASE) */}
@@ -503,7 +518,10 @@ const ProjectOverlay = ({ project, onClose }) => {
                 <div style={{
                     position: 'absolute', left: 0, width: '450px', height: '600px',
                     borderRadius: '6px 0 0 6px',
-                    zIndex: 1
+                    zIndex: 1,
+                    opacity: pageState === 0 ? 0 : 1,
+                    pointerEvents: pageState === 0 ? 'none' : 'auto',
+                    transition: 'opacity 0.4s ease'
                 }}>
                     <FirstPageLeft
                         category={category}
@@ -997,22 +1015,24 @@ const ProjectOverlay = ({ project, onClose }) => {
                                 </div>
                             ) : (
                                 <div style={{ width: '100%', maxWidth: '280px', margin: '4px 0' }}>
-                                    <ExLibrisSeal isCompact={true} />
+                                    <ExLibrisSeal isCompact={true} isCover={true} />
                                 </div>
                             )}
 
                             <div style={{ textAlign: 'center', width: '100%' }}>
-                                <span style={{
-                                    color: '#D8C6B6',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px',
-                                    fontSize: '0.7rem',
-                                    fontFamily: 'Cinzel, serif',
-                                    display: 'block',
-                                    marginBottom: '10px'
-                                }}>
-                                    Klervi Choblet
-                                </span>
+                                {image && (
+                                    <span style={{
+                                        color: '#D8C6B6',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '2px',
+                                        fontSize: '0.7rem',
+                                        fontFamily: 'Cinzel, serif',
+                                        display: 'block',
+                                        marginBottom: '10px'
+                                    }}>
+                                        Klervi Choblet
+                                    </span>
+                                )}
 
                                 {/* Open Action Callout on Cover */}
                                 <WaxSealButton onClick={handleNext}>
@@ -1046,41 +1066,6 @@ const ProjectOverlay = ({ project, onClose }) => {
                 </animated.div>
 
             </div>
-
-            {/* Close Button X */}
-            <button
-                onClick={handleClose}
-                style={{
-                    position: 'absolute',
-                    top: '84px',
-                    right: '36px',
-                    background: 'rgba(30, 10, 14, 0.9)',
-                    border: '1.5px solid rgba(212, 162, 78, 0.5)',
-                    color: '#F5EBDD',
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '50%',
-                    fontSize: '18px',
-                    cursor: 'pointer',
-                    display: 'flex', justifyContent: 'center', alignItems: 'center',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
-                    transition: 'all 0.25s',
-                    zIndex: 2000
-                }}
-                onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(166, 48, 59, 0.95)';
-                    e.currentTarget.style.borderColor = '#D4A24E';
-                    e.currentTarget.style.transform = 'scale(1.08)';
-                }}
-                onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(30, 10, 14, 0.9)';
-                    e.currentTarget.style.borderColor = 'rgba(212, 162, 78, 0.5)';
-                    e.currentTarget.style.transform = 'scale(1)';
-                }}
-                aria-label="Fermer"
-            >
-                ✕
-            </button>
 
             {/* Video Player Modal Popup */}
             {showVideoModal && video && (

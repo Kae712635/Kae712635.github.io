@@ -12,16 +12,18 @@ const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
 
 export default function ProjetsPage() {
   const { t, language } = useLanguage();
-  const cvFilePath = language === 'en' ? "/documents/CV_Klervi_Choblet_EN.pdf" : "/documents/CV_Klervi_Choblet_FR.pdf";
-  const cvFileName = language === 'en' ? "CV_Klervi_Choblet_EN.pdf" : "CV_Klervi_Choblet_FR.pdf";
   const { projects: allProjects, loading } = useProjects();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   
   const [selectedProject, setSelectedProject] = useState(null);
   const [visibleCount, setVisibleCount] = useState(9);
-  const [activeTab, setActiveTab] = useState('projets');
+  const [activeTab, setActiveTab] = useState(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'contact' || (typeof window !== 'undefined' && window.location.hash === '#contact')) return 'contact';
+    if (tab === 'apropos') return 'apropos';
+    return 'projets';
+  });
   const [showCvModal, setShowCvModal] = useState(false);
   const [isCvConfirmOpen, setIsCvConfirmOpen] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
@@ -37,13 +39,10 @@ export default function ProjetsPage() {
   useEffect(() => {
     const tab = searchParams.get('tab');
     if (tab === 'contact' || location.hash === '#contact') {
-      setActiveTab('contact');
       setTimeout(() => {
         const el = document.getElementById('contact-section');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       }, 150);
-    } else if (tab === 'apropos') {
-      setActiveTab('apropos');
     }
   }, [searchParams, location]);
 
@@ -388,6 +387,44 @@ export default function ProjetsPage() {
             </div>
           </section>
         )}
+
+        {/* Footer with legal notice link */}
+        <footer className="mt-16 pt-8 pb-12 border-t border-[#D4A24E]/20 text-center text-xs text-[#D8C6B6] flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span>© {new Date().getFullYear()} Klervi Choblet · </span>
+            <span className="text-[#F5EBDD] font-cinzel">Ingénieure Software & Médical</span>
+          </div>
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <button
+              onClick={() => navigate('/')}
+              className="hover:text-[#F5EBDD] transition-colors cursor-pointer"
+            >
+              {language === 'fr' ? 'Bibliothèque 3D' : '3D Library'}
+            </button>
+            <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
+            <button
+              onClick={() => navigate('/contact')}
+              className="hover:text-[#F5EBDD] transition-colors cursor-pointer"
+            >
+              Contact
+            </button>
+            <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
+            <button
+              onClick={() => navigate('/privacy')}
+              className="text-[#D4A24E] hover:text-[#F5EBDD] hover:underline transition-colors font-semibold cursor-pointer"
+            >
+              {getTranslation('legalShort', language === 'fr' ? 'Mentions Légales' : 'Legal Notice')}
+            </button>
+            <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="hover:text-[#D4A24E] transition-colors cursor-pointer"
+              title={language === 'fr' ? 'Haut de page' : 'Back to top'}
+            >
+              ↑ {language === 'fr' ? 'Haut' : 'Top'}
+            </button>
+          </div>
+        </footer>
       </div>
 
       {/* SINGLE PAGE CV MODAL */}

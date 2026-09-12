@@ -25,9 +25,9 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 100 }) => {
 
             scales[i] = 1.0 + Math.random() * 1.5;
             phases[i] = Math.random() * Math.PI * 2;
-            speeds[i * 3] = (Math.random() - 0.5) * 0.09;
-            speeds[i * 3 + 1] = 0.4 + Math.random() * 0.6;
-            speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.09;
+            speeds[i * 3] = (Math.random() - 0.5) * 0.03;
+            speeds[i * 3 + 1] = 0.08 + Math.random() * 0.12;
+            speeds[i * 3 + 2] = (Math.random() - 0.5) * 0.03;
         }
 
         const geometry = new THREE.BufferGeometry();
@@ -52,13 +52,13 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 100 }) => {
                 void main() {
                     vPhase = aPhase;
                     vec3 pos = position;
-                    // GPU-driven drift animation (no CPU attribute updates)
-                    pos.y = mod(pos.y + aSpeed.y * uTime * 0.6 - 1.0, 6.8) + 1.0;
-                    pos.x += sin(uTime * 0.5 + aPhase) * 0.25;
-                    pos.z += cos(uTime * 0.4 + aPhase) * 0.25;
+                    // Slow, graceful GPU-driven drift
+                    pos.y = mod(pos.y + aSpeed.y * uTime * 0.18 - 1.0, 6.8) + 1.0;
+                    pos.x += sin(uTime * 0.18 + aPhase) * 0.12;
+                    pos.z += cos(uTime * 0.14 + aPhase) * 0.12;
 
                     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-                    float pulse = sin(uTime * 2.2 + aPhase) * 0.3 + 1.0;
+                    float pulse = sin(uTime * 0.7 + aPhase) * 0.18 + 1.0;
                     float zDist = max(1.0, -mvPosition.z);
                     gl_PointSize = clamp(aScale * pulse * (140.0 / zDist), 3.0, 32.0);
                     gl_Position = projectionMatrix * mvPosition;
@@ -102,61 +102,45 @@ const LuminousGoldDust = ({ isAnimationsPaused, count = 100 }) => {
     );
 };
 
-// Baroque Gilded Ironwork Volutes Framing the Overhead Arch Plaque
-const BayArchwayOrnament = ({ isAnimationsPaused }) => {
-    const leftMatRef = useRef();
-    const rightMatRef = useRef();
-
-    useFrame((state) => {
-        if (isAnimationsPaused) return;
-        const shimmer = Math.sin(state.clock.elapsedTime * 1.8) * 0.12 + 0.38;
-        if (leftMatRef.current) leftMatRef.current.emissiveIntensity = shimmer;
-        if (rightMatRef.current) rightMatRef.current.emissiveIntensity = shimmer;
-    });
-
+// Baroque Gilded Ironwork Volutes Framing the Overhead Arch Plaque (Static high-performance gold materials)
+const BayArchwayOrnament = () => {
     return (
         <group position={[0, 0, 0.9]}>
-            {/* Right Gilded Volute Bracket (Anchored to top of right bookshelf curving up to plaque) */}
+            {/* Right Gilded Volute Bracket */}
             <group scale={[1, 1, 1]}>
                 <group position={[3.65, 3.65, 0]}>
-                    {/* Main sweeping architectural curve */}
                     <mesh rotation={[0, 0, Math.PI - 0.22]}>
-                        <torusGeometry args={[1.55, 0.032, 12, 36, Math.PI / 1.85]} />
+                        <torusGeometry args={[1.55, 0.032, 10, 24, Math.PI / 1.85]} />
                         <meshStandardMaterial
-                            ref={rightMatRef}
                             color="#E8BF73"
                             metalness={0.92}
                             roughness={0.15}
                             emissive="#D4A24E"
-                            emissiveIntensity={0.38}
+                            emissiveIntensity={0.4}
                         />
                     </mesh>
-                    {/* Decorative spiral rosette curl at shelf anchor */}
                     <mesh position={[1.0, -1.02, 0]} rotation={[0, 0, -0.8]}>
-                        <torusGeometry args={[0.32, 0.022, 12, 32, Math.PI * 1.5]} />
+                        <torusGeometry args={[0.32, 0.022, 10, 20, Math.PI * 1.5]} />
                         <meshStandardMaterial color="#E8BF73" metalness={0.92} roughness={0.15} emissive="#D4A24E" emissiveIntensity={0.35} />
                     </mesh>
                 </group>
             </group>
 
-            {/* Left Gilded Volute Bracket (Exact Mirrored Copy of Right Bracket) */}
+            {/* Left Gilded Volute Bracket */}
             <group scale={[-1, 1, 1]}>
                 <group position={[3.65, 3.65, 0]}>
-                    {/* Main sweeping architectural curve */}
                     <mesh rotation={[0, 0, Math.PI - 0.22]}>
-                        <torusGeometry args={[1.55, 0.032, 12, 36, Math.PI / 1.85]} />
+                        <torusGeometry args={[1.55, 0.032, 10, 24, Math.PI / 1.85]} />
                         <meshStandardMaterial
-                            ref={leftMatRef}
                             color="#E8BF73"
                             metalness={0.92}
                             roughness={0.15}
                             emissive="#D4A24E"
-                            emissiveIntensity={0.38}
+                            emissiveIntensity={0.4}
                         />
                     </mesh>
-                    {/* Decorative spiral rosette curl at shelf anchor */}
                     <mesh position={[1.0, -1.02, 0]} rotation={[0, 0, -0.8]}>
-                        <torusGeometry args={[0.32, 0.022, 12, 32, Math.PI * 1.5]} />
+                        <torusGeometry args={[0.32, 0.022, 10, 20, Math.PI * 1.5]} />
                         <meshStandardMaterial color="#E8BF73" metalness={0.92} roughness={0.15} emissive="#D4A24E" emissiveIntensity={0.35} />
                     </mesh>
                 </group>
@@ -165,7 +149,7 @@ const BayArchwayOrnament = ({ isAnimationsPaused }) => {
             {/* Top Crown Arch Crest above the plaque */}
             <group position={[0, 5.3, 0]}>
                 <mesh rotation={[0, 0, 0]}>
-                    <torusGeometry args={[1.85, 0.028, 12, 36, Math.PI]} />
+                    <torusGeometry args={[1.85, 0.028, 10, 24, Math.PI]} />
                     <meshStandardMaterial color="#E8BF73" metalness={0.92} roughness={0.15} emissive="#D4A24E" emissiveIntensity={0.35} />
                 </mesh>
                 {/* Central Gilded Rosette / Diamond Jewel */}
@@ -312,31 +296,32 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
     }, [language, categories]);
 
     // Procedural Stone Tile Floor Texture
+    // Procedural Stone Tile Floor Texture (256x256 for fast GPU upload)
     const floorTexture = useMemo(() => {
         const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 512;
+        canvas.width = 256;
+        canvas.height = 256;
         const ctx = canvas.getContext('2d');
 
         // Dark noble slate base
         ctx.fillStyle = '#140E10';
-        ctx.fillRect(0, 0, 512, 512);
+        ctx.fillRect(0, 0, 256, 256);
 
-        // Stone tile squares (2x2 grid in 512px)
-        const tileSize = 256;
-        for (let x = 0; x < 512; x += tileSize) {
-            for (let y = 0; y < 512; y += tileSize) {
+        // Stone tile squares (2x2 grid in 256px)
+        const tileSize = 128;
+        for (let x = 0; x < 256; x += tileSize) {
+            for (let y = 0; y < 256; y += tileSize) {
                 const isAlt = (x / tileSize + y / tileSize) % 2 === 0;
                 ctx.fillStyle = isAlt ? '#191316' : '#110C0E';
                 ctx.fillRect(x + 2, y + 2, tileSize - 4, tileSize - 4);
 
                 // Subtle marble sheen tone
                 ctx.fillStyle = 'rgba(212, 162, 78, 0.03)';
-                ctx.fillRect(x + 12, y + 12, tileSize - 24, tileSize - 24);
+                ctx.fillRect(x + 8, y + 8, tileSize - 16, tileSize - 16);
 
                 // Fine gold/bronze tile border grout line
                 ctx.strokeStyle = 'rgba(212, 162, 78, 0.15)';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 1.5;
                 ctx.strokeRect(x + 2, y + 2, tileSize - 4, tileSize - 4);
             }
         }
@@ -348,15 +333,15 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
         return texture;
     }, []);
 
-    // Procedural Luminous Oculus / Stained-Glass Arch Texture
+    // Procedural Luminous Oculus / Stained-Glass Arch Texture (256x256)
     const oculusTexture = useMemo(() => {
         const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 512;
+        canvas.width = 256;
+        canvas.height = 256;
         const ctx = canvas.getContext('2d');
 
-        // Radial celestial gradient (bright warm gold at center fading into midnight teal & burgundy)
-        const grad = ctx.createRadialGradient(256, 256, 15, 256, 256, 250);
+        // Radial celestial gradient
+        const grad = ctx.createRadialGradient(128, 128, 8, 128, 128, 125);
         grad.addColorStop(0, 'rgba(255, 248, 225, 1.0)');
         grad.addColorStop(0.2, 'rgba(245, 215, 140, 0.9)');
         grad.addColorStop(0.45, 'rgba(212, 162, 78, 0.7)');
@@ -365,27 +350,27 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
         grad.addColorStop(1, 'rgba(16, 10, 14, 0.98)');
 
         ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 512, 512);
+        ctx.fillRect(0, 0, 256, 256);
 
         // Delicate star / Gothic rose window geometric lines
         ctx.strokeStyle = 'rgba(212, 162, 78, 0.65)';
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 2.5;
         ctx.beginPath();
-        ctx.arc(256, 256, 220, 0, Math.PI * 2);
+        ctx.arc(128, 128, 110, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(212, 162, 78, 0.45)';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.arc(256, 256, 140, 0, Math.PI * 2);
-        ctx.arc(256, 256, 60, 0, Math.PI * 2);
+        ctx.arc(128, 128, 70, 0, Math.PI * 2);
+        ctx.arc(128, 128, 30, 0, Math.PI * 2);
         ctx.stroke();
 
         for (let i = 0; i < 16; i++) {
             const angle = (i * Math.PI) / 8;
             ctx.beginPath();
-            ctx.moveTo(256 + Math.cos(angle) * 60, 256 + Math.sin(angle) * 60);
-            ctx.lineTo(256 + Math.cos(angle) * 220, 256 + Math.sin(angle) * 220);
+            ctx.moveTo(128 + Math.cos(angle) * 30, 128 + Math.sin(angle) * 30);
+            ctx.lineTo(128 + Math.cos(angle) * 110, 128 + Math.sin(angle) * 110);
             ctx.stroke();
         }
 
@@ -395,8 +380,8 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
 
     return (
         <group>
-            {/* Pure Spherical Golden Light Motes (Zero clipping quad artifacts) */}
-            <LuminousGoldDust isAnimationsPaused={isAnimationsPaused} count={120} />
+            {/* Pure Spherical Golden Light Motes (Optimized count for 60fps) */}
+            <LuminousGoldDust isAnimationsPaused={isAnimationsPaused} count={70} />
 
             {/* --- ARCHITECTURE --- */}
 
@@ -457,16 +442,14 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                 <group position={[0, 1.2, 0.55]}>
                     {/* Outer Gold Arch Moulding */}
                     <mesh>
-                        <torusGeometry args={[3.8, 0.18, 16, 64, Math.PI]} rotation={[0, 0, 0]} />
+                        <torusGeometry args={[3.8, 0.18, 12, 40, Math.PI]} rotation={[0, 0, 0]} />
                         <meshStandardMaterial color="#D4A24E" metalness={0.85} roughness={0.2} />
                     </mesh>
                     {/* Luminous Stained-Glass Disc with Radial Moonlit Glow */}
                     <mesh rotation={[0, 0, 0]}>
-                        <circleGeometry args={[3.6, 64]} />
+                        <circleGeometry args={[3.6, 40]} />
                         <meshBasicMaterial map={oculusTexture} toneMapped={false} />
                     </mesh>
-                    {/* Soft Backing Ambient Light streaming from Oculus */}
-                    <pointLight position={[0, 0, 1.5]} color="#FFE8BA" intensity={2.0} distance={16} decay={2} />
                 </group>
             </group>
 
@@ -487,7 +470,7 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
             {/* Ceiling Vault (Clean Barrel Vault) */}
             <group position={[0, ROOM_HEIGHT, -13.5]}>
                 <mesh rotation={[Math.PI / 2, 0, 0]} side={THREE.DoubleSide} receiveShadow>
-                    <cylinderGeometry args={[ROOM_WIDTH / 2, ROOM_WIDTH / 2, ROOM_LENGTH, 32, 1, true, Math.PI / 2, Math.PI]} />
+                    <cylinderGeometry args={[ROOM_WIDTH / 2, ROOM_WIDTH / 2, ROOM_LENGTH, 24, 1, true, Math.PI / 2, Math.PI]} />
                     <meshStandardMaterial color="#141012" side={THREE.DoubleSide} roughness={0.95} metalness={0} />
                 </mesh>
             </group>
@@ -551,38 +534,36 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         />
                     </group>
 
-                    {/* Left Illuminating Victorian Lantern Lamp Post */}
+                    {/* Left Illuminating Victorian Lantern Lamp Post (High efficiency - zero dynamic light overdraw) */}
                     <group position={[-3.8, 0, 0]}>
                         {/* Antique Dark Bronze Pedestal Base */}
-                        <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
-                            <cylinderGeometry args={[0.3, 0.38, 0.9, 16]} />
+                        <mesh position={[0, 0.45, 0]}>
+                            <cylinderGeometry args={[0.3, 0.38, 0.9, 12]} />
                             <meshStandardMaterial color="#2B1A12" roughness={0.35} metalness={0.3} />
                         </mesh>
                         {/* Pedestal Shaft */}
-                        <mesh position={[0, 1.25, 0]} castShadow receiveShadow>
-                            <cylinderGeometry args={[0.12, 0.16, 0.9, 16]} />
+                        <mesh position={[0, 1.25, 0]}>
+                            <cylinderGeometry args={[0.12, 0.16, 0.9, 12]} />
                             <meshStandardMaterial color="#22150E" roughness={0.35} metalness={0.3} />
                         </mesh>
                         {/* Gold Capital & Lantern Base */}
-                        <mesh position={[0, 1.72, 0]} castShadow>
-                            <cylinderGeometry args={[0.26, 0.14, 0.12, 16]} />
+                        <mesh position={[0, 1.72, 0]}>
+                            <cylinderGeometry args={[0.26, 0.14, 0.12, 12]} />
                             <meshStandardMaterial color="#D4A24E" metalness={0.85} roughness={0.2} />
                         </mesh>
                         {/* Glowing Lantern Orb */}
                         <mesh position={[0, 2.0, 0]}>
-                            <sphereGeometry args={[0.24, 32, 32]} />
+                            <sphereGeometry args={[0.24, 20, 20]} />
                             <meshBasicMaterial color="#FFE8A3" toneMapped={false} />
                         </mesh>
                         {/* Translucent Golden Glass Crown */}
                         <mesh position={[0, 2.0, 0]}>
-                            <sphereGeometry args={[0.28, 32, 32]} />
+                            <sphereGeometry args={[0.28, 20, 20]} />
                             <meshStandardMaterial color="#D4A24E" transparent opacity={0.25} roughness={0.1} />
                         </mesh>
-                        {/* Real Warm Point Light Illuminating Shelves & Floor */}
-                        <pointLight position={[0, 2.0, 0]} color="#FFDF9E" intensity={3.5} distance={9} decay={2} />
                         {/* Light Pool on the Floor */}
                         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                            <circleGeometry args={[2.2, 32]} />
+                            <circleGeometry args={[2.2, 20]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
                     </group>
@@ -590,35 +571,33 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                     {/* Right Illuminating Victorian Lantern Lamp Post */}
                     <group position={[3.8, 0, 0]}>
                         {/* Antique Dark Bronze Pedestal Base */}
-                        <mesh position={[0, 0.45, 0]} castShadow receiveShadow>
-                            <cylinderGeometry args={[0.3, 0.38, 0.9, 16]} />
+                        <mesh position={[0, 0.45, 0]}>
+                            <cylinderGeometry args={[0.3, 0.38, 0.9, 12]} />
                             <meshStandardMaterial color="#2B1A12" roughness={0.35} metalness={0.3} />
                         </mesh>
                         {/* Pedestal Shaft */}
-                        <mesh position={[0, 1.25, 0]} castShadow receiveShadow>
-                            <cylinderGeometry args={[0.12, 0.16, 0.9, 16]} />
+                        <mesh position={[0, 1.25, 0]}>
+                            <cylinderGeometry args={[0.12, 0.16, 0.9, 12]} />
                             <meshStandardMaterial color="#22150E" roughness={0.35} metalness={0.3} />
                         </mesh>
                         {/* Gold Capital & Lantern Base */}
-                        <mesh position={[0, 1.72, 0]} castShadow>
-                            <cylinderGeometry args={[0.26, 0.14, 0.12, 16]} />
+                        <mesh position={[0, 1.72, 0]}>
+                            <cylinderGeometry args={[0.26, 0.14, 0.12, 12]} />
                             <meshStandardMaterial color="#D4A24E" metalness={0.85} roughness={0.2} />
                         </mesh>
                         {/* Glowing Lantern Orb */}
                         <mesh position={[0, 2.0, 0]}>
-                            <sphereGeometry args={[0.24, 32, 32]} />
+                            <sphereGeometry args={[0.24, 20, 20]} />
                             <meshBasicMaterial color="#FFE8A3" toneMapped={false} />
                         </mesh>
                         {/* Translucent Golden Glass Crown */}
                         <mesh position={[0, 2.0, 0]}>
-                            <sphereGeometry args={[0.28, 32, 32]} />
+                            <sphereGeometry args={[0.28, 20, 20]} />
                             <meshStandardMaterial color="#D4A24E" transparent opacity={0.25} roughness={0.1} />
                         </mesh>
-                        {/* Real Warm Point Light Illuminating Shelves & Floor */}
-                        <pointLight position={[0, 2.0, 0]} color="#FFDF9E" intensity={3.5} distance={9} decay={2} />
                         {/* Light Pool on the Floor */}
                         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                            <circleGeometry args={[2.2, 32]} />
+                            <circleGeometry args={[2.2, 20]} />
                             <meshBasicMaterial color="#FFDF9E" transparent opacity={0.18} blending={THREE.AdditiveBlending} depthWrite={false} />
                         </mesh>
                     </group>

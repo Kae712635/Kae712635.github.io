@@ -22,11 +22,19 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Séparer React et ses dépendances
+          // React core dependencies
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          // Séparer Three.js et React Three Fiber
-          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
-          // Séparer Framer Motion
+          // Three.js, React Three Fiber & 3D ecosystem
+          'three-vendor': [
+            'three',
+            '@react-three/fiber',
+            '@react-three/drei',
+            '@react-three/postprocessing',
+            'postprocessing',
+            'maath',
+            '@react-spring/web'
+          ],
+          // Framer Motion
           'framer-vendor': ['framer-motion'],
         },
       },

@@ -59,8 +59,8 @@ function MainContent() {
       
       <WelcomePopup />
       
-      {/* 3D Scene rendered ONLY on Desktop / Laptop (Inaccessible & Unmounted on Mobile) */}
-      {!isMobile && (
+      {/* 3D Scene rendered ONLY on Desktop on Home page (Unmounted on 2D pages and Mobile for max performance) */}
+      {!isMobile && location.pathname === '/' && (
         <Suspense fallback={<LoadingFallback />}>
           <Scene />
         </Suspense>
@@ -85,8 +85,8 @@ function MainContent() {
         } />
       </Routes>
 
-      {/* Floating 3D Hints (Desktop only) */}
-      {!isMobile && <LibraryHintLegend />}
+      {/* Floating 3D Hints (Desktop & Home page only) */}
+      {!isMobile && location.pathname === '/' && <LibraryHintLegend />}
       <FloatingAccessBar />
     </>
   );

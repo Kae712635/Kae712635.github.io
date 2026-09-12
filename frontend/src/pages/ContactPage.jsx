@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
 
 export default function ContactPage() {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
 
@@ -141,6 +141,16 @@ export default function ContactPage() {
             </button>
           </form>
         )}
+
+        {/* Footer link to Legal Notice */}
+        <div className="mt-8 text-center text-xs text-[#D8C6B6]">
+          <button
+            onClick={() => navigate('/privacy')}
+            className="text-[#D4A24E] hover:text-[#F5EBDD] hover:underline transition-colors font-cinzel uppercase tracking-widest cursor-pointer"
+          >
+            {language === 'fr' ? 'Mentions Légales & Confidentialité' : 'Legal Notice & Privacy Policy'}
+          </button>
+        </div>
       </div>
     </main>
   );

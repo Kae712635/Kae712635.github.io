@@ -136,6 +136,23 @@ const HUD = () => {
                         </svg>
                         <span className="hidden sm:inline">Contact</span>
                     </button>
+
+                    <span className="text-[#D4A24E]/30 hidden md:inline" aria-hidden>|</span>
+
+                    <button
+                        onClick={() => navigate('/privacy')}
+                        className={`hidden md:flex items-center gap-1.5 transition-colors text-xs font-cinzel tracking-wider uppercase px-2 py-1 rounded border cursor-pointer ${
+                            location.pathname === '/privacy'
+                                ? 'border-[#D4A24E] text-[#F5EBDD] bg-[#D4A24E]/20'
+                                : 'border-transparent text-[#D8C6B6] hover:text-[#F5EBDD] hover:border-[#D4A24E]/40'
+                        }`}
+                        title={getTranslation('legalShort', language === 'fr' ? 'Mentions Légales' : 'Legal Notice')}
+                    >
+                        <svg className="w-3.5 h-3.5 text-[#D4A24E]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>{getTranslation('legalShort', language === 'fr' ? 'Légal' : 'Legal')}</span>
+                    </button>
                 </div>
             </header>
 

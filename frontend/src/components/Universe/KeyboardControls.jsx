@@ -132,11 +132,23 @@ const KeyboardControls = ({ disabled = false }) => {
                     return (x > cx - halfW && x < cx + halfW && z > cz - halfD && z < cz + halfD);
                 };
 
-                // Bookshelves & Pillars (along left and right aisles)
-                for (let i = 0; i < 5; i++) {
-                    const bayZ = -5 - i * 9;
-                    if (inBox(-6.8, bayZ, 2.2, 5.5)) return true;
-                    if (inBox(6.8, bayZ, 2.2, 5.5)) return true;
+                const inCircle = (cx, cz, r) => {
+                    const distSq = (x - cx) * (x - cx) + (z - cz) * (z - cz);
+                    const minDist = r + PLAYER_RADIUS;
+                    return distSq < minDist * minDist;
+                };
+
+                // Bookshelves & Lanterns in all 4 bays
+                const bayZs = [-5, -14, -23, -32];
+                for (const bz of bayZs) {
+                    // Left bookshelf (center X: -6.8, width X: 4.4, depth Z: 1.3)
+                    if (inBox(-6.8, bz, 4.4, 1.3)) return true;
+                    // Right bookshelf (center X: +6.8, width X: 4.4, depth Z: 1.3)
+                    if (inBox(6.8, bz, 4.4, 1.3)) return true;
+                    // Left lantern post (center X: -3.8, radius: 0.4)
+                    if (inCircle(-3.8, bz, 0.4)) return true;
+                    // Right lantern post (center X: +3.8, radius: 0.4)
+                    if (inCircle(3.8, bz, 0.4)) return true;
                 }
 
                 return false;

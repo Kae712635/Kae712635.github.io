@@ -9,7 +9,7 @@ function getRecentProjects(projects, max = MAX_RECENT) {
   const withDate = projects
     .map((p) => ({ ...p, sortDate: p.date ? new Date(p.date) : new Date(0) }))
     .sort((a, b) => b.sortDate - a.sortDate);
-  return withDate.slice(0, max).map(({ sortDate, ...p }) => p);
+  return withDate.slice(0, max).map(({ sortDate: _sortDate, ...p }) => p);
 }
 
 export default function HomePage() {

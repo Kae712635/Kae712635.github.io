@@ -17,27 +17,32 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
     // Fixed base initial coordinates (No idle movement)
     const [initialPos] = useState(() => new THREE.Vector3(...position));
 
-    useFrame((state) => {
-        if (!group.current) return;
+    useFrame(() => {
+        if (!group.current || isFiller) return;
 
-        // Interactive books advance forward ONLY when hovered or selected (no idle movement)
-        const targetZ = initialPos.z + (!isFiller && isSelected ? 0.35 : (!isFiller && hovered ? 0.18 : 0));
-        const targetRotX = rotation[0] + (!isFiller && isSelected ? -0.12 : 0);
+        // Interactive books advance forward ONLY when hovered or selected
+        const targetZ = initialPos.z + (isSelected ? 0.35 : (hovered ? 0.18 : 0));
+        const targetRotX = rotation[0] + (isSelected ? -0.12 : 0);
 
-        group.current.position.z = THREE.MathUtils.lerp(group.current.position.z, targetZ, 0.14);
-        group.current.position.y = initialPos.y;
-        group.current.position.x = initialPos.x;
-        group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotX, 0.14);
+        const currentZ = group.current.position.z;
+        const currentRotX = group.current.rotation.x;
 
-        // Visible, elegant golden glow that registers in bloom without blinding
-        if (!isFiller && spineMaterialRef.current) {
-            const pulse = Math.sin(state.clock.elapsedTime * 2.5 + initialPos.x * 3.5) * 0.5 + 0.5;
-            const targetEmissive = hovered ? 1.4 : (isSelected ? 1.2 : 0.85 + pulse * 0.3);
-            spineMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(
-                spineMaterialRef.current.emissiveIntensity,
-                targetEmissive,
-                0.15
-            );
+        if (Math.abs(currentZ - targetZ) > 0.001) {
+            group.current.position.z = THREE.MathUtils.lerp(currentZ, targetZ, 0.18);
+        }
+        if (Math.abs(currentRotX - targetRotX) > 0.001) {
+            group.current.rotation.x = THREE.MathUtils.lerp(currentRotX, targetRotX, 0.18);
+        }
+
+        if (spineMaterialRef.current) {
+            const targetEmissive = hovered ? 1.4 : (isSelected ? 1.2 : 0.9);
+            if (Math.abs(spineMaterialRef.current.emissiveIntensity - targetEmissive) > 0.01) {
+                spineMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(
+                    spineMaterialRef.current.emissiveIntensity,
+                    targetEmissive,
+                    0.2
+                );
+            }
         }
     });
 
@@ -204,7 +209,7 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
             )}
 
             {/* 2. BACK COVER (Left) */}
-            <mesh position={[-width / 2 + 0.01, 0, 0]} castShadow receiveShadow raycast={noRaycast}>
+            <mesh position={[-width / 2 + 0.01, 0, 0]} receiveShadow raycast={noRaycast}>
                 <boxGeometry args={[0.02, height, depth]} />
                 <meshStandardMaterial
                     color={baseColor}
@@ -226,7 +231,7 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
             </mesh>
 
             {/* 4. FRONT COVER (Right) */}
-            <mesh position={[width / 2 - 0.01, 0, 0]} castShadow receiveShadow raycast={noRaycast}>
+            <mesh position={[width / 2 - 0.01, 0, 0]} receiveShadow raycast={noRaycast}>
                 <boxGeometry args={[0.02, height, depth]} />
                 <meshStandardMaterial
                     color={baseColor}

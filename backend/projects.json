@@ -103,6 +103,7 @@
       "fr": "Plateforme d'analyse volumétrique de l'hippocampe sur IRM cérébrale T1 pour l'aide au diagnostic précoce de la maladie d'Alzheimer, combinant pipeline scientifique automatisé (Atlas HarP) et architecture cloud distribuée.",
       "en": "Hippocampal volumetric analysis platform on T1 brain MRI for early Alzheimer's disease diagnosis assistance, combining an automated scientific pipeline (HarP Atlas) and distributed cloud architecture."
     },
+    "project_url": "https://neurovolumetry.vercel.app",
     "date": "2026-05-01",
     "company": "EPITA • Zahra Ben Akremi, Axel Gil, Akram Ridou, Erwan Doussin, Klervi Choblet",
     "detailed_description": {

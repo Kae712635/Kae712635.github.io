@@ -77,24 +77,24 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
     return (
         <group position={position}>
             <group>
-                {/* 1. Solid Ground Base Plinth (Firmly seated on floor) */}
-                <mesh position={[0, -1.26, 0]} castShadow receiveShadow>
+                {/* 1. Solid Ground Base Plinth */}
+                <mesh position={[0, -1.26, 0]} receiveShadow>
                     <boxGeometry args={[4.25, 0.16, 1.05]} />
                     <meshStandardMaterial color="#321D13" roughness={0.5} metalness={0.08} />
                 </mesh>
 
-                {/* 2. Solid Wooden Backing Panel (No see-through void behind books) */}
-                <mesh position={[0, 0.05, -0.48]} castShadow receiveShadow>
+                {/* 2. Solid Wooden Backing Panel */}
+                <mesh position={[0, 0.05, -0.48]}>
                     <boxGeometry args={[4.15, 2.7, 0.06]} />
                     <meshStandardMaterial color="#2A170F" roughness={0.65} metalness={0.05} />
                 </mesh>
 
                 {/* 3. Solid Heavy Side Columns with Gold Capitals */}
-                <mesh position={[-2.05, 0.05, 0]} castShadow receiveShadow>
+                <mesh position={[-2.05, 0.05, 0]}>
                     <boxGeometry args={[0.14, 2.65, 1.02]} />
                     <meshStandardMaterial color="#42281D" roughness={0.4} metalness={0.1} />
                 </mesh>
-                <mesh position={[2.05, 0.05, 0]} castShadow receiveShadow>
+                <mesh position={[2.05, 0.05, 0]}>
                     <boxGeometry args={[0.14, 2.65, 1.02]} />
                     <meshStandardMaterial color="#42281D" roughness={0.4} metalness={0.1} />
                 </mesh>
@@ -110,7 +110,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
 
                 {/* 4. Shelves with Warm Wood & Fine Gold Edge Moulding */}
                 {/* Bottom shelf */}
-                <mesh position={[0, -1.18, 0]} castShadow receiveShadow>
+                <mesh position={[0, -1.18, 0]} receiveShadow>
                     <boxGeometry args={[4, 0.08, 0.98]} />
                     <meshStandardMaterial color="#42281D" roughness={0.38} metalness={0.12} />
                 </mesh>
@@ -120,7 +120,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 </mesh>
 
                 {/* Middle shelf */}
-                <mesh position={[0, 0, 0]} castShadow receiveShadow>
+                <mesh position={[0, 0, 0]} receiveShadow>
                     <boxGeometry args={[4, 0.08, 0.98]} />
                     <meshStandardMaterial color="#42281D" roughness={0.38} metalness={0.12} />
                 </mesh>
@@ -130,7 +130,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 </mesh>
 
                 {/* Top shelf */}
-                <mesh position={[0, 1.25, 0]} castShadow receiveShadow>
+                <mesh position={[0, 1.25, 0]} receiveShadow>
                     <boxGeometry args={[4, 0.08, 0.98]} />
                     <meshStandardMaterial color="#42281D" roughness={0.38} metalness={0.12} />
                 </mesh>
@@ -140,7 +140,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
                 </mesh>
 
                 {/* 5. Top Crown Cornice with Gold Architrave */}
-                <mesh position={[0, 1.34, 0]} castShadow receiveShadow>
+                <mesh position={[0, 1.34, 0]}>
                     <boxGeometry args={[4.25, 0.1, 1.05]} />
                     <meshStandardMaterial color="#382218" roughness={0.45} metalness={0.08} />
                 </mesh>
@@ -151,7 +151,7 @@ const Bookshelf = ({ position, name, projects, onProjectClick, selectedProject }
 
                 {/* Shelf Label Header */}
                 <group position={[0, 1.52, 0]}>
-                    <mesh position={[0, 0, 0]} castShadow>
+                    <mesh position={[0, 0, 0]}>
                         <boxGeometry args={[2.4, 0.28, 0.06]} />
                         <meshStandardMaterial color="#A6303B" metalness={0.1} roughness={0.6} />
                     </mesh>
