@@ -208,9 +208,12 @@ const Scene = ({ children }) => {
                         color="#3C6E71"
                     />
 
-                    {/* Soft Warm Vault Fill Lights along Corridor */}
-                    <pointLight position={[0, 7.0, 0]} intensity={0.7} color="#FFE0B2" distance={24} decay={2} />
-                    <pointLight position={[0, 7.0, -20]} intensity={0.7} color="#FFE0B2" distance={24} decay={2} />
+                    {/* Soft Warm Vault Fill Lights along the Corridor */}
+                    <pointLight position={[0, 7.5, 5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -5]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -15]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -25]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
+                    <pointLight position={[0, 7.5, -35]} intensity={0.6} color="#FFE0B2" distance={18} decay={2} />
 
                     <Suspense fallback={null}>
                         <Library
@@ -222,16 +225,16 @@ const Scene = ({ children }) => {
                         {children}
                     </Suspense>
 
-                    {/* Cinematic Post-Processing Effects (Optimized & disabled if reduced motion) */}
+                    {/* Cinematic Post-Processing Effects (Bloom for lanterns & oculus, subtle vignette) */}
                     {!isReducedMotion && (
-                        <EffectComposer disableNormalPass multisampling={0}>
+                        <EffectComposer disableNormalPass multisampling={4}>
                             <Bloom 
-                                intensity={0.6} 
-                                luminanceThreshold={0.85} 
-                                luminanceSmoothing={0.3} 
+                                intensity={0.75} 
+                                luminanceThreshold={0.8} 
+                                luminanceSmoothing={0.35} 
                                 mipmapBlur 
                             />
-                            <Vignette darkness={0.35} offset={0.35} />
+                            <Vignette darkness={0.4} offset={0.35} />
                         </EffectComposer>
                     )}
 

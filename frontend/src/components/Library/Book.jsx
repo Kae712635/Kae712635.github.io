@@ -17,7 +17,7 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
     // Fixed base initial coordinates (No idle movement)
     const [initialPos] = useState(() => new THREE.Vector3(...position));
 
-    useFrame(() => {
+    useFrame((state) => {
         if (!group.current || isFiller) return;
 
         // Interactive books advance forward ONLY when hovered or selected
@@ -34,15 +34,15 @@ const Book = ({ position, rotation, color = "#3a281d", project, onClick, isSelec
             group.current.rotation.x = THREE.MathUtils.lerp(currentRotX, targetRotX, 0.18);
         }
 
+        // Visible, elegant golden glow that registers in bloom without blinding
         if (spineMaterialRef.current) {
-            const targetEmissive = hovered ? 1.4 : (isSelected ? 1.2 : 0.9);
-            if (Math.abs(spineMaterialRef.current.emissiveIntensity - targetEmissive) > 0.01) {
-                spineMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(
-                    spineMaterialRef.current.emissiveIntensity,
-                    targetEmissive,
-                    0.2
-                );
-            }
+            const pulse = Math.sin(state.clock.elapsedTime * 2.5 + initialPos.x * 3.5) * 0.5 + 0.5;
+            const targetEmissive = hovered ? 1.4 : (isSelected ? 1.2 : 0.85 + pulse * 0.3);
+            spineMaterialRef.current.emissiveIntensity = THREE.MathUtils.lerp(
+                spineMaterialRef.current.emissiveIntensity,
+                targetEmissive,
+                0.15
+            );
         }
     });
 

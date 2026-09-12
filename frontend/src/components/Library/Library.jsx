@@ -450,6 +450,8 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                         <circleGeometry args={[3.6, 40]} />
                         <meshBasicMaterial map={oculusTexture} toneMapped={false} />
                     </mesh>
+                    {/* Soft Backing Ambient Light streaming from Oculus */}
+                    <pointLight position={[0, 0, 1.5]} color="#FFE8BA" intensity={2.0} distance={16} decay={2} />
                 </group>
             </group>
 
@@ -561,6 +563,8 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <sphereGeometry args={[0.28, 20, 20]} />
                             <meshStandardMaterial color="#D4A24E" transparent opacity={0.25} roughness={0.1} />
                         </mesh>
+                        {/* Real Warm Point Light Illuminating Shelves & Floor */}
+                        <pointLight position={[0, 2.0, 0]} color="#FFDF9E" intensity={3.5} distance={9} decay={2} />
                         {/* Light Pool on the Floor */}
                         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                             <circleGeometry args={[2.2, 20]} />
@@ -595,6 +599,8 @@ const Library = ({ view, onCategoryClick, onProjectClick, selectedProject }) => 
                             <sphereGeometry args={[0.28, 20, 20]} />
                             <meshStandardMaterial color="#D4A24E" transparent opacity={0.25} roughness={0.1} />
                         </mesh>
+                        {/* Real Warm Point Light Illuminating Shelves & Floor */}
+                        <pointLight position={[0, 2.0, 0]} color="#FFDF9E" intensity={3.5} distance={9} decay={2} />
                         {/* Light Pool on the Floor */}
                         <mesh position={[0, 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
                             <circleGeometry args={[2.2, 20]} />
