@@ -96,6 +96,15 @@ const WaxSealButton = ({ onClick, children, isBack = false }) => (
     </button>
 );
 
+const getYouTubeEmbedUrl = (url) => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11)
+        ? `https://www.youtube-nocookie.com/embed/${match[2]}`
+        : null;
+};
+
 // First Left Page (Illustrated Heraldic Archive / Table of Contents / Media)
 const FirstPageLeft = ({ category, date, video, image, affiliation, language, isExperience, isSkill, isEducation }) => {
     // Generate adaptive table of contents
@@ -159,7 +168,19 @@ const FirstPageLeft = ({ category, date, video, image, affiliation, language, is
                     <div style={{ width: '100%', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         {video ? (
                             <div style={{ width: '100%', maxHeight: '280px', borderRadius: '8px', overflow: 'hidden', border: '1.5px solid #D4A24E', background: '#1E0A0E', boxShadow: '0 6px 20px rgba(0,0,0,0.2)' }}>
-                                <video src={video} controls autoPlay loop muted playsInline style={{ width: '100%', height: 'auto', display: 'block' }} />
+                                {getYouTubeEmbedUrl(video) ? (
+                                    <div style={{ position: 'relative', width: '100%', paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                                        <iframe
+                                            src={`${getYouTubeEmbedUrl(video)}?rel=0`}
+                                            title="Video"
+                                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                ) : (
+                                    <video src={video} controls autoPlay loop muted playsInline style={{ width: '100%', height: 'auto', display: 'block' }} />
+                                )}
                             </div>
                         ) : (
                             <div style={{
@@ -1152,18 +1173,30 @@ const ProjectOverlay = ({ project, onClose }) => {
 
                         {/* Video Player */}
                         <div style={{ backgroundColor: '#000', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <video
-                                src={video}
-                                controls
-                                autoPlay
-                                playsInline
-                                style={{
-                                    width: '100%',
-                                    maxHeight: '70vh',
-                                    objectFit: 'contain',
-                                    display: 'block'
-                                }}
-                            />
+                            {getYouTubeEmbedUrl(video) ? (
+                                <div style={{ width: '100%', position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+                                    <iframe
+                                        src={`${getYouTubeEmbedUrl(video)}?autoplay=1&rel=0`}
+                                        title={title}
+                                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }}
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            ) : (
+                                <video
+                                    src={video}
+                                    controls
+                                    autoPlay
+                                    playsInline
+                                    style={{
+                                        width: '100%',
+                                        maxHeight: '70vh',
+                                        objectFit: 'contain',
+                                        display: 'block'
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
