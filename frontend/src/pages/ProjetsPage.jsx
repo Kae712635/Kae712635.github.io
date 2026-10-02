@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
@@ -11,6 +11,7 @@ import cvData from "../data/cvData";
 const CONTACT_EMAIL = "klervi.choblet+portfolio@gmail.com";
 
 export default function ProjetsPage() {
+  const navigate = useNavigate();
   const { t, language } = useLanguage();
   const { projects: allProjects, loading } = useProjects();
   const [searchParams] = useSearchParams();
@@ -395,26 +396,26 @@ export default function ProjetsPage() {
             <span className="text-[#F5EBDD] font-cinzel">Ingénieure Software & Médical</span>
           </div>
           <div className="flex items-center gap-4 flex-wrap justify-center">
-            <button
-              onClick={() => navigate('/')}
+            <Link
+              to="/"
               className="hover:text-[#F5EBDD] transition-colors cursor-pointer"
             >
               {language === 'fr' ? 'Bibliothèque 3D' : '3D Library'}
-            </button>
+            </Link>
             <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
-            <button
-              onClick={() => navigate('/contact')}
+            <Link
+              to="/contact"
               className="hover:text-[#F5EBDD] transition-colors cursor-pointer"
             >
               Contact
-            </button>
+            </Link>
             <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
-            <button
-              onClick={() => navigate('/privacy')}
+            <Link
+              to="/privacy"
               className="text-[#D4A24E] hover:text-[#F5EBDD] hover:underline transition-colors font-semibold cursor-pointer"
             >
               {getTranslation('legalShort', language === 'fr' ? 'Mentions Légales' : 'Legal Notice')}
-            </button>
+            </Link>
             <span className="text-[#D4A24E]/30" aria-hidden="true">•</span>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
