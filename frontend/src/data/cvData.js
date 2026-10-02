@@ -42,6 +42,31 @@ export const cvData = {
       }
     },
     {
+      id: "chrom-aura",
+      title: {
+        fr: "Chrom'Aura – Installation Artistique & Suivi Gestuel",
+        en: "Chrom'Aura – Interactive Art & Gesture Tracking"
+      },
+      subtitle: {
+        fr: "Projet ING3 - Présenté à l'AIM de Marseille (Équipe de 8)",
+        en: "ING3 Project - Presented at AIM Marseille (Team of 8)"
+      },
+      period: "2026",
+      tech: "Godot Engine, MediaPipe, Kinect (RGB-D), Shaders GLSL, GDScript",
+      highlights: {
+        fr: [
+          "Suivi gestuel temps réel : Extraction des repères articulaires par MediaPipe et classification gestuelle sous Godot.",
+          "Interaction multimodale & Kinect : Fusion des flux RGB et profondeur pour piloter un système de particules réactif en 3D.",
+          "Démonstration publique : Projet collaboratif à 8 présenté à l'AIM de Marseille avec interaction temps réel."
+        ],
+        en: [
+          "Real-time gesture tracking: Hand landmark extraction via MediaPipe and Godot gesture classification engine.",
+          "Multimodal interaction & Kinect: RGB and depth fusion driving an interactive 3D particle simulation.",
+          "Public exhibition: 8-person team project showcased at AIM Marseille with live interaction."
+        ]
+      }
+    },
+    {
       id: "neuro-alzheimer",
       title: {
         fr: "NeuroVolumetry – Aide au diagnostic d'Alzheimer",

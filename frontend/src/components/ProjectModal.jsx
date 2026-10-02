@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
+const getYouTubeEmbedUrl = (url) => {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11)
+    ? `https://www.youtube-nocookie.com/embed/${match[2]}`
+    : null;
+};
+
 const ProjectModal = ({ project, isOpen, onClose }) => {
   const { language } = useLanguage();
   const [showVideoModal, setShowVideoModal] = useState(false);
@@ -33,6 +42,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   const architecture = getLocalized(project.architecture);
   const challenges = project.challenges || [];
   const image = project.image ? (typeof project.image === 'string' ? project.image : project.image[0]) : null;
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(project.video);
 
   return (
     <AnimatePresence>
@@ -122,15 +132,27 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     {language === 'fr' ? 'Démonstration Vidéo' : 'Video Demonstration'}
                   </h3>
                   <div className="rounded-xl overflow-hidden border border-[#D4A24E]/25 bg-black shadow-2xl relative">
-                    <video 
-                      src={project.video} 
-                      controls
-                      autoPlay 
-                      loop 
-                      muted 
-                      playsInline 
-                      className="w-full h-auto max-h-[60vh] object-contain bg-black/50" 
-                    />
+                    {youtubeEmbedUrl ? (
+                      <div className="aspect-video w-full bg-black">
+                        <iframe
+                          src={`${youtubeEmbedUrl}?rel=0`}
+                          title={title}
+                          className="w-full h-full min-h-[300px] md:min-h-[420px] border-0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                    ) : (
+                      <video 
+                        src={project.video} 
+                        controls
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="w-full h-auto max-h-[60vh] object-contain bg-black/50" 
+                      />
+                    )}
                   </div>
                 </section>
               )}
@@ -220,13 +242,25 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 </button>
               </div>
               <div className="bg-black flex items-center justify-center">
-                <video 
-                  src={project.video} 
-                  controls 
-                  autoPlay 
-                  playsInline 
-                  className="w-full max-h-[70vh] object-contain"
-                />
+                {youtubeEmbedUrl ? (
+                  <div className="aspect-video w-full max-h-[70vh]">
+                    <iframe
+                      src={`${youtubeEmbedUrl}?autoplay=1&rel=0`}
+                      title={title}
+                      className="w-full h-full min-h-[360px] md:min-h-[500px] border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <video 
+                    src={project.video} 
+                    controls 
+                    autoPlay 
+                    playsInline 
+                    className="w-full max-h-[70vh] object-contain"
+                  />
+                )}
               </div>
             </div>
           </div>

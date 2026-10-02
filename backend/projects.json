@@ -172,6 +172,53 @@
     "image": "/img/projets/bloc_operatoire.jpg"
   },
   {
+    "id": "ing3-chromaura",
+    "title": "ChromAura · Art Interactif & Gestuelle",
+    "category": ["Vision par Ordinateur & 3D", "Interaction & Rendu Temps Réel"],
+    "tech": [
+      "Godot Engine",
+      "MediaPipe",
+      "Kinect (RGB-D)",
+      "GDScript",
+      "Shaders GLSL",
+      "Computer Vision",
+      "Système de Particules"
+    ],
+    "description": {
+      "fr": "Installation artistique interactive temps réel fusionnant vision par ordinateur (MediaPipe), caméra de profondeur Kinect et moteur Godot pour transformer les gestes de la main en auras lumineuses et flux de particules dynamiques. Projet d'équipe (8 personnes) présenté à l'AIM de Marseille.",
+      "en": "Real-time interactive art installation blending computer vision (MediaPipe), Kinect depth camera, and Godot Engine to translate hand gestures into radiant auras and dynamic particle systems. 8-member team project presented at AIM Marseille."
+    },
+    "date": "2026-09-15",
+    "company": "EPITA (IMAGE 2027) • Projet à 8 · Présenté à l'AIM de Marseille",
+    "detailed_description": {
+      "fr": "◆ Équipe & Contexte : Projet réalisé en équipe de 8 étudiants (EPITA IMAGE 2027) et présenté à l'AIM de Marseille.\n\n◆ Suivi Gestuel & Vision (MediaPipe) : Extraction temps réel des 21 points de repère 2D et 3D de la main sans latence perceptible. Conception d'un moteur gestuel sous Godot (HandGestureEngine) assurant la classification des gestes (pointage, double pointage, pouce levé, gestes signature rock et cœur), le suivi multi-mains et la stabilisation temporelle.\n\n◆ Entrée Caméra & Capteur Kinect : Exploitation simultanée du flux couleur RGB (transmis à MediaPipe pour l'inférence des mains) et du flux de profondeur (Depth) de la Kinect pour ancrer et projeter les particules dans l'espace 3D.\n\n◆ Rendu & Shaders Temps Réel : Moteur de particules réactif avec auras de couleurs personnalisées, mode dessin interactif guidé par l'index, distorsions visuelles et shaders de luminescence.\n\n◆ Audio Interactif : Synchronisation dynamique des effets sonores et ambiances musicales selon les gestes reconnus et l'intensité des mouvements.",
+      "en": "◆ Team & Context: Built by an 8-student team (EPITA IMAGE 2027) and showcased at AIM Marseille.\n\n◆ Gesture Tracking & Computer Vision: Real-time extraction of 21 2D/3D hand landmarks via MediaPipe. Custom HandGestureEngine implemented in Godot featuring gesture classification (pointing, index-middle, thumbs up, custom rock & heart poses), multi-hand tracking, and temporal stabilization.\n\n◆ Multimodal Camera & Kinect: Dual-stream acquisition using Kinect RGB (for hand landmark inference) and Depth data (to drive particle spatial simulation).\n\n◆ Real-Time Rendering & Shaders: Dynamic particle effects, reactive luminous aura shaders, and fingertip drawing mode anchored to the index landmark regardless of hand rotation.\n\n◆ Interactive Audio: Reactive sound design synchronized with recognized gestures and movement intensity."
+    },
+    "architecture": {
+      "fr": "Architecture hybride temps réel : acquisition matérielle via caméra de profondeur Kinect (RGB + Depth), extraction des 21 repères articulaires par MediaPipe, moteur de classification gestuelle et stabilisation temporelle (HandGestureEngine sous Godot), pipeline de rendu de particules GPU / shaders GLSL et moteur audio réactif synchronisé.",
+      "en": "Real-time hybrid architecture: Kinect RGB-D hardware capture, MediaPipe 21 hand-landmark extraction, custom Godot temporal stabilization and gesture classification engine (HandGestureEngine), GPU particle/GLSL shader rendering pipeline, and synchronized reactive audio engine."
+    },
+    "challenges": [
+      {
+        "fr": "Classification et stabilisation temporelle robuste des poses de la main sans latence perceptible malgré le bruit des repères de vision.",
+        "en": "Robust temporal stabilization and gesture classification with negligible latency despite computer vision tracking jitter."
+      },
+      {
+        "fr": "Fusion fluide du flux couleur RGB (pour l'inférence des mains) et du flux de profondeur Kinect pour le positionnement des particules en temps réel.",
+        "en": "Seamless fusion of RGB color stream (for hand inference) and Kinect depth stream for real-time particle positioning."
+      },
+      {
+        "fr": "Coordination et intégration continue au sein d'une équipe de 8 développeurs pour livrer une expérience stable présentée au public à l'AIM de Marseille.",
+        "en": "Continuous integration and coordination across an 8-developer team to deliver a robust interactive experience showcased live at AIM Marseille."
+      }
+    ],
+    "screenshots": [
+      "/img/projets/chromaura.jpg"
+    ],
+    "image": "/img/projets/chromaura.jpg",
+    "video": "https://youtu.be/2IRo9NuWq-4"
+  },
+  {
     "id": "front-2",
     "title": "Howea",
     "category": ["Web App & Santé", "Accessibilité & Jeux"],
